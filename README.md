@@ -57,7 +57,8 @@ functional vanishing on every null sequence is zero. [`Solution.lean`](Solution.
 from the `AltCounter` library, and [`comparator.json`](comparator.json) configures
 [`leanprover/comparator`](https://github.com/leanprover/comparator) (permitted axioms `propext`, `Quot.sound`,
 `Classical.choice`). CI runs the real comparator (tag `v4.34.0-rc2`, with the `landrun` sandbox, on Linux) on every push
-and fails unless it reports `Your solution is okay!`.
+and fails unless it reports `Your solution is okay!`. Status: **passes** (first verified 2026-09-19: statements match,
+only permitted axioms, accepted by the Lean default kernel).
 
 Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initiative/formalization.yaml) format (v0.4):
 [`formalization.yaml`](formalization.yaml).
