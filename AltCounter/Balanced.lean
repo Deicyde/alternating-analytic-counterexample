@@ -7,7 +7,6 @@ import Mathlib.Algebra.MvPolynomial.Degrees
 import Mathlib.Algebra.MvPolynomial.CommRing
 import Mathlib.RingTheory.MvPolynomial.Homogeneous
 import Mathlib.Algebra.CharP.Two
-import Mathlib.RingTheory.Ideal.Quotient.Basic
 import AltCounter.Pfaffian
 
 namespace AltCounter
@@ -286,31 +285,6 @@ theorem coeff_bal_sq_mul (S : Finset ι) (v : ι ⊕ ι) (h : MvPolynomial (ι �
   rw [Finsupp.single_eq_same] at h2
   have h3 := bal_apply_le_one S v
   omega
-
-/-- Frobenius on coefficients in characteristic 2. -/
-theorem coeff_two_nsmul_sq [CharP R 2] {σ : Type*} (m : σ →₀ ℕ) (f : MvPolynomial σ R) :
-    (f ^ 2).coeff (2 • m) = (f.coeff m) ^ 2 := by
-  classical
-  induction f using MvPolynomial.induction_on' with
-  | monomial u a =>
-      rw [monomial_pow, coeff_monomial, coeff_monomial]
-      by_cases h : u = m
-      · subst h; simp
-      · have h2 : ¬ ((2 : ℕ) • u = (2 : ℕ) • m) := by
-          intro hh
-          refine h (Finsupp.ext fun x => ?_)
-          have hx := congrArg (fun w : σ →₀ ℕ => w x) hh
-          simp only [Finsupp.smul_apply, smul_eq_mul] at hx
-          omega
-        rw [if_neg h2, if_neg h]
-        simp
-  | add p q hp hq =>
-      have hch : (2 : MvPolynomial σ R) = 0 := CharTwo.two_eq_zero
-      have hpq : (p + q) ^ 2 = p ^ 2 + q ^ 2 := by
-        rw [add_sq, hch]; ring
-      have hchR : (2 : R) = 0 := CharTwo.two_eq_zero
-      rw [hpq, MvPolynomial.coeff_add, hp, hq, MvPolynomial.coeff_add, add_sq, hchR]
-      ring
 
 /-- Adding multiples of squares of variables does not change balanced coefficients of a product. -/
 lemma coeff_bal_prod_add {κ : Type*} [DecidableEq κ] (S : Finset ι)

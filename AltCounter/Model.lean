@@ -11,14 +11,12 @@ import AltCounter.NestedBalls
 
 namespace AltCounter
 
-/-- A field with a nonarchimedean, nontrivial absolute value, of characteristic 2, with "infinite residue field", and
-with a nested sequence of closed balls (radii strictly decreasing and bounded below by some `ρ > 0`) having empty
-intersection. -/
+/-- A field with a nonarchimedean, nontrivial absolute value, of characteristic 2, and with a nested sequence of
+closed balls (radii strictly decreasing and bounded below by some `ρ > 0`) having empty intersection. -/
 structure IsGoodModel {L : Type} [Field L] (v : AbsoluteValue L ℝ) : Prop where
   char2 : CharP L 2
   nonarch : IsNonarchimedean v
   nontriv : ∃ x, 1 < v x
-  residue : ∀ N : ℕ, ∃ t : Fin N → L, (∀ i, v (t i) ≤ 1) ∧ ∀ i j, i ≠ j → v (t i - t j) = 1
   balls : ∃ (c : ℕ → L) (r : ℕ → ℝ) (ρ : ℝ), 0 < ρ ∧ (∀ n, ρ ≤ r n) ∧ StrictAnti r ∧
     (∀ n, v (c (n + 1) - c n) ≤ r n) ∧ ∀ a : L, ∃ n, r n < v (a - c n)
 
@@ -32,9 +30,6 @@ variable {L : Type} [Field L] {v : AbsoluteValue L ℝ}
 private abbrev Cpl (v : AbsoluteValue L ℝ) := UniformSpace.Completion (WithAbs v)
 
 private lemma norm_toAbs (x : L) : ‖WithAbs.toAbs v x‖ = v x := rfl
-
-private lemma norm_coe_toAbs (x : L) : ‖((WithAbs.toAbs v x : WithAbs v) : Cpl v)‖ = v x :=
-  Completion.norm_coe _
 
 private lemma norm_coe_toAbs_sub (x y : L) :
     ‖((WithAbs.toAbs v x : WithAbs v) : Cpl v) - ((WithAbs.toAbs v y : WithAbs v) : Cpl v)‖
@@ -66,15 +61,6 @@ private lemma completion_charP (hv : IsGoodModel v) : CharP (Cpl v) 2 :=
   haveI := withAbs_charP hv
   charP_of_injective_ringHom (f := Completion.coeRingHom)
     (Completion.coe_injective (α := WithAbs v)) 2
-
-/-- The residue field stays infinite: the coercion is isometric. -/
-private lemma completion_residue (hv : IsGoodModel v) :
-    ∀ N : ℕ, ∃ t : Fin N → Cpl v, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1 := by
-  intro N
-  obtain ⟨t, ht1, ht2⟩ := hv.residue N
-  refine ⟨fun i => ((WithAbs.toAbs v (t i) : WithAbs v) : Cpl v), fun i => ?_, fun i j hij => ?_⟩
-  · rw [norm_coe_toAbs]; exact ht1 i
-  · rw [norm_coe_toAbs_sub]; exact ht2 i j hij
 
 /-- The nested balls with empty intersection survive in the completion: take the same centres and radii.
 Emptiness uses that `L` is dense in its completion together with the ultrametric inequality. -/
@@ -112,11 +98,11 @@ private lemma completion_balls (hv : IsGoodModel v) :
 
 end GoodModel
 
-/-- The completion of a good model is a complete ultrametric nontrivially normed field of characteristic 2 with
-infinite residue field which is not spherically complete. -/
+/-- The completion of a good model is a complete ultrametric nontrivially normed field of characteristic 2 which
+is not spherically complete. -/
 theorem exists_field_of_goodModel {L : Type} [Field L] (v : AbsoluteValue L ℝ) (hv : IsGoodModel v) :
     ∃ (K : Type) (_ : NontriviallyNormedField K), IsUltrametricDist K ∧ CompleteSpace K ∧ CharP K 2 ∧
-      InfiniteResidue K ∧ HasEmptyNestedBalls K := by
+      HasEmptyNestedBalls K := by
   obtain ⟨x₀, hx₀⟩ := hv.nontriv
   exact ⟨UniformSpace.Completion (WithAbs v),
     { (inferInstance : NormedField (UniformSpace.Completion (WithAbs v))) with
@@ -124,6 +110,6 @@ theorem exists_field_of_goodModel {L : Type} [Field L] (v : AbsoluteValue L ℝ)
           by rw [UniformSpace.Completion.norm_coe]; exact hx₀⟩ },
     completion_ultrametric hv,
     (inferInstance : CompleteSpace (UniformSpace.Completion (WithAbs v))),
-    completion_charP hv, completion_residue hv, completion_balls hv⟩
+    completion_charP hv, completion_balls hv⟩
 
 end AltCounter

@@ -8,8 +8,8 @@ A counterexample, with a complete Lean 4 / Mathlib formalization.
 (draft Mathlib PR [#43548](https://github.com/leanprover-community/mathlib4/pull/43548), not yet merged), and analytic
 when `(card ι)!` is invertible in `𝕜` (polarisation). This repository shows that the analytic (`n = ω`) statement
 **is false**: assuming it for all normed spaces over all nontrivially normed fields, Lean derives `False`. The
-counterexample lives over a complete ultrametric field of characteristic 2 with infinite residue field which is not
-spherically complete (constructed in this repository). So the restriction `n : ℕ∞` is sharp, and this is the expected obstruction to a `ContMDiffVectorBundle ω` instance for
+counterexample lives over a complete ultrametric field of characteristic 2 which is not spherically complete
+(constructed in this repository; no hypothesis on the residue field is needed). So the restriction `n : ℕ∞` is sharp, and this is the expected obstruction to a `ContMDiffVectorBundle ω` instance for
 bundles of continuous alternating maps in full generality (the bundle-level consequence is not formalized).
 
 ## The theorem
@@ -36,23 +36,26 @@ characteristic 2, Banach spaces, `E' = E` and `ι = Fin 2`.
 ```lean
 theorem not_analyticAt_Q_of_NSC
     {𝕜 : Type*} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
-    (hres : InfiniteResidue 𝕜) (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
+    (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
 
-theorem not_contDiff_omega_Q_of_NSC ... : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) (Q 𝕜)      -- `(⊤ : WithTop ℕ∞)` is `ω`
+theorem not_contDiff_omega_Q_of_NSC (hnsc : NSC 𝕜) : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) (Q 𝕜)
+                                                          -- `(⊤ : WithTop ℕ∞)` is `ω`
 ```
 
 * `Linf 𝕜 := ℕ →ᵇ 𝕜` is `ℓ^∞(ℕ, 𝕜)`.
 * `F 𝕜` is the closed linear span, in `ℓ^∞(ℕ × ℕ, 𝕜)`, of the matrices `x ⊗ y + y ⊗ x`.
 * `Q 𝕜 f := ContinuousAlternatingMap.compContinuousLinearMapCLM f`, acting on `(Linf 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`.
-* `InfiniteResidue 𝕜`: for every `N` there are `N` points of the unit ball pairwise at distance exactly `1`
-  (for an ultrametric field: the residue field is infinite).
 * `NSC 𝕜`: a continuous linear functional on `ℓ^∞` that vanishes on every standard basis vector `eᵢ` is zero,
   i.e. `(ℓ^∞/c₀)' = 0`.
 
+There is **no hypothesis on the residue field**: an earlier version assumed one (`InfiniteResidue 𝕜`, "arbitrarily many
+unit-ball points pairwise at distance `1`"), and the hypercube argument of step 2 below removed it.
+
 **The field** (`AltCounter/Puiseux.lean`, `Model.lean`, `NestedBalls.lean`): `exists_field` constructs a complete ultrametric
-nontrivially normed field of characteristic 2 with infinite residue field which is not spherically complete — the
-completion of the field of 2-power Puiseux series `⋃_j κ((t^{1/2^j}))` (a directed union of subfields of Mathlib's Hahn
-series field `HahnSeries ℚ κ`, with `‖f‖ = 2^(-order f)`). The balls around the partial sums of `Σ_k t^(1-2^(-k))` are
+nontrivially normed field of characteristic 2 which is not spherically complete — the
+completion of the field of 2-power Puiseux series `⋃_j 𝔽₂((t^{1/2^j}))` (a directed union of subfields of Mathlib's Hahn
+series field `HahnSeries ℚ (ZMod 2)`, with `‖f‖ = 2^(-order f)`). The coefficient field is the prime field `𝔽₂`; it had
+to be an infinite field of characteristic 2 before the hypercube argument, to make the residue field infinite. The balls around the partial sums of `Σ_k t^(1-2^(-k))` are
 nested with empty intersection, and `nsc_of_hasEmptyNestedBalls` shows that such a sequence of balls forces
 `(ℓ^∞/c₀)' = 0` (the direction of van der Put's theorem that is needed, proved here from scratch).
 
@@ -85,13 +88,20 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
 
 1. *(Criterion)* An analytic map which is homogeneous of degree 2 is the diagonal of a bounded bilinear map `P`
    (uniqueness of one-variable power-series coefficients; valid in every characteristic).
-2. *(FiniteLemma, Balanced, Pfaffian, GaussPoint)* Restrict `P` to multiplication operators on `ℓ^∞` and evaluate on the
-   universal alternating form `W(x,y) = x⊗y + y⊗x`. On any coordinate block of even size, the block matrix is a
-   polynomial in the block variables, symmetric with zero diagonal. In characteristic 2 its determinant is a sum of
-   squares over perfect matchings; a swap-invariance argument shows that every matching product has coefficient `1` at
-   the monomial `∏ XᵢYᵢ`. Squaring is additive on coefficients in characteristic 2 and the number of perfect matchings is
-   odd, so the determinant has coefficient `1` at `(∏ XᵢYᵢ)²`.
-   With an infinite residue field this yields unit vectors at which the block has `‖det‖ ≥ 1`.
+2. *(FiniteLemma, Balanced, Pfaffian, Hypercube)* Restrict `P` to multiplication operators on `ℓ^∞` and evaluate on the
+   universal alternating form `W(x,y) = x⊗y + y⊗x`. On any coordinate block of even size `n`, the block matrix `G` is a
+   polynomial in the `2n` block variables `Xᵢ, Yᵢ`, symmetric with zero diagonal, of total degree `≤ 4` in each entry.
+   In characteristic 2 its determinant is a sum of squares over perfect matchings, `det G = Σ_σ (pfTerm G σ)²`
+   (`det_eq_sum_PM_sq`); a swap-invariance argument shows that every matching product `pfTerm G σ` has coefficient `1` at
+   the all-ones monomial `∏ XᵢYᵢ` (`coeff_bal_prod_matching`).
+   Now sum over the vertices of the hypercube. A matching has `n/2` edges, so `pfTerm G σ` has total degree
+   `≤ 4·(n/2) = 2n`, the number of variables; in characteristic 2 a polynomial of degree at most the number of variables
+   sums, over all `0/1` points, to the coefficient of the all-ones monomial (`sum_eval_cubePt`: every other monomial
+   misses a variable, hence is `1` at an even number of points). So each `pfTerm G σ` sums to `1`. Frobenius is additive
+   (`sum_pow_char`), so `det G` sums over the `0/1` points to `Σ_σ 1 = #{perfect matchings}`, which is odd
+   (`card_PM_odd`), i.e. to `1`. By the ultrametric inequality some single `0/1` point has `‖det G‖ ≥ 1`
+   (`exists_cubePt_norm_det_ge_one`). The block vectors produced are therefore indicator functions; `exists_block_point`
+   records only what step 4 needs, that they lie in the unit ball. No hypothesis on the residue field is used.
 3. *(Puiseux, Model, NestedBalls)* An explicit non-spherically-complete field, and nested balls with empty intersection
    ⟹ `(ℓ^∞/c₀)' = 0`. *(PhillipsOne, Phillips)* From `(ℓ^∞/c₀)' = 0`, bounded multilinear forms on `ℓ^∞` are uniformly small as soon as one
    argument is supported far out.
@@ -118,20 +128,20 @@ from scratch at the pinned Mathlib commit on every push.
 
 | file | lines | content |
 |---|---|---|
-| `Defs` | 45 | `Linf`, `InfiniteResidue`, `IsBdd4`, `TailProperty` |
+| `Defs` | 40 | `Linf`, `IsBdd4`, `TailProperty` |
 | `Pfaffian` | 230 | char-2 determinant as a sum of squares over perfect matchings; their number is odd |
-| `Balanced` | 460 | the key coefficient identity |
-| `GaussPoint` | 175 | a polynomial with a coefficient of norm `≥ 1` has a value of norm `≥ 1` on the unit polydisc |
+| `Balanced` | 434 | the key coefficient identity |
+| `Hypercube` | 127 | char-2 sum over the `0/1` points of a polynomial of degree ≤ #variables is the all-ones coefficient |
 | `DetBounds` | 209 | ultrametric determinant bounds (perturbation, closeness to low rank) |
-| `FiniteLemma` | 473 | every even block has unit vectors with `‖det‖ ≥ 1` |
-| `Gluing` | 402 | the core contradiction |
+| `FiniteLemma` | 544 | every even block has unit vectors with `‖det‖ ≥ 1` |
+| `Gluing` | 401 | the core contradiction |
 | `Criterion` | 65 | analytic + homogeneous of degree 2 ⟹ bilinear lift |
 | `Main` | 476 | assembly; `not_analyticAt_Q` under `TailProperty` |
-| `PhillipsOne`, `Phillips` | ~1000 | `NSC ⟹ TailProperty` |
-| `MainNSC`, `Check` | 24 + 40 | final statements; enforced axiom check |
+| `PhillipsOne`, `Phillips` | 402 + 623 | `NSC ⟹ TailProperty` |
+| `MainNSC`, `Check` | 24 + 49 | final statements; enforced axiom check |
 | `Bridge` | 56 | the literal `(ℓ^∞/c₀)' = 0` implies `NSC` |
 | `NestedBalls` | 153 | nested balls with empty intersection ⟹ `NSC` |
-| `Model`, `Puiseux` | 129 + 394 | the explicit field: 2-power Puiseux series inside `HahnSeries ℚ κ`, and its completion |
+| `Model`, `Puiseux` | 115 + 366 | the explicit field: 2-power Puiseux series inside `HahnSeries ℚ 𝔽₂`, and its completion |
 | `Final` | 53 | `exists_field`; the general `C^ω` statement implies `False` |
 | `Challenge.lean`, `Solution.lean` | | Mathlib-only challenge and its solution (comparator pair) |
 

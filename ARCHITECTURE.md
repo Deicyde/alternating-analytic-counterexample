@@ -1,7 +1,7 @@
 # Development notes
 
 ## Dependency graph
-Defs → {GaussPoint, DetBounds}; Pfaffian (independent) → Balanced; {Balanced, GaussPoint} → FiniteLemma;
+Defs → DetBounds; Pfaffian (independent) → Balanced; Hypercube (independent); {Defs, Balanced, Hypercube} → FiniteLemma;
 {FiniteLemma, DetBounds} → Gluing; Criterion (independent); {Gluing, Criterion} → Main;
 FiniteLemma → PhillipsOne → Phillips; {Main, Phillips} → MainNSC → {Check, Bridge}; Phillips → NestedBalls → Model → Puiseux; {Puiseux, MainNSC} → Final → {Check, Solution}. Challenge imports Mathlib only.
 
@@ -17,3 +17,6 @@ commit, single files can be compiled without creating `.lake/` here:
 * Continuous alternating maps into a `Submodule` subtype break instance search for the operator-norm structure on
   `(E [⋀^ι]→L[𝕜] ↥S) →L[𝕜] …`; `F` is therefore a type synonym of the submodule with `inferInstanceAs` instances.
 * `⊤ : WithTop ℕ∞` is the analytic smoothness exponent `ω`.
+* Frobenius additivity over a sum is `sum_pow_char` (used in `FiniteLemma.exists_cubePt_norm_det_ge_one` to push the
+  hypercube sum through the squares of `det_eq_sum_PM_sq`); the point selected from a finite sum by the ultrametric
+  inequality comes from `IsUltrametricDist.exists_norm_finsetSum_le_of_nonempty`.

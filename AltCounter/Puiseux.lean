@@ -1,12 +1,10 @@
 /-
-A concrete good model: the field of "2-power Puiseux series" `⋃_j κ((t^{1/2^j}))`, realised as a directed union of
-subfields of the Hahn series field `HahnSeries ℚ κ` over an infinite field `κ` of characteristic 2, with the `t`-adic
-absolute value `‖f‖ = 2 ^ (-order f)`.
+A concrete good model: the field of "2-power Puiseux series" `⋃_j 𝔽₂((t^{1/2^j}))`, realised as a directed union of
+subfields of the Hahn series field `HahnSeries ℚ 𝔽₂`, with the `t`-adic absolute value `‖f‖ = 2 ^ (-order f)`.
 -/
 import Mathlib.RingTheory.HahnSeries.Summable
 import Mathlib.RingTheory.HahnSeries.Valuation
 import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
 import Mathlib.Algebra.Field.ZMod
 import Mathlib.Algebra.CharP.Algebra
 import AltCounter.Model
@@ -17,13 +15,13 @@ namespace Puiseux
 
 open HahnSeries
 
-/-- The coefficient field: an algebraic closure of `𝔽₂`.  It is an infinite field of characteristic `2`. -/
-abbrev Coeff : Type := AlgebraicClosure (ZMod 2)
+/-- The coefficient field: the prime field `𝔽₂`. -/
+abbrev Coeff : Type := ZMod 2
 
-/-- The ambient Hahn series field `κ⟦ℚ⟧`. -/
+/-- The ambient Hahn series field `𝔽₂⟦ℚ⟧`. -/
 abbrev Ser : Type := HahnSeries ℚ Coeff
 
-/-! ### The `t`-adic absolute value on `κ⟦ℚ⟧` -/
+/-! ### The `t`-adic absolute value on `𝔽₂⟦ℚ⟧` -/
 
 open scoped Classical in
 /-- `v f = 2 ^ (-order f)`, and `v 0 = 0`. -/
@@ -207,10 +205,6 @@ lemma single_mem_P (j : ℕ) (n : ℤ) (r : Coeff) : single ((n : ℚ) / 2 ^ j) 
 lemma single_mem_P' {q : ℚ} (j : ℕ) (n : ℤ) (h : (n : ℚ) / 2 ^ j = q) (r : Coeff) :
     single q r ∈ P := h ▸ single_mem_P j n r
 
-lemma C_mem_P (r : Coeff) : (C r : Ser) ∈ P := by
-  have h := single_mem_P' 0 0 (by norm_num : ((0 : ℤ) : ℚ) / 2 ^ (0 : ℕ) = (0 : ℚ)) r
-  rwa [← C_apply] at h
-
 lemma vFun_single {q : ℚ} {r : Coeff} (hr : r ≠ 0) : vFun (single q r) = (2 : ℝ) ^ (-(q : ℝ)) := by
   rw [vFun_of_ne (single_ne_zero hr), order_single hr]
 
@@ -239,7 +233,7 @@ lemma vL_nonarch : IsNonarchimedean vL := by
   intro x y
   simpa [Subfield.coe_add] using vFun_isNonarch (x : Ser) (y : Ser)
 
-/-! ### Nontriviality and the infinite residue field -/
+/-! ### Nontriviality -/
 
 lemma vL_nontriv : ∃ x : L, 1 < vL x := by
   refine ⟨⟨single (-1 : ℚ) 1, single_mem_P' 0 (-1) (by norm_num) 1⟩, ?_⟩
@@ -249,27 +243,6 @@ lemma vL_nontriv : ∃ x : L, 1 < vL x := by
   rw [show ((⟨single (-1 : ℚ) 1, _⟩ : L) : Ser) = single (-1 : ℚ) (1 : Coeff) from rfl, this,
     Real.rpow_one]
   norm_num
-
-lemma vFun_C_eq_one {r : Coeff} (hr : r ≠ 0) : vFun (C r : Ser) = 1 := by
-  rw [C_apply, vFun_single hr]
-  norm_num
-
-lemma vL_residue (N : ℕ) :
-    ∃ t : Fin N → L, (∀ i, vL (t i) ≤ 1) ∧ ∀ i j, i ≠ j → vL (t i - t j) = 1 := by
-  set k : Fin N → Coeff := fun i => Infinite.natEmbedding Coeff (i : ℕ) with hk
-  have hkinj : Function.Injective k := fun i j hij => by
-    have := (Infinite.natEmbedding Coeff).injective hij
-    exact Fin.ext this
-  refine ⟨fun i => ⟨C (k i), C_mem_P _⟩, fun i => ?_, fun i j hij => ?_⟩
-  · rw [vL_apply]
-    rcases eq_or_ne (k i) 0 with h | h
-    · rw [show ((⟨C (k i), _⟩ : L) : Ser) = C (k i) from rfl, h, map_zero, vFun_zero]
-      norm_num
-    · rw [show ((⟨C (k i), _⟩ : L) : Ser) = C (k i) from rfl, vFun_C_eq_one h]
-  · rw [vL_apply, Subfield.coe_sub,
-      show ((⟨C (k i), _⟩ : L) : Ser) = C (k i) from rfl,
-      show ((⟨C (k j), _⟩ : L) : Ser) = C (k j) from rfl, ← map_sub]
-    exact vFun_C_eq_one (sub_ne_zero.mpr fun h => hij (hkinj h))
 
 /-! ### The nested balls -/
 
@@ -382,7 +355,6 @@ theorem isGoodModel : IsGoodModel vL where
   char2 := inferInstance
   nonarch := vL_nonarch
   nontriv := vL_nontriv
-  residue := vL_residue
   balls := ⟨cL, rad, 1 / 2, by norm_num, half_le_rad, rad_strictAnti, vL_cL_succ_sub,
     vL_balls_empty⟩
 

@@ -107,7 +107,7 @@ theorem stageSeq_succ (f : ℕ → Stage Λ C → Stage Λ C) (st0 : Stage Λ C)
 
 /-- **The inductive step.** From a stage we produce a new one, adding a block of size `2 * (t + 1)`
 starting at `M`. -/
-theorem exists_stage_step [CharP 𝕜 2] (hres : InfiniteResidue 𝕜) (htail : TailProperty 𝕜)
+theorem exists_stage_step [CharP 𝕜 2] (htail : TailProperty 𝕜)
     (hC : 1 ≤ C)
     (hlin : ∀ p q, IsBdd4 𝕜 (Λ p q) C)
     (halt : ∀ p q a b x, Λ p q a b x x = 0)
@@ -123,8 +123,7 @@ theorem exists_stage_step [CharP 𝕜 2] (hres : InfiniteResidue 𝕜) (htail : 
   have hva : ∀ k, start ≤ k → st.A k = 0 := fun k hk => st.vanA k (le_trans st.hsM hk)
   have hvb : ∀ k, start ≤ k → st.B k = 0 := fun k hk => st.vanB k (le_trans st.hsM hk)
   obtain ⟨x, y, hx, hy, hdet⟩ :=
-    exists_block_point hres Λ C hlin halt hdiag hsymm hzero n ⟨t + 1, by omega⟩ start
-      st.A st.B hva hvb
+    exists_block_point Λ C hlin halt hdiag hsymm hzero n ⟨t + 1, by omega⟩ start st.A st.B
   set A' : Linf 𝕜 := st.A + blockVec start x with hA'
   set B' : Linf 𝕜 := st.B + blockVec start y with hB'
   have hnormA' : ‖A'‖ ≤ 1 := norm_add_blockVec_le start x hx st.A hva st.normA
@@ -232,12 +231,12 @@ theorem one_le_norm_det_block (Λ : ℕ → ℕ → Linf 𝕜 → Linf 𝕜 → 
 
 /-! ### The core theorem -/
 
-/-- **Core theorem.** Over an ultrametric field of characteristic 2 with infinite residue field and the
-multilinear Phillips (tail) property, there is no family `Λ p q` of uniformly bounded 4-linear forms on `ℓ^∞`
+/-- **Core theorem.** Over an ultrametric field of characteristic 2 with the multilinear Phillips (tail)
+property, there is no family `Λ p q` of uniformly bounded 4-linear forms on `ℓ^∞`
 which (i) is alternating in the last two slots, (ii) equals `W(a x, a y)_{pq}` on the diagonal `a = b`,
 (iii) is symmetric with zero diagonal in `(p, q)`, and (iv) has all its value matrices `(Λ p q a b x y)_{p q}`
 uniformly approximable by matrices of finite rank. -/
-theorem core_false [CharP 𝕜 2] (hres : InfiniteResidue 𝕜) (htail : TailProperty 𝕜)
+theorem core_false [CharP 𝕜 2] (htail : TailProperty 𝕜)
     (Λ : ℕ → ℕ → Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → 𝕜) (C : ℝ) (hC : 1 ≤ C)
     (hlin : ∀ p q, IsBdd4 𝕜 (Λ p q) C)
     (halt : ∀ p q a b x, Λ p q a b x x = 0)
@@ -248,7 +247,7 @@ theorem core_false [CharP 𝕜 2] (hres : InfiniteResidue 𝕜) (htail : TailPro
       ∀ p q, ‖Λ p q a b x y - ∑ k, u k p * v k q‖ ≤ η) : False := by
   have hC0 : (0:ℝ) < C := lt_of_lt_of_le zero_lt_one hC
   -- the inductive construction
-  choose f hf using exists_stage_step Λ C hres htail hC hlin halt hdiag hsymm hzero
+  choose f hf using exists_stage_step Λ C htail hC hlin halt hdiag hsymm hzero
   obtain ⟨seq, hseqs⟩ : ∃ seq : ℕ → Stage Λ C, ∀ t, seq (t + 1) = f t (seq t) :=
     ⟨stageSeq Λ C f (Stage.init Λ C), fun t => rfl⟩
   have hn : ∀ t, (seq (t + 1)).n = 2 * (t + 1) := by

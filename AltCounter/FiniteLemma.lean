@@ -1,13 +1,15 @@
 /-
-The finite identity: for every "lift" on a block of even size there is a point of the unit polydisc at which
-the block matrix has determinant of norm `≥ 1`.
+The finite identity: for every "lift" on a block of even size there is a `0/1` point at which the block matrix has
+determinant of norm `≥ 1`.
 -/
+import Mathlib.Algebra.CharP.Lemmas
 import Mathlib.Algebra.MvPolynomial.Funext
 import Mathlib.Analysis.Normed.Module.Basic
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic.LinearCombination
+import AltCounter.Defs
 import AltCounter.Balanced
-import AltCounter.GaussPoint
+import AltCounter.Hypercube
 
 namespace AltCounter
 
@@ -381,19 +383,95 @@ noncomputable def blockFam (Λ : ℕ → ℕ → Linf 𝕜 → Linf 𝕜 → Lin
 
 variable [IsUltrametricDist 𝕜]
 
+/-! ### From the hypercube sum to a `0/1` point of large determinant -/
+
+/-- A matching product of entries of total degree at most `4` has total degree at most the number of
+variables: the matching has `card ι / 2` edges, so the product has degree at most `2 * card ι`. -/
+theorem totalDegree_pfTerm_le {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    [LinearOrder ι] (G : ι → ι → MvPolynomial (ι ⊕ ι) R) (hG : ∀ p q, (G p q).totalDegree ≤ 4)
+    {σ : Equiv.Perm ι} (hσ : σ ∈ PM ι) :
+    (pfTerm (Matrix.of G) σ).totalDegree ≤ Fintype.card (ι ⊕ ι) := by
+  classical
+  rw [pfTerm]
+  simp only [Matrix.of_apply]
+  refine (MvPolynomial.totalDegree_finsetProd _ _).trans ?_
+  have hcard := PM_card_edges hσ
+  have h1 : ∑ i ∈ Finset.univ.filter (fun i : ι => i < σ i), (G i (σ i)).totalDegree
+      ≤ ∑ _i ∈ Finset.univ.filter (fun i : ι => i < σ i), 4 :=
+    Finset.sum_le_sum fun i _ => hG i (σ i)
+  rw [Finset.sum_const, smul_eq_mul] at h1
+  rw [Fintype.card_sum]
+  omega
+
+/-- **Hypercube point.** Let `G` be a symmetric matrix with zero diagonal whose entries are
+polynomials of total degree at most `4` in the `2 * card ι` variables `ι ⊕ ι`, over an ultrametric
+field of characteristic `2`. If every matching term `pfTerm G σ` has coefficient `1` at the balanced
+squarefree monomial `∏_i X_i Y_i`, and `card ι` is even, then `det G` has norm at least `1` at some
+`0/1` point.
+
+Indeed `det G = ∑_σ (pfTerm G σ)²`, each `pfTerm G σ` has total degree at most the number of
+variables, so its values over the `0/1` points sum to its balanced coefficient, namely `1`; since
+squaring is additive in characteristic `2`, the values of `det G` over the `0/1` points sum to the
+number of perfect matchings, which is odd, hence to `1`. The ultrametric inequality then produces a
+single `0/1` point where the determinant has norm at least `‖1‖ = 1`. -/
+theorem exists_cubePt_norm_det_ge_one {ι : Type*} [Fintype ι] [DecidableEq ι] [LinearOrder ι]
+    [CharP 𝕜 2] (G : ι → ι → MvPolynomial (ι ⊕ ι) 𝕜)
+    (hsymm : ∀ p q, G p q = G q p) (hdiag : ∀ p, G p p = 0)
+    (hdeg : ∀ p q, (G p q).totalDegree ≤ 4)
+    (hcoeff : ∀ σ ∈ PM ι, (pfTerm (Matrix.of G) σ).coeff (bal (Finset.univ : Finset ι)) = 1)
+    (heven : Even (Fintype.card ι)) :
+    ∃ z : ι ⊕ ι → 𝕜, (∀ i, ‖z i‖ ≤ 1) ∧ 1 ≤ ‖eval z (Matrix.of G).det‖ := by
+  classical
+  have hdet : (Matrix.of G).det = ∑ σ ∈ PM ι, (pfTerm (Matrix.of G) σ) ^ 2 :=
+    det_eq_sum_PM_sq _ hsymm hdiag
+  have hbal : ∀ v : ι ⊕ ι, (bal (Finset.univ : Finset ι)) v = 1 := by
+    intro v; cases v <;> simp
+  -- each matching term sums to its balanced coefficient, namely `1`, over the `0/1` points
+  have hterm : ∀ σ ∈ PM ι,
+      ∑ S : Finset (ι ⊕ ι), eval (cubePt S) (pfTerm (Matrix.of G) σ) = 1 := by
+    intro σ hσ
+    rw [sum_eval_cubePt _ _ hbal (totalDegree_pfTerm_le G hdeg hσ)]
+    exact hcoeff σ hσ
+  -- hence the determinant sums to the (odd) number of perfect matchings
+  have hsum : ∑ S : Finset (ι ⊕ ι), eval (cubePt S) (Matrix.of G).det = 1 := by
+    have h1 : ∀ S : Finset (ι ⊕ ι), eval (cubePt S) (Matrix.of G).det
+        = ∑ σ ∈ PM ι, (eval (cubePt S) (pfTerm (Matrix.of G) σ)) ^ 2 := fun S => by
+      rw [hdet, map_sum]
+      exact Finset.sum_congr rfl fun σ _ => map_pow _ _ _
+    have h2 : ∀ σ ∈ PM ι,
+        ∑ S : Finset (ι ⊕ ι), (eval (cubePt S) (pfTerm (Matrix.of G) σ)) ^ 2 = 1 := by
+      intro σ hσ
+      rw [← sum_pow_char 2, hterm σ hσ, one_pow]
+    rw [Finset.sum_congr rfl fun S _ => h1 S, Finset.sum_comm, Finset.sum_congr rfl h2,
+      Finset.sum_const, nsmul_eq_mul, mul_one]
+    obtain ⟨k, hk⟩ := card_PM_odd (α := ι) heven
+    rw [hk]
+    push_cast
+    simp [CharTwo.two_eq_zero]
+  -- the ultrametric inequality picks out one of the `0/1` points
+  obtain ⟨S, -, hS⟩ := IsUltrametricDist.exists_norm_finsetSum_le_of_nonempty
+    (Finset.univ_nonempty (α := Finset (ι ⊕ ι)))
+    (fun S : Finset (ι ⊕ ι) => eval (cubePt S) (Matrix.of G).det)
+  refine ⟨cubePt S, fun i => ?_, ?_⟩
+  · simp only [cubePt]
+    split_ifs <;> simp
+  · calc (1 : ℝ) = ‖(1 : 𝕜)‖ := norm_one.symm
+      _ = ‖∑ T : Finset (ι ⊕ ι), eval (cubePt T) (Matrix.of G).det‖ := by rw [hsum]
+      _ ≤ ‖eval (cubePt S) (Matrix.of G).det‖ := hS
+
 /-- **Finite lemma.** For a family `Λ p q` of bounded 4-linear forms on `ℓ^∞` which is alternating in the last
 two slots, symmetric with zero diagonal in `(p, q)`, and restricts on the diagonal `a = b` to
-`W(a x, a y)_{pq}`, every block of even size `n` admits unit vectors `x, y` for which the `n × n` block of
+`W(a x, a y)_{pq}`, every block of even size `n` carries `0/1` valued vectors `x, y` — found by summing
+the block determinant over the vertices of the hypercube — for which the `n × n` block of
 `Λ (a' + x) (b' + y) (a' + x) (b' + y)` has determinant of norm at least `1`. -/
-theorem exists_block_point [CharP 𝕜 2] (hres : InfiniteResidue 𝕜)
+theorem exists_block_point [CharP 𝕜 2]
     (Λ : ℕ → ℕ → Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → 𝕜) (C : ℝ)
     (hlin : ∀ p q, IsBdd4 𝕜 (Λ p q) C)
     (halt : ∀ p q a b x, Λ p q a b x x = 0)
     (hdiag : ∀ p q a x y, Λ p q a a x y = a p * x p * (a q * y q) + a p * y p * (a q * x q))
     (hsymm : ∀ p q a b x y, Λ p q a b x y = Λ q p a b x y)
     (hzero : ∀ p a b x y, Λ p p a b x y = 0)
-    (n : ℕ) (hn : Even n) (s : ℕ) (a' b' : Linf 𝕜)
-    (ha' : ∀ k, s ≤ k → a' k = 0) (hb' : ∀ k, s ≤ k → b' k = 0) :
+    (n : ℕ) (hn : Even n) (s : ℕ) (a' b' : Linf 𝕜) :
     ∃ x y : Fin n → 𝕜, (∀ i, ‖x i‖ ≤ 1) ∧ (∀ i, ‖y i‖ ≤ 1) ∧
       1 ≤ ‖(Matrix.of fun p q : Fin n =>
         Λ (s + p) (s + q) (a' + blockVec s x) (b' + blockVec s y)
@@ -435,26 +513,19 @@ theorem exists_block_point [CharP 𝕜 2] (hres : InfiniteResidue 𝕜)
     rw [hmat, coeff_bal_pfTerm_perturb (blockFam Λ s a' b' 0 n)
       (fun p q => blockFam Λ s a' b' 1 n p q - blockFam Λ s a' b' 0 n p q) hghom hcdeg σ hσ]
     exact coeff_bal_prod_matching (blockFam Λ s a' b' 0 n) hgswap hgdiagz σ hσ
-  have hcoeff : ((Matrix.of (blockFam Λ s a' b' 1 n)).det).coeff
-      (2 • bal (Finset.univ : Finset (Fin n))) = 1 := by
-    rw [hdet, MvPolynomial.coeff_sum]
-    have hterm : ∀ σ ∈ PM (Fin n),
-        (((pfTerm (Matrix.of (blockFam Λ s a' b' 1 n)) σ) ^ 2).coeff
-          (2 • bal (Finset.univ : Finset (Fin n)))) = (1 : 𝕜) := by
-      intro σ hσ
-      rw [coeff_two_nsmul_sq, hperturb σ hσ, one_pow]
-    have hsum : (∑ σ ∈ PM (Fin n), (((pfTerm (Matrix.of (blockFam Λ s a' b' 1 n)) σ) ^ 2).coeff
-        (2 • bal (Finset.univ : Finset (Fin n))))) = ∑ _σ ∈ PM (Fin n), (1 : 𝕜) :=
-      Finset.sum_congr rfl hterm
-    rw [hsum, Finset.sum_const, nsmul_eq_mul, mul_one]
-    obtain ⟨m, hm⟩ := card_PM_odd (α := Fin n) (by simpa using hn)
-    have h2 : (2 : 𝕜) = 0 := CharTwo.two_eq_zero
-    rw [hm]
-    push_cast
-    rw [h2]
-    ring
-  obtain ⟨z, hz1, hz2⟩ := exists_unit_eval hres ((Matrix.of (blockFam Λ s a' b' 1 n)).det)
-    (2 • bal (Finset.univ : Finset (Fin n))) (by rw [hcoeff]; simp)
+  have hgdeg : ∀ p q : Fin n, (blockFam Λ s a' b' 1 n p q).totalDegree ≤ 4 := by
+    intro p q
+    have h : blockFam Λ s a' b' 1 n p q
+        = blockFam Λ s a' b' 0 n p q
+          + (blockFam Λ s a' b' 1 n p q - blockFam Λ s a' b' 0 n p q) := by ring
+    rw [h]
+    exact (MvPolynomial.totalDegree_add _ _).trans
+      (max_le (hghom p q).totalDegree_le ((hcdeg p q).trans (by norm_num)))
+  -- the values of the determinant at the `0/1` points sum to `1`, so one of them has norm `≥ 1`
+  obtain ⟨z, hz1, hz2⟩ : ∃ z : Fin n ⊕ Fin n → 𝕜, (∀ i, ‖z i‖ ≤ 1) ∧
+      1 ≤ ‖eval z ((Matrix.of (blockFam Λ s a' b' 1 n)).det)‖ :=
+    exists_cubePt_norm_det_ge_one (blockFam Λ s a' b' 1 n) hGsymm hGdiag hgdeg hperturb
+      (by simpa using hn)
   obtain ⟨x, y, rfl⟩ : ∃ x y : Fin n → 𝕜, z = Sum.elim x y :=
     ⟨fun i => z (Sum.inl i), fun i => z (Sum.inr i), by funext w; cases w <;> rfl⟩
   refine ⟨x, y, fun i => hz1 (Sum.inl i), fun i => hz1 (Sum.inr i), ?_⟩

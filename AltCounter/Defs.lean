@@ -15,11 +15,6 @@ abbrev Linf (𝕜 : Type*) [NontriviallyNormedField 𝕜] := ℕ →ᵇ 𝕜
 
 variable (𝕜 : Type*) [NontriviallyNormedField 𝕜]
 
-/-- Concrete form of "the residue field is infinite": arbitrarily many elements of the unit ball that
-are pairwise at distance exactly `1`. -/
-def InfiniteResidue : Prop :=
-  ∀ N : ℕ, ∃ t : Fin N → 𝕜, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1
-
 /-- A function of four `ℓ^∞` arguments that is additive and homogeneous in each slot and bounded by
 `C * ‖a‖ * ‖b‖ * ‖x‖ * ‖y‖`. -/
 structure IsBdd4 (Λ : Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → Linf 𝕜 → 𝕜) (C : ℝ) : Prop where

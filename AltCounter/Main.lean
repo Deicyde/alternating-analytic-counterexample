@@ -1,6 +1,6 @@
 /-
-The counterexample: over an ultrametric field `𝕜` of characteristic 2 with infinite residue field and the
-multilinear Phillips property (e.g. the completion of an algebraic closure of `𝔽₂((t))`), with `E = ℓ^∞(ℕ, 𝕜)` and
+The counterexample: over an ultrametric field `𝕜` of characteristic 2 with the multilinear Phillips
+property (e.g. the completion of the field of `2`-power Puiseux series over `𝔽₂`), with `E = ℓ^∞(ℕ, 𝕜)` and
 `F` the closed span of the matrices `x ⊗ y + y ⊗ x` in `ℓ^∞(ℕ × ℕ, 𝕜)`, the precomposition map
 `f ↦ (m ↦ m ∘ (f, f))` on continuous alternating 2-forms is not analytic.
 -/
@@ -346,7 +346,7 @@ variable {𝕜}
 set_option maxHeartbeats 2000000 in
 set_option synthInstance.maxHeartbeats 400000 in
 /-- **Main theorem.** `Q` is not analytic at `0`. -/
-theorem not_analyticAt_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : InfiniteResidue 𝕜)
+theorem not_analyticAt_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2]
     (htail : TailProperty 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0 := by
   intro hQ
   obtain ⟨P, hP⟩ :=
@@ -389,7 +389,7 @@ theorem not_analyticAt_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : Infinit
       _ ≤ (‖P‖ * (‖a‖ * ‖b‖)) * ‖W₀ 𝕜‖ := mul_le_mul_of_nonneg_right h1 (norm_nonneg _)
       _ = (‖P‖ * ‖W₀ 𝕜‖) * (‖a‖ * ‖b‖) := by ring
   -- apply the core contradiction
-  refine core_false hres htail
+  refine core_false htail
     (fun p q a b x y => F.incl 𝕜 (M a b ![x, y]) (p, q))
     (max 1 (‖P‖ * ‖W₀ 𝕜‖)) (le_max_left _ _) ?_ ?_ ?_ ?_ ?_ ?_
   · intro p q
@@ -469,8 +469,8 @@ theorem not_analyticAt_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : Infinit
     exact FSub_approx 𝕜 (F.incl_mem 𝕜 _) η hη
 
 /-- In particular `Q` is not `C^ω`: the restriction to `n : ℕ∞` in the smooth statement is sharp. -/
-theorem not_contDiff_omega_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : InfiniteResidue 𝕜)
+theorem not_contDiff_omega_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2]
     (htail : TailProperty 𝕜) : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) (Q 𝕜) := fun h =>
-  not_analyticAt_Q hres htail (h.analyticOnNhd (s := Set.univ) 0 (Set.mem_univ 0))
+  not_analyticAt_Q htail (h.analyticOnNhd (s := Set.univ) 0 (Set.mem_univ 0))
 
 end AltCounter

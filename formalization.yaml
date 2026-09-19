@@ -8,9 +8,9 @@ project:
     A counterexample, fully formalized in Lean 4 / Mathlib. Main result: assuming that the precomposition map
     f |-> (m |-> m o (f, ..., f)) (Mathlib's ContinuousAlternatingMap.compContinuousLinearMapCLM) is C^omega for all
     normed spaces over all nontrivially normed fields and all finite index types, one derives False. The obstruction:
-    over a complete ultrametric field of characteristic 2 with infinite residue field and with (l^infty/c_0)' = 0 (an
-    explicit such field is constructed: the completion of the 2-power Puiseux series over an infinite field of
-    characteristic 2), with E = l^infty and F the closed span of the matrices x (x) y + y (x) x, the map on alternating
+    over a complete ultrametric field of characteristic 2 with (l^infty/c_0)' = 0 (an explicit such field is
+    constructed: the completion of the 2-power Puiseux series over F_2; no hypothesis on the residue field is
+    needed), with E = l^infty and F the closed span of the matrices x (x) y + y (x) x, the map on alternating
     2-forms is not analytic at 0. Consequently the C^n smoothness of this map for n : ENat (draft Mathlib PR #43548)
     cannot be extended to n = omega without a hypothesis such as invertibility of (card iota)!, which obstructs an
     analytic vector-bundle structure on bundles of continuous alternating maps in full generality.
@@ -26,11 +26,13 @@ sources:
         role: "found the counterexample and wrote the informal proof"
     id: "https://github.com/Deicyde/alternating-analytic-counterexample/blob/main/paper/COUNTEREXAMPLE.md"
     type: "original-proof"
-    location: "Sections 1, 2', 3, 4"
+    location: "Sections 1, 2', 3, 3', 4, and the 2026-09-19 simplification section"
     relationship: "formalizes"
     note: >
       The theorem is first presented by this formalization. The Lean proof follows the simplified finite identity of
-      section 2' (even blocks, swap-invariance argument), not the border form of section 2.
+      section 2' (even blocks, swap-invariance argument), not the border form of section 2, and obtains the unit point
+      from the hypercube sum of the 2026-09-19 simplification section rather than from Corollary A', so the
+      infinite-residue-field hypothesis of section 0 is not used.
     license: ""
     author_endorsement: "participated"
   - title: "Espaces de Banach non archimédiens"
@@ -62,7 +64,8 @@ classification:
 
 status:
   scope: >
-    Complete for the stated theorems: no sorry, standard axioms only. The headline results derive False from the general
+    Complete for the stated theorems: no sorry in the library AltCounter/ or in Solution.lean (Challenge.lean states the
+    two comparator theorems with sorry, as that format requires), standard axioms only. The headline results derive False from the general
     C^omega statement (unconditionally: the required field is constructed in Lean). NOT formalized: non-analyticity at
     base points other than 0; index types with more than two elements; the bundle-level consequence. Characteristic
     p >= 3 is open.
@@ -125,10 +128,13 @@ fidelity:
     (1) Challenge.lean states the result as "the general C^omega statement implies False"; the general statement is
     quantified over types in universe 0. (2) The write-up names the field "the completion of an algebraic closure of
     F_2((t))" and cites van der Put's theorem; the Lean development instead constructs the completion of the 2-power
-    Puiseux series over an infinite field of characteristic 2 (inside Mathlib's Hahn series) and proves the needed
+    Puiseux series over F_2 (inside Mathlib's Hahn series) and proves the needed
     direction of van der Put's theorem directly. (3) Lean proves non-analyticity at 0 only (enough for the failure of
     ContDiff omega); the write-up's reduction to an arbitrary base point is not formalized. (4) The finite identity is
-    formalized in the simplified form of section 2' of the write-up.
+    formalized in the simplified form of section 2' of the write-up. (5) Sections 0 and 2 of the write-up assume an
+    infinite residue field and derive the unit point from a Gauss-norm reduction (Corollary A'); the Lean development
+    does not assume it, replacing that step by the hypercube sum over the 0/1 points in characteristic 2 (see the
+    dated section "Simplification: the residue-field hypothesis is unnecessary" at the top of the write-up).
 
 review:
   status: "agent-reviewed"
@@ -143,8 +149,8 @@ alignment:
   namespace: "AltCounter"
   statements:
     - source: "Theorem (section 0): Q is not analytic"
-      lean: "AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM, AltCounter.not_analyticAt_Q_of_NSC"
-      module: "Solution, AltCounter.MainNSC"
+      lean: "AltCounter.not_analyticAt_Q_of_NSC"
+      module: "AltCounter.MainNSC"
       status: "proved"
       note: "at the base point 0"
     - source: "Section 1: analytic and homogeneous of degree 2 implies a bounded bilinear lift"
@@ -159,10 +165,11 @@ alignment:
       lean: "AltCounter.coeff_bal_of_swap_invariant, AltCounter.coeff_bal_prod_matching"
       module: "AltCounter.Balanced"
       status: "proved"
-    - source: "Corollary A' (unit-polydisc point with a value of norm >= 1)"
-      lean: "AltCounter.exists_unit_eval, AltCounter.exists_block_point"
-      module: "AltCounter.GaussPoint, AltCounter.FiniteLemma"
+    - source: "Simplification (2026-09-19): hypercube sum over the 0/1 points replaces Corollary A', so no hypothesis on the residue field is needed"
+      lean: "AltCounter.sum_eval_cubePt, AltCounter.exists_cubePt_norm_det_ge_one, AltCounter.exists_block_point"
+      module: "AltCounter.Hypercube, AltCounter.FiniteLemma"
       status: "proved"
+      note: "The Gauss-norm form of Corollary A' (which needed an infinite residue field) is not formalized and is no longer used."
     - source: "Section 3: multilinear Phillips lemma from (l^infty/c_0)' = 0"
       lean: "AltCounter.tail_functional, AltCounter.tail_multilinear, AltCounter.tailProperty_of_NSC, AltCounter.nsc_of_dual"
       module: "AltCounter.PhillipsOne, AltCounter.Phillips, AltCounter.Bridge"

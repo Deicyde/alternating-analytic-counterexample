@@ -36,10 +36,10 @@
 For normed spaces $E,E',F$ over a nontrivially normed field $\kk$ and a finite set $\iota$, precomposition
 $f\mapsto(m\mapsto m\circ(f,\dots,f))$ sends continuous linear maps $E\to E'$ to continuous linear maps between spaces of
 continuous alternating maps. It is $C^n$ for every $n\in\N\cup\{\infty\}$ in every characteristic~\cite{PR}, and analytic
-when $\abs{\iota}!$ is invertible in $\kk$ (by polarisation). We show that it is \emph{not} analytic in general: over a
-complete ultrametric field of characteristic~$2$ with infinite residue field that is not spherically complete, with
-$E=E'=\linf$ and $\abs{\iota}=2$, analyticity fails at $0$. The proof is a finite parity identity for determinants in
-characteristic~$2$, glued along $\linf$. The result is formalized in Lean~4/Mathlib in the form ``the general
+when $\abs{\iota}!$ is invertible in $\kk$ (by polarisation). We show that it is \emph{not} analytic in general: over every
+complete ultrametric field of characteristic~$2$ that is not spherically complete, with $E=E'=\linf$ and
+$\abs{\iota}=2$, analyticity fails at $0$. The proof is a finite parity identity for determinants in characteristic~$2$,
+glued along $\linf$; the failure is witnessed by two coordinate projections of $\linf$. The result is formalized in Lean~4/Mathlib in the form ``the general
 $C^\omega$ statement implies \texttt{False}''.
 \end{abstract}
 \maketitle
@@ -54,10 +54,12 @@ $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the 
 Throughout, $\kk$ is a complete non-archimedean valued field such that
 \begin{itemize}
 \item[(K1)] $\operatorname{char}\kk=2$;
-\item[(K2)] the residue field of $\kk$ is infinite;
-\item[(K3)] there is a sequence of closed balls $B(c_n,r_n)$ with $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and
-$\bigcap_n B(c_n,r_n)=\emptyset$; in particular $\kk$ is not spherically complete.
+\item[(K2)] there is a sequence of closed balls $B(c_n,r_n)$ with $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and
+$\bigcap_n B(c_n,r_n)=\emptyset$.
 \end{itemize}
+Condition (K2) says exactly that $\kk$ is not spherically complete: from any nested family of balls with empty
+intersection one can extract such a sequence, since nested balls of equal radius coincide. Nothing is assumed about the
+residue field.
 Such fields exist; an explicit one is given in \S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
 algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
 $\norm{m_a}\le\norm a$, and $e_i$ for the unit vectors. For $x,y\in E$ let
@@ -83,7 +85,7 @@ $\kk$ ranges only over complete ultrametric fields of characteristic $2$, $E=E'$
 $\abs\iota=2$.
 \end{theorem}
 
-Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1)--(K3). The rest of
+Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1) and (K2). The rest of
 this note proves Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}
@@ -114,7 +116,8 @@ Since $2=0$, the first identity gives the symmetry $\Phi(a,b;x,y)=\Phi(a,b;y,x)$
 a $\Phi$.
 
 \section{Step 2: a finite parity identity}
-Fix a finite block $I\subset\N$ of even size $2m$ and $a',b'\in E$ vanishing on $I$ with $\norm{a'},\norm{b'}\le1$. Let
+Fix a finite block $I\subset\N$ of even size $2m$ and $a',b'\in E$ with $\norm{a'},\norm{b'}\le1$ (in Step~4 they
+will carry the earlier blocks). Let
 $X_i,Y_i$ ($i\in I$) be indeterminates. Expanding $\Phi$ multilinearly in $x=\sum_{i\in I}X_ie_i$ and $y=\sum_{i\in I}Y_ie_i$
 defines polynomials
 \[
@@ -131,7 +134,7 @@ g_{pq}(Y,X)=g_{pq}(X,Y)+X_p^2Y_q^2+X_q^2Y_p^2\qquad\text{and}\qquad g_{pq}(X,X)=
 \]
 \end{lemma}
 \begin{proof}
-As $\kk$ is infinite it suffices to check these at points $x,y\in\kk^I$. By the symmetry in the last two slots,
+A field with a nontrivial absolute value is infinite, so it suffices to check these at points $x,y\in\kk^I$. By the symmetry in the last two slots,
 $g(y,x)=\Phi(y,x;y,x)=\Phi(y,x;x,y)$, so by bilinearity in the first two slots and \eqref{eq:Phi}
 \begin{align*}
 g(x,y)+g(y,x)&=\Phi(x+y,x+y;x,y)+\Phi(x,x;x,y)+\Phi(y,y;x,y)\\
@@ -181,26 +184,41 @@ only involutions survive; those with a fixed point contribute $0$; a fixed-point
 and contributes $\prod A_{pq}^2$.
 \end{proof}
 
+\begin{lemma}[hypercube sum]\label{lem:cube}
+Let $R$ be a commutative ring of characteristic $2$ and let $f\in R[Z_1,\dots,Z_N]$ have total degree $\le N$. Then
+$\sum_{z\in\{0,1\}^N}f(z)$ is the coefficient of $Z_1Z_2\cdots Z_N$ in $f$.
+\end{lemma}
+\begin{proof}
+By linearity we may take $f$ to be a monomial $Z^\alpha$. At a point $z\in\{0,1\}^N$ it takes the value $1$ if $z_i=1$ for all
+$i$ in the support of $\alpha$, and $0$ otherwise; so the sum is $2^{N-\abs{\operatorname{supp}\alpha}}$, which vanishes in $R$
+unless every variable occurs in $Z^\alpha$. The only monomial of degree $\le N$ in which all $N$ variables occur is
+$Z_1\cdots Z_N$.
+\end{proof}
+
 \begin{corollary}\label{cor:point}
-$\coeff_{\nu^2}\det G=1$. Consequently, by \textup{(K2)}, there are $x,y\in\kk^I$ with $\abs{x_i},\abs{y_i}\le1$ and
-$\abs{\det G(x,y)}\ge1$.
+The values of $\det G$ at the $0/1$ points sum to $1$,
+\[\sum_{x,y\in\{0,1\}^I}\det G(x,y)=1,\]
+and consequently there are $x,y\in\{0,1\}^I$ with $\abs{\det G(x,y)}\ge1$.
 \end{corollary}
 \begin{proof}
-Squaring is additive on coefficients in characteristic $2$, so by Lemma~\ref{lem:det} and
-Proposition~\ref{prop:matching}
-\[\coeff_{\nu^2}\det G=\sum_M\Bigl(\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}\Bigr)^2=(2m-1)!!\cdot1=1,\]
-because $(2m-1)!!$ is odd. A polynomial with a coefficient of absolute value $\ge1$ has Gauss norm $\ge1$; normalising by
-its largest coefficient and reducing modulo the maximal ideal gives a nonzero polynomial over the infinite residue field,
-which has a non-vanishing point; lift it to the unit polydisc.
+For a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total degree $\le4m$, which is the number of variables
+$X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over the $0/1$ points is therefore
+$\coeff_\nu\prod_MG_{pq}=1$. Squaring is additive in characteristic $2$, so by Lemma~\ref{lem:det}
+\[
+\sum_{x,y\in\{0,1\}^I}\det G(x,y)=\sum_M\Bigl(\,\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)\Bigr)^2=(2m-1)!!\cdot1=1,
+\]
+because $(2m-1)!!$ is odd. If all the values $\det G(x,y)$ had absolute value $<1$, the ultrametric inequality would give
+$\abs1<1$.
 \end{proof}
 
 The point is that the coefficient $1$ does not depend on the unknown lift $P$: all of its freedom is carried by
-$\tau$-invariant terms vanishing on the diagonal $Y=X$, which Lemma~\ref{lem:bal} cannot see.
+$\tau$-invariant terms vanishing on the diagonal $Y=X$, which Lemma~\ref{lem:bal} cannot see. No single pair $(x,y)$
+works for every lift, but the $2^{4m}$ vertices of the cube cannot all fail at once.
 
 \section{Step 3: locality on \texorpdfstring{$\linf$}{l-infinity}}
 For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
 \begin{proposition}\label{prop:nsc}
-Under \textup{(K3)}, a bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
+Under \textup{(K2)}, a bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
 \end{proposition}
 \begin{proof}
 $\varphi$ kills finitely supported sequences, so $\abs{\varphi(x)}\le\norm\varphi\sup_{i\ge M}\abs{x_i}$ for every $M$. Suppose
@@ -240,16 +258,17 @@ terms with an earlier first slot (each $\le\varepsilon$ by the inductive hypothe
 term with a far first slot ($\le\varepsilon$ by the case $d=1$). So it has absolute value $>\varepsilon$ for every $s$, contradicting the
 inductive hypothesis for the $(d-1)$-linear form $\lambda(x,\cdot)$.
 \end{proof}
-This is exactly where $\linf$ and (K3) are used; the statement is false for $c_0$ and for spherically complete fields.
+This is exactly where $\linf$ and (K2) are used; the statement is false for $c_0$ and for spherically complete fields.
 
 \section{Step 4: gluing}
-Choose inductively blocks $I_1<I_2<\cdots$ with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\kk^{I_t}$ in the unit polydisc as follows.
+Choose inductively blocks $I_1<I_2<\cdots$ with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
 Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
 $\abs{\det G_t}\ge1$, where $G_t=\Phi(a'+a_t,b'+b_t;a'+a_t,b'+b_t)|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
 Proposition~\ref{prop:tails} (with $d=4$) for the finitely many entry forms $\Phi(\cdot)_{pq}$, $p,q\in I_t$, to place all later
 blocks so far out that these forms are at most $\varepsilon_t$ on unit arguments one of which is supported there.
 
-Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere (these are not norm-convergent sums), and
+Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere. These are not norm-convergent sums;
+$a=\1_A$ and $b=\1_B$ are indicator functions of two subsets of $\N$, so $m_a,m_b$ are coordinate projections. Let
 $\mathcal O:=\Phi(a,b;a,b)\in F$. Splitting $a=a^{\le t}+a^{>t}$, $b=b^{\le t}+b^{>t}$ and using multilinearity,
 $\norm{\mathcal O|_{I_t\times I_t}-G_t}\le\varepsilon_t$. All entries are bounded by $C$. Expanding the determinant multilinearly in
 columns, every term containing a column of the perturbation is at most $\varepsilon_tC^{2t-1}<1$, so the ultrametric inequality
@@ -262,7 +281,8 @@ $\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more tha
 $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
 
 \section{An explicit field}\label{sec:field}
-Let $k_0$ be an infinite field of characteristic $2$ (the Lean development takes $k_0=\overline{\mathbb F}_2$). For
+Let $k_0$ be any field of characteristic $2$; the simplest choice is $k_0=\mathbb F_2$, which is what the Lean
+development takes. For
 $j\ge0$ let $k_0((t^{1/2^j}))$ be the field of Laurent series in the single variable $t^{1/2^j}$. These fields form an
 increasing chain, and we let
 \[
@@ -270,10 +290,11 @@ increasing chain, and we let
 \]
 be the field of \emph{$2$-power Puiseux series}. Every element of $\cP$ lies in one of the fields $k_0((t^{1/2^j}))$, so
 its exponents have a common denominator $2^j$; the bound $j$ depends on the element, exactly as for ordinary Puiseux
-series $\bigcup_nk_0((t^{1/n}))$. Let $\kk$ be the completion of $\cP$. Then (K1) holds, and (K2) holds because the nonzero
-constants and their differences have absolute value $1$.
+series $\bigcup_nk_0((t^{1/n}))$. For $k_0=\mathbb F_2$ (or any perfect $k_0$) the field $\cP$ is the perfection of
+$k_0((t))$, because $k_0((t))^{1/2^j}=k_0((t^{1/2^j}))$. Let $\kk$ be the completion of $\cP$; it has characteristic $2$, so
+(K1) holds.
 
-For (K3) let $\gamma_m=1-2^{-(m+1)}$, $c_n=\sum_{m\le n}t^{\gamma_m}\in\cP$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the
+For (K2) let $\gamma_m=1-2^{-(m+1)}$, $c_n=\sum_{m\le n}t^{\gamma_m}\in\cP$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the
 radii decrease strictly, and $r_n>\tfrac12$. If some $a\in\kk$ lay in all the balls, pick $y\in\cP$ with $\abs{a-y}<\tfrac12$;
 then $y$ lies in all of them too. But $y\in k_0((t^{1/2^j}))$ for some $j$, so its exponents lie in $2^{-j}\Z$, while $\gamma_j$
 has denominator $2^{j+1}$. So for $n\ge j$ the series $y-c_n$ has a nonzero coefficient at $t^{\gamma_j}$ and
@@ -284,7 +305,7 @@ unbounded denominators and all lie below $1$, so its terms do not tend to $0$ an
 Cauchy sequence; the sum exists in the (spherically complete) Hahn series field $k_0((t^{\mathbb Q}))$ but not in $\kk$.
 Completing $\cP$ does add series with unbounded denominators, such as $\sum_mt^{m+2^{-m}}$, but only with exponents
 tending to $\infty$: below any bound, the exponents of an element of $\kk$ still have a common denominator. (The
-completion of an algebraic closure of $\mathbb F_2((t))$ is another example of a field with (K1)--(K3).)
+completion of an algebraic closure of $\mathbb F_2((t))$ is another example of a field with (K1) and (K2).)
 
 \section{Remarks}
 \begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]
@@ -302,6 +323,15 @@ but it sends $W$ to matrices such as the ``staircase'' $\1_{\{(p,q)\,:\,p\text{ 
 not limits of finite-rank matrices, so it leaves $F$. These positive statements are not proved here and are not part of
 the formalization.
 \end{remark}
+\begin{remark}[What is forced]
+No single pair $(x,y)$ works for every lift: adding to $\Phi$ a bounded $4$-linear map with values in $F$ that is
+alternating in $(a,b)$ and in $(x,y)$ gives another admissible $\Phi$, and this can change a given off-diagonal entry
+of $G(x,y)$ by an arbitrary scalar. Blocks of bounded size cannot give a contradiction either: for $u=\1_{\mathrm{odd}}$, $v=\1_{\mathrm{even}}$ the
+rank-two matrix $W(u,v)\in F$ has the entry $1$ in every diagonal block $\{2s-1,2s\}$. On a finite block the sorted lift
+of the previous remark has norm $1$ and satisfies all the identities of Step~2, so there is no finite-dimensional
+obstruction: the invariant is the rank of one element of $F$ against the size of the blocks, and Step~3 is what allows
+infinitely many blocks to be glued into one element.
+\end{remark}
 \begin{remark}[Higher degree, other characteristics]
 On paper, in characteristic $2$ every $\abs\iota\ge2$ is covered by wedging with a coordinate of $E\oplus\kk$; this is not
 formalized. In odd characteristic $\ell$, for forms of degree $\ell$, the question is open: odd-degree forms have no
@@ -317,9 +347,10 @@ The library \texttt{AltCounter/} contains no \texttt{sorry}, and the only axioms
 is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index types, and derives \texttt{False}; a second
 theorem does the same from the weaker statement in Theorem~\ref{thm:false}. Both are restated in a Mathlib-only file
 \texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
-\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized,
-including the complete proof of Proposition~\ref{prop:tails} by induction on $d$; the Lean constants in Step~4 are chosen
-with more slack than here. Not formalized: non-analyticity at base points other than $0$, index types with more than two
+\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized, including the complete proof of Proposition~\ref{prop:tails} by
+induction on $d$; Lemma~\ref{lem:cube} is \texttt{sum\_eval\_cubePt}, and the field of \S\ref{sec:field} is built with
+$k_0=\mathbb F_2$. The Lean constants in Step~4 are chosen with more slack than here, and the Lean form of
+Corollary~\ref{cor:point} records only that the witnesses lie in the unit ball, which is all that Step~4 uses. Not formalized: non-analyticity at base points other than $0$, index types with more than two
 elements, the positive statements in the remarks, and the bundle-level consequence (no $C^\omega$ vector-bundle structure on
 bundles of continuous alternating maps in this generality).
 

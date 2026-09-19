@@ -1,7 +1,7 @@
 import AltCounter.Defs
 import AltCounter.Pfaffian
 import AltCounter.Balanced
-import AltCounter.GaussPoint
+import AltCounter.Hypercube
 import AltCounter.DetBounds
 import AltCounter.FiniteLemma
 import AltCounter.Gluing

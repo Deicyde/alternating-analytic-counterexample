@@ -8,13 +8,42 @@ border form of the finite identity (Lemma A, §2) was verified as a polynomial i
 simplified identity of §2′ — the one the Lean proof uses — is checked numerically (`scripts/nobord.py`) and proved in Lean
 (`AltCounter/Balanced.lean`, `coeff_bal_prod_matching`).
 
+## Simplification (2026-09-19): the residue-field hypothesis is unnecessary
+
+Corollary A′ (§2) produced a point of the unit polydisc where the block determinant has absolute value `≥ 1` by a
+Gauss-norm reduction to the residue field `κ`, and for that it needed `κ` infinite — which is why `|κ| = ∞` appears
+among the hypotheses of §0. It can be replaced by a sum over the vertices of the hypercube, and this is what the Lean
+development now does. Take the block of even size `n = 2m` of §2′, so `G` is symmetric with zero diagonal and each
+entry `G_{pq}` is a polynomial of total degree `≤ 4` in the `2n` variables `X_i, Y_i`.
+
+* In characteristic 2, `det G = Σ_M (∏_{e∈M} G_e)²`, the sum over the perfect matchings `M` of the block.
+* A matching has `m = n/2` edges, so `∏_{e∈M} G_e` has total degree `≤ 4m = 2n`, **exactly the number of variables**.
+* *Hypercube sum.* In characteristic 2, if `deg f ≤ #variables` then `Σ_{z ∈ {0,1}^{2n}} f(z)` is the coefficient of the
+  all-ones monomial `∏_i X_i Y_i` in `f`: a monomial missing a variable is `1` at an even number of `0/1` points, and a
+  monomial meeting every variable must, by the degree bound, be the all-ones monomial itself.
+* By §2′ that coefficient is `1` for every matching product, so each `∏_{e∈M} G_e` sums to `1` over the cube. Frobenius
+  is additive, so `det G` sums to `Σ_M 1² = #{perfect matchings} = (n−1)!!`, which is odd: the sum is `1`.
+* By the ultrametric inequality a sum of absolute value `1` has a summand of absolute value `≥ 1`, so **some `0/1` point
+  `z` has `|det G(z)| ≥ 1`** — and `|z_i| ≤ 1` automatically.
+
+No valuation-theoretic input beyond the ultrametric inequality is used, and nothing about `κ`; the vectors produced are
+indicator functions of subsets of the block. In particular the hypotheses of the theorem are now just: `k` complete,
+non-archimedean, `char k = 2`, `k` not spherically complete. The case of a finite residue field, listed as open in §7,
+is settled by this: it never mattered. Accordingly the field built in Lean (§3′) is now the completion of the 2-power
+Puiseux series over `F_2` itself, whose residue field is `F_2`. In Lean: `AltCounter/Hypercube.lean`
+(`sum_eval_cubePt`), `AltCounter.exists_cubePt_norm_det_ge_one` and `AltCounter.exists_block_point` in
+`AltCounter/FiniteLemma.lean`; the module that carried the Gauss-norm argument has been deleted. Everything below is
+kept as written, as the record of the original argument.
+
 ## 0. Statement
 
 Let `k` be a complete, nontrivially valued non-archimedean field with
 
 * `char k = 2`,
-* `k` **not spherically complete**,
-* infinite residue field.
+* `k` **not spherically complete**.
+
+(The original argument below also assumed an infinite residue field, which Corollary A′ used; the simplification dated
+2026-09-19 above removes that hypothesis, and the Lean development does not assume it.)
 
 Example: the completion of an algebraic closure of `F_2((t))`: value group `ℚ` (dense), residue field `F̄_2`. It is
 separable as a metric space, and a complete non-archimedean field that is separable and densely valued is never
@@ -110,7 +139,9 @@ group, so that set is even whenever `M' ≠ ∅`: every such group contributes `
 `n = 7`: `scripts/flipcheck.py`.)
 (5) For `M' = ∅` each `(j,M)` contributes `1`; there are `(n−2)(2m−1)!! = (2m+1)!!` of them, an odd number. ∎
 
-> **Corollary A′.** Let `R = k` be a non-archimedean valued field with **infinite residue field**, and suppose
+> **Corollary A′** (superseded by the hypercube sum of the simplification section above, which needs no hypothesis on
+> the residue field; retained as the original argument)**.** Let `R = k` be a non-archimedean valued field with
+> **infinite residue field**, and suppose
 > `G(a,b)` is an alternating matrix for all `a,b`. Then there are `a, b ∈ O_k^n` and `J` with `|J| = 2m` such that the
 > principal minor satisfies `|det G(a,b)_J| = |Pf(G_J)|² ≥ 1`.
 
@@ -120,10 +151,13 @@ group, so that set is even whenever `M' ≠ ∅`: every such group contributes `
 to `(a,b) ∈ O_k^{2n}`: `|𝔓(a,b)| = γ ≥ 1`. Since `|det₃| ≤ 1` on the unit polydisc, some `|Pf(G_J)| ≥ 1`, and
 `det = Pf²` for alternating matrices over any commutative ring. ∎
 
-Why *infinite*: `deg_{a_p} 𝔓 ≤ n−1`, so `|κ| ≥ n` would do for one block, but §4 needs `n → ∞`. Over `F_2` the
+Why *infinite* **for this argument** (the hypercube sum above needs nothing of the kind): `deg_{a_p} 𝔓 ≤ n−1`, so
+`|κ| ≥ n` would do for one block, but §4 needs `n → ∞`. Over `F_2` the
 conclusion of A′ is genuinely false with contamination (`scripts/witness_f2.py` exhibits a lift + contamination with
 `𝔓 ≡ 0` on all `F_2`-points, n = 5); over `F_4, F_8, F_16` and `n = 5` it holds for **every** lift and contamination
-(exhaustive linear algebra over the full 2710-parameter space, `scripts/exact.py`).
+(exhaustive linear algebra over the full 2710-parameter space, `scripts/exact.py`). This `F_2` witness is no obstruction
+to the simplification above: it concerns the border polynomial `𝔓` of an odd block, whereas the hypercube sum is
+applied to `det G` on an **even** block, where the coefficient of `ν²` is `1` by §2′.
 
 ## 2′. A simpler form of the finite identity (found while formalizing; this is what the Lean proof uses)
 
@@ -145,8 +179,9 @@ Put `g'_e := g_e + X_p²Y_q²`; then `τ g'_e = g'_e` and `δ g'_e = X_p²X_q²`
 * In characteristic 2 a symmetric zero-diagonal matrix has `det = Σ_{matchings} (∏_{e} G_e)²`, and squaring is additive on
   coefficients, so `coeff_{ν²} det G = #{perfect matchings} = (2m−1)!! = 1`.
 
-Hence `det G(a,b)`, a polynomial in the block variables, has a coefficient equal to `1`, and Corollary A′ gives unit
-vectors with `|det G_t| ≥ 1` for the **whole** `2m × 2m` block. (Numerically checked: `scripts/nobord.py`.) §4 is unchanged
+Hence `det G(a,b)`, a polynomial in the block variables, has a coefficient equal to `1`, and the hypercube sum of the
+simplification section (or, with an infinite residue field, Corollary A′) gives `0/1` vectors
+with `|det G_t| ≥ 1` for the **whole** `2m × 2m` block. (Numerically checked: `scripts/nobord.py`.) §4 is unchanged
 except that blocks have even size and `J_t = I_t`.
 
 ## 3. Multilinear Phillips lemma (the only use of "not spherically complete")
@@ -176,10 +211,11 @@ uniformity; slot-wise decay would not.) This is false on `c₀`: `λ(u,v) = Σ u
 
 ## 3′. The field, and the needed direction of van der Put's theorem, from scratch (as formalized)
 
-*An explicit field.* Let `κ` be an infinite field of characteristic 2 and `P = ⋃_j κ((t^{1/2^j}))` the field of 2-power
+*An explicit field.* Let `κ` be a field of characteristic 2 and `P = ⋃_j κ((t^{1/2^j}))` the field of 2-power
 Puiseux series (in Lean: a directed union of subfields of the Hahn series field `HahnSeries ℚ κ`), with
-`‖f‖ = 2^{-ord f}`. Let `K` be its completion: complete, ultrametric, characteristic 2, residue field `⊇ κ` infinite
-(nonzero constants have norm 1, and so do their differences). Put `γ_m = 1 − 2^{-(m+1)}`, `c_n = Σ_{m ≤ n} t^{γ_m}`. The closed
+`‖f‖ = 2^{-ord f}`. Let `K` be its completion: complete, ultrametric, characteristic 2. (The original argument also
+wanted `κ` infinite, to get an infinite residue field for Corollary A′; since the simplification of 2026-09-19 this is
+no longer needed, and Lean takes `κ = F_2`.) Put `γ_m = 1 − 2^{-(m+1)}`, `c_n = Σ_{m ≤ n} t^{γ_m}`. The closed
 balls `B(c_n, r_n)`, `r_n = 2^{-γ_{n+1}}`, are nested with strictly decreasing radii `> 1/2`. Their intersection is empty in
 `K`: if `a` lay in all of them, approximate `a` within `1/2` by some `y ∈ P`; then `y` lies in all of them too, but `y` has
 exponents in `2^{-j}ℤ` for some `j`, so `y − c_n` has a nonzero coefficient at the exponent `γ_{j}` (whose denominator is
@@ -217,7 +253,9 @@ diagonal, hence factors through `Λ²(k^I)`; its values are alternating `I×I` m
    `G_t(a_t,b_t) := Φ(a'+a_t, b'+b_t; a'+a_t, b'+b_t)|_{I_t×I_t}` is, in `k[a_{t,i}, b_{t,i} : i ∈ I_t]`, of degree `≤ 2` in
    `a_t` and `≤ 2` in `b_t` (slots 1,3 carry `a`, slots 2,4 carry `b`), with `(2,2)`-part exactly
    `ℛ_{I_t}(a_t,b_t)(a_t∧b_t)`; and `(a'+a_t)²|_{I_t} = a_t²`, `(a'+a_t)(b'+b_t)|_{I_t} = a_t b_t`, `(b'+b_t)²|_{I_t} = b_t²`
-   (disjoint supports). This is exactly the hypothesis of Lemma A, so by Corollary A′ choose `a_t, b_t ∈ O_k^{I_t}` and
+   (disjoint supports). This is exactly the hypothesis of Lemma A, so by Corollary A′ — or, in the even-block form and
+   with no hypothesis on the residue field, by the hypercube sum of the simplification section, which returns `0/1`
+   valued `a_t, b_t` — choose `a_t, b_t ∈ O_k^{I_t}` and
    `J_t ⊆ I_t`, `|J_t| = 2m_t`, with `|det G_t[J_t]| ≥ 1`;
 3. put `ε_t := ½ C^{-2m_t}` and choose `N_{t+1}` with `T_{N_{t+1}}(λ_{pq}) < ε_t` for the finitely many `(p,q) ∈ I_t²`.
 
@@ -242,7 +280,7 @@ terms using more than `r` columns of `R[J]` vanish and the others are bounded by
 | `char k ≠ 2` | Lemma A: alternating differences are carried by `a_ib_j − a_jb_i`, the flip pairs monomials with sign `+`, no cancellation; for the polarisation lift `φ_e = ½(a_p²b_q² − a_q²b_p²)` has no squarefree part and the `μ`-coefficient is `0`. Residue characteristic 2 is not enough (`‖½‖ > 1` breaks the reduction). |
 | `dim E < ∞` | §4 needs `m_t → ∞`. |
 | `E = c₀` (any based `E`) | §3(iv) is false on `c₀`, and the glued `a, b` are not in `c₀`; the sorted lift converges there. (`ℓ^∞` has no t-orthogonal base here: `c₀(J)' = ℓ^∞(J)` is not of countable type, `(ℓ^∞)' = c₀` is.) |
-| `k` discretely valued (e.g. `F_2((t))`) | complete + discrete ⟹ spherically complete ⟹ Hahn–Banach ⟹ a functional with `T_N = 1`; also the residue field is finite. |
+| `k` discretely valued (e.g. `F_2((t))`) | complete + discrete ⟹ spherically complete ⟹ Hahn–Banach ⟹ a functional with `T_N = 1`, i.e. §3 fails. (The original argument also noted that the residue field is finite; that is no longer a reason — see the simplification section.) |
 | `F` spherically complete | our `F` is not: `ω ↦ ω_{12} W(e_1,e_2)` is a norm-≤1 projection onto a line isometric to `k`. |
 | `E = ℓ^∞`, `F ∈ {k, c₀(J), ℓ^∞(J)}` | §4 needs (i) `W ∈ Alt²(E,F)`, which fails for `k`, `c₀(J)`; (ii) finite-rank approximability of every element of `F`, which fails for `ℓ^∞(ℕ×ℕ)`. The sorted lift for the big target leaves `F`: `f = id`, `g = m_z`, `z = (0,1,0,1,…)`, `m = W`, `x = 𝟙`, `y = z` gives the staircase `[p odd, q even, p<q]`, whose `(2a−1,2b)` blocks are unit upper triangular. |
 
@@ -262,8 +300,8 @@ terms using more than `r` columns of `R[J]` vanish and the others are bounded by
 * Characteristic `p ≥ 3` (degree-`p` forms): the mechanism should persist, but odd-degree forms have no Pfaffian-type
   top power (`ω∧ω = 0`), so a different invariant of the right (anticanonical) degree is needed.
 * Spherically complete densely valued `k` (e.g. Hahn series `F_2((t^ℚ))`): §3 fails; unknown.
-* Finite residue field with dense valuation: only Corollary A′ needs repair (a contamination-free gluing, or points in
-  an unramified extension).
+* ~~Finite residue field with dense valuation~~ — **settled (2026-09-19)**: the hypercube sum replaces Corollary A′
+  outright, so no hypothesis on the residue field is needed anywhere. The example now formalized has residue field `F_2`.
 
 Scripts: `scripts/` (`full5.py`, `full7.py`, `sym_lemmaA.py` formal identity;
 `flipcheck.py` involution; `degtest.py` sharpness of the bidegree hypothesis; `exact.py`, `witness_f2.py` Corollary A′ over
@@ -279,13 +317,14 @@ This repository (`AltCounter/`), about 4400 lines, no `sorry`, axioms `propext`,
               (ι : Type) [Fintype ι], ContDiff 𝕜 ω (fun f : E →L[𝕜] E' => compContinuousLinearMapCLM f)) : False
 
     theorem not_analyticAt_Q_of_NSC [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
-        (hres : InfiniteResidue 𝕜) (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
+        (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
 
 `Q 𝕜 f = ContinuousAlternatingMap.compContinuousLinearMapCLM f` on `(ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`; `NSC` is
-"(ℓ^∞/c₀)' = 0" (a functional on `ℓ^∞` killing every standard basis vector is zero); `InfiniteResidue` is "arbitrarily
-many unit-ball points pairwise at distance 1".
+"(ℓ^∞/c₀)' = 0" (a functional on `ℓ^∞` killing every standard basis vector is zero). There is no residue-field
+hypothesis: an earlier version had one (`InfiniteResidue 𝕜`, "arbitrarily many unit-ball points pairwise at distance
+1") and it was removed on 2026-09-19 together with the module that carried the Gauss-norm argument.
 
-Formalized: the bilinear lift of §1, the identity of §2′ (with Corollary A′), §3, §3′ (the explicit field and
+Formalized: the bilinear lift of §1, the identity of §2′ (with the hypercube sum in place of Corollary A′), §3, §3′ (the explicit field and
 "nested balls ⟹ `(ℓ^∞/c₀)' = 0`") and §4 — giving non-analyticity **at `0`**, and the unconditional theorem "the general
 `C^ω` statement implies `False`". `Challenge.lean` / `Solution.lean` are a `leanprover/comparator` pair for the latter.
 Not formalized: the §1 reduction to an arbitrary base point, the border form of Lemma A in §2 (superseded by §2′), and the
