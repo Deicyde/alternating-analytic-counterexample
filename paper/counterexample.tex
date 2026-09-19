@@ -262,14 +262,29 @@ $\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more tha
 $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
 
 \section{An explicit field}\label{sec:field}
-Let $k_0$ be an infinite field of characteristic $2$ and $\cP=\bigcup_jk_0((t^{1/2^j}))$ the field of $2$-power Puiseux
-series with $\abs f=2^{-\operatorname{ord}f}$; let $\kk$ be its completion. Then (K1) holds, and (K2) holds because the
-nonzero constants and their differences have absolute value $1$. For (K3) let $\gamma_m=1-2^{-(m+1)}$,
-$c_n=\sum_{m\le n}t^{\gamma_m}$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the radii decrease strictly, and
-$r_n>\tfrac12$. If some $a\in\kk$ lay in all the balls, pick $y\in\cP$ with $\abs{a-y}<\tfrac12$; then $y$ lies in all of them
-too. But $y$ has exponents in $2^{-j}\Z$ for some $j$, while $\gamma_j$ has denominator $2^{j+1}$, so for $n\ge j$ the series
-$y-c_n$ has a nonzero coefficient at $t^{\gamma_j}$ and $\abs{y-c_n}\ge2^{-\gamma_j}>r_n$. (The completion of an algebraic
-closure of $\mathbb F_2((t))$ is another example.)
+Let $k_0$ be an infinite field of characteristic $2$ (the Lean development takes $k_0=\overline{\mathbb F}_2$). For
+$j\ge0$ let $k_0((t^{1/2^j}))$ be the field of Laurent series in the single variable $t^{1/2^j}$. These fields form an
+increasing chain, and we let
+\[
+\cP:=\bigcup_{j\ge0}k_0((t^{1/2^j})),\qquad \abs f:=2^{-\operatorname{ord}f},
+\]
+be the field of \emph{$2$-power Puiseux series}. Every element of $\cP$ lies in one of the fields $k_0((t^{1/2^j}))$, so
+its exponents have a common denominator $2^j$; the bound $j$ depends on the element, exactly as for ordinary Puiseux
+series $\bigcup_nk_0((t^{1/n}))$. Let $\kk$ be the completion of $\cP$. Then (K1) holds, and (K2) holds because the nonzero
+constants and their differences have absolute value $1$.
+
+For (K3) let $\gamma_m=1-2^{-(m+1)}$, $c_n=\sum_{m\le n}t^{\gamma_m}\in\cP$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the
+radii decrease strictly, and $r_n>\tfrac12$. If some $a\in\kk$ lay in all the balls, pick $y\in\cP$ with $\abs{a-y}<\tfrac12$;
+then $y$ lies in all of them too. But $y\in k_0((t^{1/2^j}))$ for some $j$, so its exponents lie in $2^{-j}\Z$, while $\gamma_j$
+has denominator $2^{j+1}$. So for $n\ge j$ the series $y-c_n$ has a nonzero coefficient at $t^{\gamma_j}$ and
+$\abs{y-c_n}\ge2^{-\gamma_j}>r_n$, a contradiction.
+
+Informally, the only candidate for a common point of the balls is the formal sum $\sum_mt^{\gamma_m}$. Its exponents have
+unbounded denominators and all lie below $1$, so its terms do not tend to $0$ and the partial sums $c_n$ are not a
+Cauchy sequence; the sum exists in the (spherically complete) Hahn series field $k_0((t^{\mathbb Q}))$ but not in $\kk$.
+Completing $\cP$ does add series with unbounded denominators, such as $\sum_mt^{m+2^{-m}}$, but only with exponents
+tending to $\infty$: below any bound, the exponents of an element of $\kk$ still have a common denominator. (The
+completion of an algebraic closure of $\mathbb F_2((t))$ is another example of a field with (K1)--(K3).)
 
 \section{Remarks}
 \begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]
