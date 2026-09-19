@@ -92,17 +92,9 @@ Let $\kk$ be a complete ultrametric field of characteristic $2$ which is not sph
 space $F$ over $\kk$ such that the functor $\Alt^2(-,F)$ is not analytic.
 \end{theorem}
 
-Such fields exist (Proposition~\ref{prop:field}). So $\Alt^\iota(-,F)$ is not analytic in general, already for
-$\abs\iota=2$, and neither is the bifunctor $\Alt^\iota$. The terms used in the theorem are recalled in
-\S\ref{sec:statement}, where $F$ is given explicitly and the failure is located at $E=E'=\linf(\N,\kk)$, the bounded sequences
-with the sup norm, and at the point $0\in\cL(E,E)$ (Theorem~\ref{thm:main}). Consequently the restriction $n\ne\omega$
-in~\cite{PR} cannot be removed, and a $C^\omega$ structure on bundles of continuous alternating maps needs a hypothesis such
-as the invertibility of $\abs\iota!$. We do not treat the bundles themselves here, only the functor. In characteristic
-$\ell\ge3$ the case $\abs\iota\ge\ell$ remains open (Remark~\ref{rem:higher}).
-
-Theorems~\ref{thm:false} and~\ref{thm:main} and Proposition~\ref{prop:field} are machine-checked in Lean~4 with Mathlib;
-together they give the statement verified there, ``if precomposition is $C^\omega$ for all $\kk,E,E',F,\iota$, then
-\texttt{False}''; see \S\ref{sec:lean}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
+Such fields exist (Proposition~\ref{prop:field}), so the restriction $n\ne\omega$ in~\cite{PR} cannot be removed. In
+characteristic $\ell\ge3$ the case $\abs\iota\ge\ell$ remains open (Remark~\ref{rem:higher}). The result is machine-checked in
+Lean~4 with Mathlib (\S\ref{sec:lean}).
 
 \section{Statement}\label{sec:statement}
 \subsection*{Notation}
@@ -140,7 +132,7 @@ $Q$ is not analytic at $0$. In particular $Q$ is not $C^\omega$.
 \end{theorem}
 
 The map $Q$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem~\ref{thm:main} implies
-Theorem~\ref{thm:false}.
+Theorem~\ref{thm:false}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
 \begin{lemma}\label{lem:lift}
