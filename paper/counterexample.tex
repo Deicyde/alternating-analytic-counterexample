@@ -295,11 +295,30 @@ be the field of \emph{$2$-power Puiseux series}. Here $\operatorname{ord}f$ is t
 Let $\kk$ be the completion of $\cP$ for this (ultrametric) absolute value. This is characteristic $2$ since
 $k_0\hookrightarrow\cP\hookrightarrow\kk$.
 
-For (K2) let $\gamma_m=1-2^{-(m+1)}$, $c_n=\sum_{m\le n}t^{\gamma_m}\in\cP$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the
-radii decrease strictly, and $r_n>\tfrac12$. If some $a\in\kk$ lay in all the balls, pick $y\in\cP$ with $\abs{a-y}<\tfrac12$;
-then $y$ lies in all of them too. But $y\in k_0((t^{1/2^j}))$ for some $j$, so its exponents lie in $2^{-j}\Z$, while $\gamma_j$
-has denominator $2^{j+1}$. So for $n\ge j$ the series $y-c_n$ has a nonzero coefficient at $t^{\gamma_j}$ and
-$\abs{y-c_n}\ge2^{-\gamma_j}>r_n$, a contradiction.
+To verify (K2), put
+\[
+\gamma_m:=1-2^{-(m+1)}\quad(\text{so }\gamma_0=\tfrac12,\ \gamma_1=\tfrac34,\ \gamma_2=\tfrac78,\dots),\qquad
+c_n:=\sum_{m=0}^{n}t^{\gamma_m}\in\cP,\qquad r_n:=2^{-\gamma_{n+1}} .
+\]
+The exponents $\gamma_m$ increase strictly to $1$.
+
+\emph{The balls have the form required in \textup{(K2)}.} Since $c_{n+1}-c_n=t^{\gamma_{n+1}}$ we have
+$\abs{c_{n+1}-c_n}=2^{-\gamma_{n+1}}=r_n$. Since $\gamma_{n+1}<\gamma_{n+2}<1$ we have $r_n>r_{n+1}$ and $r_n>2^{-1}=\tfrac12$.
+
+\emph{The intersection is empty.} Suppose that $a\in\kk$ satisfies $\abs{a-c_n}\le r_n$ for all $n$. As $\cP$ is dense in $\kk$
+there is $y\in\cP$ with $\abs{a-y}<\tfrac12$, and then for every $n$
+\[
+\abs{y-c_n}\le\max\bigl(\abs{y-a},\abs{a-c_n}\bigr)\le\max\bigl(\tfrac12,r_n\bigr)=r_n .
+\]
+Choose $j$ with $y\in k_0((t^{1/2^j}))$, so that all exponents of $y$ lie in $2^{-j}\Z$. The exponent
+$\gamma_j=(2^{j+1}-1)/2^{j+1}$ has an odd numerator, so $\gamma_j\notin2^{-j}\Z$ and $\coeff_{t^{\gamma_j}}y=0$. For $n\ge j$ the
+term $t^{\gamma_j}$ occurs in $c_n$, so
+\[
+\coeff_{t^{\gamma_j}}(y-c_n)=0-1\ne0,\qquad\text{hence}\qquad \operatorname{ord}(y-c_n)\le\gamma_j
+\quad\text{and}\quad \abs{y-c_n}\ge2^{-\gamma_j}.
+\]
+But $\gamma_j<\gamma_{n+1}$ because $j<n+1$, so $2^{-\gamma_j}>2^{-\gamma_{n+1}}=r_n$. Thus $\abs{y-c_n}>r_n$, contradicting the previous
+display.
 
 Informally, the only candidate for a common point of the balls is the formal sum $\sum_mt^{\gamma_m}$. Its exponents have
 unbounded denominators and all lie below $1$, so its terms do not tend to $0$ and the partial sums $c_n$ are not a
