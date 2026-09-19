@@ -67,8 +67,8 @@ action is linear in $g$, hence analytic, whereas the action of $f$ is not linear
 analytic if and only if the functor $\Alt^\iota(-,F)$ is analytic for every $F$, and we fix $F$ from now on.
 
 \subsection*{Motivation: alternating bundles in Mathlib}
-In Mathlib~\cite{mathlib}, manifolds and vector bundles are modelled on normed spaces over an arbitrary nontrivially normed
-field $\kk$, possibly of infinite dimension, and their regularity is an element $n\in\N\cup\{\infty,\omega\}$, where
+In Mathlib~\cite{mathlib}, manifolds and vector bundles are modelled on normed spaces (of possibly infinite dimension) over an
+arbitrary nontrivially normed field $\kk$, and their regularity is an element $n\in\N\cup\{\infty,\omega\}$, where
 $C^\omega$ means analytic. Differential forms require the bundle of continuous alternating maps between two $C^n$ vector
 bundles to be a $C^n$ vector bundle again (an instance of \texttt{ContMDiffVectorBundle}). Its transition functions are
 those of the given bundles with $\Alt^\iota$ applied, so this comes down to the regularity of the functor $\Alt^\iota(-,F)$,
