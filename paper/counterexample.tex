@@ -51,7 +51,9 @@ normed space of continuous alternating $\iota$-linear maps $E^\iota\to F$, i.e.\
 coincide; we write $\Alt^2$ when $\abs\iota=2$. For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
 $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the indicator of a set $S$, and $\1=\1_\N$.
 
-Throughout, $\kk$ is a complete non-archimedean valued field such that
+Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $\abs{\,\cdot\,}$ that is
+\emph{non-archimedean}, i.e.\ satisfies the \emph{ultrametric inequality} $\abs{x+y}\le\max(\abs x,\abs y)$; we also call
+such a field ultrametric. The sup norms used below inherit this inequality. We assume that
 \begin{itemize}
 \item[(K1)] $\operatorname{char}\kk=2$;
 \item[(K2)] $\kk$ is not spherically complete: there is a sequence of closed balls $B(c_n,r_n)$ with
@@ -61,7 +63,9 @@ point of a ball is a centre of it, so the infimum of the radii of the chain is n
 radii decreasing strictly to it have empty intersection. The proof uses (K2) only in the displayed form, which is also
 the hypothesis of the formalization.}
 \end{itemize}
-Such fields exist; an explicit one is given in \S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
+In characteristic $2$ the ultrametric inequality is in fact automatic: an absolute value is non-archimedean as soon as it
+is bounded on the multiples of $1$, and here these are only $0$ and $1$. Such fields exist; an explicit one is given in
+\S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
 algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
 $\norm{m_a}=\norm a$ (evaluate at $\1$), and $e_i$ for the unit vectors. For $x,y\in E$ let
 \[
