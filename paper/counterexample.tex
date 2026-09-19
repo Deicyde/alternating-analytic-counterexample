@@ -58,8 +58,9 @@ normed spaces over $\kk$ \emph{analytic} if for all $E,E'$ the map
 \cL(E,E')\to\cL\bigl(T(E'),T(E)\bigr),\qquad f\mapsto T(f),
 \]
 is analytic. For a normed space $F$ and a finite $\iota$, the assignment $E\mapsto\Alt^\iota(E,F)$,
-$f\mapsto(m\mapsto m\circ(f,\dots,f))$, is a contravariant functor. In the second variable $\Alt^\iota(E,F)$ is covariant and acts on
-morphisms by a bounded linear map, so only the first variable matters for regularity.
+$f\mapsto(m\mapsto m\circ(f,\dots,f))$, is a contravariant functor. The assignment is also functorial in $F$: a continuous linear map $g\colon F\to F'$ acts by $m\mapsto g\circ m$. This
+action is linear in $g$, hence analytic, whereas the action of $f$ is not linear in $f$. So the bifunctor $\Alt^\iota$ is
+analytic if and only if the functor $\Alt^\iota(-,F)$ is analytic for every $F$, and we fix $F$ from now on.
 
 \subsection*{Motivation: alternating bundles in Mathlib}
 In Mathlib~\cite{mathlib}, manifolds and vector bundles are modelled on normed spaces over an arbitrary nontrivially normed
