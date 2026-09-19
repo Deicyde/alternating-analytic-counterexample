@@ -119,10 +119,7 @@ $\norm{m_a}=\norm a$ (evaluate at $\1$), and $e_i$ for the unit vectors. For $x,
 \[
 W(x,y):=x\otimes y+y\otimes x\in\linf(\N\times\N,\kk),\qquad W(x,y)_{pq}=x_py_q+x_qy_p ,
 \]
-and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$, a Banach space. Every element of $F$ is a symmetric
-matrix with zero diagonal (as $W(x,y)_{pp}=2x_py_p=0$) and a uniform limit of matrices of finite rank (as $W(x,y)$ has
-rank $\le2$). By the ultrametric inequality $\norm{W(x,y)}\le\norm x\norm y$, and $W(x,x)=2\,x\otimes x=0$; so
-$W\colon E\times E\to F$ is a bounded alternating bilinear map of norm $\le1$. Let
+and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$, a Banach space. Let
 \[
 Q\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad Q(f)(m)=m\circ(f,f).
 \]
@@ -146,7 +143,9 @@ are unique over any nontrivially normed field, so $p_2(f,f)=Q(f)$. Take $P=p_2$.
 need not be symmetric.)
 \end{proof}
 
-So assume that a bounded bilinear $P$ with $P(f,f)=Q(f)$ exists, and put, for $a,b,x,y\in E$,
+So assume that a bounded bilinear $P$ with $P(f,f)=Q(f)$ exists. The map $W\colon E\times E\to F$ is bilinear, it is
+alternating because $W(x,x)=2\,x\otimes x=0$, and $\norm{W(x,y)}\le\norm x\norm y$ by the ultrametric inequality; so
+$W\in\Alt^2(E,F)$ with $\norm W\le1$. Put, for $a,b,x,y\in E$,
 \[
 \Phi(a,b;x,y):=P(m_a,m_b)(W)(x,y)\in F .
 \]
@@ -169,8 +168,9 @@ defines polynomials
 \[
 G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X,Y]\qquad(p,q\in I),
 \]
-whose values at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. The matrix
-$G$ is symmetric with zero diagonal, each $G_{pq}$ has degree $\le2$ in $X$ and $\le2$ in $Y$, its part of bidegree $(2,2)$
+whose values at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. Every element
+of $F$ is a symmetric matrix with zero diagonal, since $W(x,y)_{pq}=W(x,y)_{qp}$ and $W(x,y)_{pp}=2x_py_p=0$, and both
+properties pass to the closed span. So the matrix $G$ is symmetric with zero diagonal. Each $G_{pq}$ has degree $\le2$ in $X$ and $\le2$ in $Y$, its part of bidegree $(2,2)$
 is $g_{pq}:=\Phi(x,y;x,y)_{pq}$, and $G_{pq}-g_{pq}$ has total degree $\le3$.
 
 \begin{lemma}\label{lem:g}
@@ -322,7 +322,8 @@ gives
 \[
 \abs{\det\mathcal O|_{I_t\times I_t}}=\abs{\det G_t}\ge1\qquad\text{for every }t .
 \]
-On the other hand $\mathcal O\in F$ is within $\eta:=(2C)^{-1}$ of a matrix $R$ of some finite rank $r$. Expanding
+On the other hand, every element of $F$ is a uniform limit of matrices of finite rank, because each $W(x,y)$ has rank
+$\le2$. So $\mathcal O\in F$ is within $\eta:=(2C)^{-1}$ of a matrix $R$ of some finite rank $r$. Expanding
 $\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more than $r$ columns from $R$ vanish, so
 $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
 
