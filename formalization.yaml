@@ -5,13 +5,15 @@ version: "v0.4"
 project:
   name: "alternating-analytic-counterexample"
   description: >
-    A counterexample, fully formalized in Lean 4 / Mathlib: over a complete ultrametric field of characteristic 2
-    with infinite residue field and with (l^infty/c_0)' = 0, there is a normed space F such that the precomposition map
-    f |-> (m |-> m o (f, f)) (Mathlib's ContinuousAlternatingMap.compContinuousLinearMapCLM) on continuous alternating
-    2-forms l^infty x l^infty -> F is not analytic at 0, hence not C^omega. Consequently the C^n smoothness of this map
-    for n : ENat (draft Mathlib PR #43548) cannot be extended to n = omega without a hypothesis such as invertibility
-    of (card iota)!, which is what obstructs an analytic vector-bundle structure on bundles of continuous alternating
-    maps in full generality.
+    A counterexample, fully formalized in Lean 4 / Mathlib. Main result: assuming that the precomposition map
+    f |-> (m |-> m o (f, ..., f)) (Mathlib's ContinuousAlternatingMap.compContinuousLinearMapCLM) is C^omega for all
+    normed spaces over all nontrivially normed fields and all finite index types, one derives False. The obstruction:
+    over a complete ultrametric field of characteristic 2 with infinite residue field and with (l^infty/c_0)' = 0 (an
+    explicit such field is constructed: the completion of the 2-power Puiseux series over an infinite field of
+    characteristic 2), with E = l^infty and F the closed span of the matrices x (x) y + y (x) x, the map on alternating
+    2-forms is not analytic at 0. Consequently the C^n smoothness of this map for n : ENat (draft Mathlib PR #43548)
+    cannot be extended to n = omega without a hypothesis such as invertibility of (card iota)!, which obstructs an
+    analytic vector-bundle structure on bundles of continuous alternating maps in full generality.
   authors: ["Jack McCarthy"]
   responsible_maintainers: ["Jack McCarthy"]
   license: "No license chosen yet (all rights reserved pending the maintainer's decision)"
@@ -38,8 +40,9 @@ sources:
     location: "Théorème (3.2)"
     relationship: "background"
     note: >
-      Not used in the Lean proof. It is what shows, on paper, that fields satisfying the hypothesis (l^infty/c_0)' = 0
-      exist: every complete non-archimedean field that is not spherically complete satisfies it.
+      Background only. The direction needed (a complete non-archimedean field that is not spherically complete
+      satisfies (l^infty/c_0)' = 0) is proved from scratch in AltCounter/NestedBalls.lean, in the concrete form
+      "nested closed balls with strictly decreasing radii and empty intersection imply NSC".
     license: "proprietary"
     author_endorsement: "n/a"
   - title: "feat(Analysis/Calculus/ContDiff): smoothness reflects along a linear isometry with closed range (Mathlib PR #43548, draft)"
@@ -59,22 +62,21 @@ classification:
 
 status:
   scope: >
-    Complete for the stated theorem: no sorry, standard axioms only. Hypotheses on the field are explicit assumptions
-    of the theorem (characteristic 2, ultrametric, complete, infinite residue field, (l^infty/c_0)' = 0). NOT formalized:
-    the existence of a field satisfying them (the completion of an algebraic closure of F_2((t)), via van der Put's
-    theorem) — so non-vacuity rests on a paper argument; non-analyticity at base points other than 0; index types with
-    more than two elements; the bundle-level consequence. Characteristic p >= 3 is open.
+    Complete for the stated theorems: no sorry, standard axioms only. The headline results derive False from the general
+    C^omega statement (unconditionally: the required field is constructed in Lean). NOT formalized: non-analyticity at
+    base points other than 0; index types with more than two elements; the bundle-level consequence. Characteristic
+    p >= 3 is open.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
   main_results:
-  - declaration: "AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM"
+  - declaration: "AlternatingAnalyticChallenge.false_of_contDiff_omega_compContinuousLinearMapCLM"
     file: "Solution.lean"
     sorry_count: 0
     axioms: ["propext", "Classical.choice", "Quot.sound"]
     comparator_config: "comparator.json"
     literature_dependencies: []
-  - declaration: "AlternatingAnalyticChallenge.exists_not_contDiff_omega_compContinuousLinearMapCLM"
+  - declaration: "AlternatingAnalyticChallenge.false_of_contDiff_omega_compContinuousLinearMapCLM_charTwo_banach"
     file: "Solution.lean"
     sorry_count: 0
     axioms: ["propext", "Classical.choice", "Quot.sound"]
@@ -82,6 +84,12 @@ status:
     literature_dependencies: []
   - declaration: "AltCounter.not_analyticAt_Q_of_NSC"
     file: "AltCounter/MainNSC.lean"
+    sorry_count: 0
+    axioms: ["propext", "Classical.choice", "Quot.sound"]
+    comparator_config: ""
+    literature_dependencies: []
+  - declaration: "AltCounter.exists_field"
+    file: "AltCounter/Final.lean"
     sorry_count: 0
     axioms: ["propext", "Classical.choice", "Quot.sound"]
     comparator_config: ""
@@ -99,7 +107,7 @@ automation:
         fill the proofs; files were compiled one at a time against a prebuilt Mathlib. Independent agent passes refereed
         the informal proof and audited the repository (statement faithfulness, proof integrity, documentation).
       cost:
-        wall_time: "Counterexample search: several sessions between 2026-09-07 and 2026-09-19; Lean formalization: about one hour of wall-clock time with ten parallel agents"
+        wall_time: "Counterexample search: several sessions between 2026-09-07 and 2026-09-19; Lean formalization: roughly two hours of wall-clock time with up to ten parallel agents"
         spend_usd: "subscription-based usage"
         hardware: "API-only; Lean compilation on a laptop (Apple M3 Pro, 18 GB)"
       prompting_notes: >
@@ -114,13 +122,13 @@ automation:
 
 fidelity:
   divergences: >
-    (1) The Lean theorem is stated for an arbitrary field with the listed properties as hypotheses; the write-up's
-    statement names the properties "not spherically complete" and "infinite residue field" — in Lean these are replaced
-    by their consequences hdual ((l^infty/c_0)' = 0) and hres (arbitrarily many unit-ball points pairwise at distance 1).
-    (2) Lean proves non-analyticity at 0 only; the write-up's reduction to an arbitrary base point is not formalized.
-    (3) The finite identity is formalized in the simplified form of section 2' of the write-up. (4) Challenge.lean
-    existentially quantifies the target space F; the witness is the closed span of the matrices x (x) y + y (x) x in
-    l^infty(N x N), as in the write-up.
+    (1) Challenge.lean states the result as "the general C^omega statement implies False"; the general statement is
+    quantified over types in universe 0. (2) The write-up names the field "the completion of an algebraic closure of
+    F_2((t))" and cites van der Put's theorem; the Lean development instead constructs the completion of the 2-power
+    Puiseux series over an infinite field of characteristic 2 (inside Mathlib's Hahn series) and proves the needed
+    direction of van der Put's theorem directly. (3) Lean proves non-analyticity at 0 only (enough for the failure of
+    ContDiff omega); the write-up's reduction to an arbitrary base point is not formalized. (4) The finite identity is
+    formalized in the simplified form of section 2' of the write-up.
 
 review:
   status: "agent-reviewed"
@@ -129,7 +137,7 @@ review:
     Seven independent adversarial AI referee agents and an adjudicator checked the informal proof (no mathematical error
     found; editorial gaps fixed); three further AI agents audited the Lean statements for faithfulness and vacuity, the
     proofs for integrity, and the documentation for accuracy. No human expert in non-archimedean functional analysis has
-    reviewed the write-up or the unformalized field-existence step yet.
+    reviewed the write-up yet.
 
 alignment:
   namespace: "AltCounter"
@@ -163,10 +171,14 @@ alignment:
       lean: "AltCounter.core_false, AltCounter.norm_det_le_of_close_to_lowrank, AltCounter.one_le_norm_det_add"
       module: "AltCounter.Gluing, AltCounter.DetBounds"
       status: "proved"
-    - source: "Existence of a field satisfying the hypotheses (van der Put, Thm 3.2; completed algebraic closure of F_2((t)))"
-      lean: ""
-      module: ""
-      status: "not-formalized"
+    - source: "Existence of a field satisfying the hypotheses (write-up: van der Put, Thm 3.2 and the completed algebraic closure of F_2((t)); Lean: completed 2-power Puiseux series)"
+      lean: "AltCounter.exists_goodModel, AltCounter.exists_field_of_goodModel, AltCounter.nsc_of_hasEmptyNestedBalls, AltCounter.exists_field"
+      module: "AltCounter.Puiseux, AltCounter.Model, AltCounter.NestedBalls, AltCounter.Final"
+      status: "proved"
+    - source: "The general C^omega statement is inconsistent"
+      lean: "AltCounter.false_of_general_contDiff_omega, AltCounter.false_of_charTwo_banach_contDiff_omega"
+      module: "AltCounter.Final"
+      status: "proved"
     - source: "Section 1: reduction to an arbitrary base point; section 0: index types with more than two elements, bundle-level corollary"
       lean: ""
       module: ""

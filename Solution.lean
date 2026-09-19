@@ -1,38 +1,35 @@
 /-
 Comparator solution: proves the two theorems of `Challenge.lean` verbatim, from the project's formalization.
 -/
-import AltCounter.Bridge
+import AltCounter.Final
 
-open BoundedContinuousFunction Filter Topology
-
-universe u
+open scoped ContDiff
 
 namespace AlternatingAnalyticChallenge
 
-theorem exists_not_analyticAt_compContinuousLinearMapCLM
-    {𝕜 : Type u} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
-    (hres : ∀ N : ℕ, ∃ t : Fin N → 𝕜, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1)
-    (hdual : ∀ φ : (ℕ →ᵇ 𝕜) →L[𝕜] 𝕜,
-      (∀ x : ℕ →ᵇ 𝕜, Tendsto (fun i => x i) atTop (𝓝 0) → φ x = 0) → φ = 0) :
-    ∃ (F : Type u) (_ : NormedAddCommGroup F) (_ : NormedSpace 𝕜 F),
-      ¬ AnalyticAt 𝕜
-        (fun f : (ℕ →ᵇ 𝕜) →L[𝕜] (ℕ →ᵇ 𝕜) =>
+/-- Assume the general analytic statement: for all nontrivially normed fields `𝕜`, all normed spaces `E, E', F` over
+`𝕜` and all finite index types `ι`, precomposition `f ↦ (m ↦ m ∘ (f, …, f))` on continuous alternating maps is `C^ω`.
+Then `False`. -/
+theorem false_of_contDiff_omega_compContinuousLinearMapCLM
+    (h : ∀ (𝕜 : Type) [NontriviallyNormedField 𝕜] (E E' F : Type)
+      [NormedAddCommGroup E] [NormedSpace 𝕜 E] [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+      [NormedAddCommGroup F] [NormedSpace 𝕜 F] (ι : Type) [Fintype ι],
+      ContDiff 𝕜 ω
+        (fun f : E →L[𝕜] E' =>
           (ContinuousAlternatingMap.compContinuousLinearMapCLM f :
-            ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F) →L[𝕜] ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F))) 0 :=
-  ⟨AltCounter.F 𝕜, inferInstance, inferInstance,
-    AltCounter.not_analyticAt_Q_of_NSC hres (AltCounter.nsc_of_dual hdual)⟩
+            (E' [⋀^ι]→L[𝕜] F) →L[𝕜] (E [⋀^ι]→L[𝕜] F)))) : False :=
+  AltCounter.false_of_general_contDiff_omega h
 
-theorem exists_not_contDiff_omega_compContinuousLinearMapCLM
-    {𝕜 : Type u} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
-    (hres : ∀ N : ℕ, ∃ t : Fin N → 𝕜, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1)
-    (hdual : ∀ φ : (ℕ →ᵇ 𝕜) →L[𝕜] 𝕜,
-      (∀ x : ℕ →ᵇ 𝕜, Tendsto (fun i => x i) atTop (𝓝 0) → φ x = 0) → φ = 0) :
-    ∃ (F : Type u) (_ : NormedAddCommGroup F) (_ : NormedSpace 𝕜 F),
-      ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞)
-        (fun f : (ℕ →ᵇ 𝕜) →L[𝕜] (ℕ →ᵇ 𝕜) =>
+/-- Sharper form: the analytic statement is already inconsistent when restricted to complete ultrametric fields of
+characteristic 2, Banach spaces, `E' = E`, and alternating maps in two variables. -/
+theorem false_of_contDiff_omega_compContinuousLinearMapCLM_charTwo_banach
+    (h : ∀ (𝕜 : Type) [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
+      (E F : Type) [NormedAddCommGroup E] [NormedSpace 𝕜 E] [CompleteSpace E]
+      [NormedAddCommGroup F] [NormedSpace 𝕜 F] [CompleteSpace F],
+      ContDiff 𝕜 ω
+        (fun f : E →L[𝕜] E =>
           (ContinuousAlternatingMap.compContinuousLinearMapCLM f :
-            ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F) →L[𝕜] ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F))) :=
-  ⟨AltCounter.F 𝕜, inferInstance, inferInstance,
-    AltCounter.not_contDiff_omega_Q_of_NSC hres (AltCounter.nsc_of_dual hdual)⟩
+            (E [⋀^Fin 2]→L[𝕜] F) →L[𝕜] (E [⋀^Fin 2]→L[𝕜] F)))) : False :=
+  AltCounter.false_of_charTwo_banach_contDiff_omega h
 
 end AlternatingAnalyticChallenge

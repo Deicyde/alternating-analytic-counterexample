@@ -2,8 +2,8 @@
     "challenge_module": "Challenge",
     "solution_module": "Solution",
     "theorem_names": [
-        "AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM",
-        "AlternatingAnalyticChallenge.exists_not_contDiff_omega_compContinuousLinearMapCLM"
+        "AlternatingAnalyticChallenge.false_of_contDiff_omega_compContinuousLinearMapCLM",
+        "AlternatingAnalyticChallenge.false_of_contDiff_omega_compContinuousLinearMapCLM_charTwo_banach"
     ],
     "permitted_axioms": [
         "propext",

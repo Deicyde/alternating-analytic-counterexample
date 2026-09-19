@@ -11,4 +11,8 @@ import AltCounter.PhillipsOne
 import AltCounter.Phillips
 import AltCounter.MainNSC
 import AltCounter.Bridge
+import AltCounter.NestedBalls
+import AltCounter.Model
+import AltCounter.Puiseux
+import AltCounter.Final
 import AltCounter.Check

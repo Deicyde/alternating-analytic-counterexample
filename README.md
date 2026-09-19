@@ -7,12 +7,31 @@ A counterexample, with a complete Lean 4 / Mathlib formalization.
 (`ContinuousAlternatingMap.compContinuousLinearMapCLM`) is `C^n` for every `n : ℕ∞`, in every characteristic
 (draft Mathlib PR [#43548](https://github.com/leanprover-community/mathlib4/pull/43548), not yet merged), and analytic
 when `(card ι)!` is invertible in `𝕜` (polarisation). This repository shows that the analytic (`n = ω`) statement
-**fails over every field satisfying the hypotheses below** — complete, ultrametric, characteristic 2, infinite residue
-field, `(ℓ^∞/c₀)' = 0`. That such fields exist is classical but is argued on paper, not in Lean (see below). Granting
-it, the restriction `n : ℕ∞` is sharp, and this is the expected obstruction to a `ContMDiffVectorBundle ω` instance for
+**is false**: assuming it for all normed spaces over all nontrivially normed fields, Lean derives `False`. The
+counterexample lives over a complete ultrametric field of characteristic 2 with infinite residue field which is not
+spherically complete (constructed in this repository). So the restriction `n : ℕ∞` is sharp, and this is the expected obstruction to a `ContMDiffVectorBundle ω` instance for
 bundles of continuous alternating maps in full generality (the bundle-level consequence is not formalized).
 
-## The theorem (`AltCounter/MainNSC.lean`)
+## The theorem
+
+**Unconditional form** (`AltCounter/Final.lean`, restated Mathlib-only in [`Challenge.lean`](Challenge.lean)): the general
+analytic statement is inconsistent.
+
+```lean
+theorem AlternatingAnalyticChallenge.false_of_contDiff_omega_compContinuousLinearMapCLM
+    (h : ∀ (𝕜 : Type) [NontriviallyNormedField 𝕜] (E E' F : Type)
+      [NormedAddCommGroup E] [NormedSpace 𝕜 E] [NormedAddCommGroup E'] [NormedSpace 𝕜 E']
+      [NormedAddCommGroup F] [NormedSpace 𝕜 F] (ι : Type) [Fintype ι],
+      ContDiff 𝕜 ω
+        (fun f : E →L[𝕜] E' =>
+          (ContinuousAlternatingMap.compContinuousLinearMapCLM f :
+            (E' [⋀^ι]→L[𝕜] F) →L[𝕜] (E [⋀^ι]→L[𝕜] F)))) : False
+```
+
+A sharper variant (`…_charTwo_banach`) derives `False` from the same statement restricted to complete ultrametric fields of
+characteristic 2, Banach spaces, `E' = E` and `ι = Fin 2`.
+
+**Conditional form** (`AltCounter/MainNSC.lean`), valid for every field with the stated properties:
 
 ```lean
 theorem not_analyticAt_Q_of_NSC
@@ -30,49 +49,35 @@ theorem not_contDiff_omega_Q_of_NSC ... : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞
 * `NSC 𝕜`: a continuous linear functional on `ℓ^∞` that vanishes on every standard basis vector `eᵢ` is zero,
   i.e. `(ℓ^∞/c₀)' = 0`.
 
+**The field** (`AltCounter/Puiseux.lean`, `Model.lean`, `NestedBalls.lean`): `exists_field` constructs a complete ultrametric
+nontrivially normed field of characteristic 2 with infinite residue field which is not spherically complete — the
+completion of the field of 2-power Puiseux series `⋃_j κ((t^{1/2^j}))` (a directed union of subfields of Mathlib's Hahn
+series field `HahnSeries ℚ κ`, with `‖f‖ = 2^(-order f)`). The balls around the partial sums of `Σ_k t^(1-2^(-k))` are
+nested with empty intersection, and `nsc_of_hasEmptyNestedBalls` shows that such a sequence of balls forces
+`(ℓ^∞/c₀)' = 0` (the direction of van der Put's theorem that is needed, proved here from scratch).
+
 All theorems are free of `sorry` and depend only on `propext`, `Classical.choice`, `Quot.sound`;
 `AltCounter/Check.lean` enforces this with `#guard_msgs`, so the CI build fails otherwise.
 
 ### Comparator challenge / solution pair
 
-[`Challenge.lean`](Challenge.lean) states the result with `sorry`, using **only Mathlib constants** (no project
-definitions: the field hypotheses are written out, and the target space `F` is existentially quantified), so its
-statement can be audited without reading the development:
-
-```lean
-theorem AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM
-    {𝕜 : Type u} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
-    (hres : ∀ N : ℕ, ∃ t : Fin N → 𝕜, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1)
-    (hdual : ∀ φ : (ℕ →ᵇ 𝕜) →L[𝕜] 𝕜,
-      (∀ x : ℕ →ᵇ 𝕜, Tendsto (fun i => x i) atTop (𝓝 0) → φ x = 0) → φ = 0) :
-    ∃ (F : Type u) (_ : NormedAddCommGroup F) (_ : NormedSpace 𝕜 F),
-      ¬ AnalyticAt 𝕜
-        (fun f : (ℕ →ᵇ 𝕜) →L[𝕜] (ℕ →ᵇ 𝕜) =>
-          (ContinuousAlternatingMap.compContinuousLinearMapCLM f :
-            ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F) →L[𝕜] ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F))) 0
-```
-
-(and the same with `¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) …`). `hdual` is `(ℓ^∞/c₀)' = 0` in its literal form: a continuous
-functional vanishing on every null sequence is zero. [`Solution.lean`](Solution.lean) proves both statements verbatim
-from the `AltCounter` library, and [`comparator.json`](comparator.json) configures
+[`Challenge.lean`](Challenge.lean) imports **only Mathlib** and states, with `sorry`, the two `False` theorems above: assume
+the general `C^ω` statement for `ContinuousAlternatingMap.compContinuousLinearMapCLM` (every constant in the statement
+is a Mathlib constant), derive `False`. [`Solution.lean`](Solution.lean) proves both statements verbatim from the
+`AltCounter` library, and [`comparator.json`](comparator.json) configures
 [`leanprover/comparator`](https://github.com/leanprover/comparator) (permitted axioms `propext`, `Quot.sound`,
 `Classical.choice`). CI runs the real comparator (tag `v4.34.0-rc2`, with the `landrun` sandbox, on Linux) on every push
-and fails unless it reports `Your solution is okay!`. Status: **passes** (first verified 2026-09-19: statements match,
-only permitted axioms, accepted by the Lean default kernel).
+and fails unless it reports `Your solution is okay!`.
 
 Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initiative/formalization.yaml) format (v0.4):
 [`formalization.yaml`](formalization.yaml).
 
 ### What is *not* formalized
 
-* **Existence of a field satisfying the hypotheses** (so, formally, non-vacuity). On paper: let `K` be the completion of an
-  algebraic closure of `𝔽₂((t))`. It is complete, non-archimedean, of characteristic 2, with value group `ℚ` (dense) and
-  residue field `𝔽̄₂` (infinite, which gives `InfiniteResidue`). It is separable as a metric space with dense value group,
-  hence not spherically complete. By van der Put (*Espaces de Banach non archimédiens*, Bull. SMF 97 (1969), Thm 3.2) a
-  complete non-archimedean field that is not spherically complete satisfies `(ℓ^∞/c₀)' = 0`; only this implication is
-  used. Mathlib has neither this field nor van der Put's theorem, so they appear as explicit hypotheses (not axioms).
 * Non-analyticity at base points other than `0` (on paper: `Q(f₀+h) = Q(f₀) + B(f₀,h) + Q(h)` with `B` bounded bilinear).
-* The consequences discussed in the write-up: index types with more than two elements, and the bundle-level statement.
+  This does not affect the `False` theorems, which only need failure of `ContDiff 𝕜 ω`.
+* The bundle-level consequence discussed in the write-up (no `ContMDiffVectorBundle ω` instance for bundles of
+  continuous alternating maps in this generality), and index types with more than two elements.
 * Characteristic `p ≥ 3` (forms of degree `p`) is open.
 
 ## Idea of the proof
@@ -86,7 +91,8 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
    the monomial `∏ XᵢYᵢ`. Squaring is additive on coefficients in characteristic 2 and the number of perfect matchings is
    odd, so the determinant has coefficient `1` at `(∏ XᵢYᵢ)²`.
    With an infinite residue field this yields unit vectors at which the block has `‖det‖ ≥ 1`.
-3. *(PhillipsOne, Phillips)* From `(ℓ^∞/c₀)' = 0`, bounded multilinear forms on `ℓ^∞` are uniformly small as soon as one
+3. *(Puiseux, Model, NestedBalls)* An explicit non-spherically-complete field, and nested balls with empty intersection
+   ⟹ `(ℓ^∞/c₀)' = 0`. *(PhillipsOne, Phillips)* From `(ℓ^∞/c₀)' = 0`, bounded multilinear forms on `ℓ^∞` are uniformly small as soon as one
    argument is supported far out.
 4. *(Gluing, DetBounds)* Hence finitely-supported bad blocks of growing size can be glued into a single pair
    `a, b ∈ ℓ^∞`; the resulting element of `F` has minors of norm `≥ 1` of every size, contradicting the fact that every
@@ -120,12 +126,15 @@ from scratch at the pinned Mathlib commit on every push.
 | `Main` | 476 | assembly; `not_analyticAt_Q` under `TailProperty` |
 | `PhillipsOne`, `Phillips` | ~1000 | `NSC ⟹ TailProperty` |
 | `MainNSC`, `Check` | 24 + 40 | final statements; enforced axiom check |
-| `Bridge` | 60 | the literal `(ℓ^∞/c₀)' = 0` implies `NSC` |
+| `Bridge` | 56 | the literal `(ℓ^∞/c₀)' = 0` implies `NSC` |
+| `NestedBalls` | 153 | nested balls with empty intersection ⟹ `NSC` |
+| `Model`, `Puiseux` | 129 + 394 | the explicit field: 2-power Puiseux series inside `HahnSeries ℚ κ`, and its completion |
+| `Final` | 53 | `exists_field`; the general `C^ω` statement implies `False` |
 | `Challenge.lean`, `Solution.lean` | | Mathlib-only challenge and its solution (comparator pair) |
 
 ## Provenance
 
 The counterexample, its proof, and this formalization were produced by an AI system (Anthropic's Claude, working in
 Claude Code with Jack McCarthy), in September 2026. The informal proof was attacked by independent AI referee agents and
-the argument is fully machine-checked by Lean as stated above; the informal write-up and the unformalized field-existence
-step have **not** yet been reviewed by a human expert in non-archimedean functional analysis.
+the argument is fully machine-checked by Lean as stated above; the informal write-up has **not** yet been reviewed by a
+human expert in non-archimedean functional analysis.

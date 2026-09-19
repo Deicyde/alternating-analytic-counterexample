@@ -174,6 +174,26 @@ inequality the diagonal term dominates: `|(Tx)_{j_{t_r}}| = |a_{i_{t_r} j_{t_r}}
 `{|h| > ε}` is finite, `T_N(λ) := sup |λ(u)|` over all such unit tuples tends to `0`. (Joint decay is what gives the
 uniformity; slot-wise decay would not.) This is false on `c₀`: `λ(u,v) = Σ u_i v_i` has `T_N = 1`.
 
+## 3′. The field, and the needed direction of van der Put's theorem, from scratch (as formalized)
+
+*An explicit field.* Let `κ` be an infinite field of characteristic 2 and `P = ⋃_j κ((t^{1/2^j}))` the field of 2-power
+Puiseux series (in Lean: a directed union of subfields of the Hahn series field `HahnSeries ℚ κ`), with
+`‖f‖ = 2^{-ord f}`. Let `K` be its completion: complete, ultrametric, characteristic 2, residue field `⊇ κ` infinite
+(nonzero constants have norm 1, and so do their differences). Put `γ_m = 1 − 2^{-(m+1)}`, `c_n = Σ_{m ≤ n} t^{γ_m}`. The closed
+balls `B(c_n, r_n)`, `r_n = 2^{-γ_{n+1}}`, are nested with strictly decreasing radii `> 1/2`. Their intersection is empty in
+`K`: if `a` lay in all of them, approximate `a` within `1/2` by some `y ∈ P`; then `y` lies in all of them too, but `y` has
+exponents in `2^{-j}ℤ` for some `j`, so `y − c_n` has a nonzero coefficient at the exponent `γ_{j}` (whose denominator is
+`2^{j+1}`) for large `n`, i.e. `‖y − c_n‖ ≥ 2^{-γ_j} > r_n`. So `K` is not spherically complete.
+
+*Nested balls with empty intersection ⟹ `(ℓ^∞/c₀)' = 0`.* Let `B(c_n, r_n)` be nested with `r` strictly decreasing and empty
+intersection, and let `φ ∈ (ℓ^∞)'` kill every `e_i`, hence every finitely supported sequence; so `|φ(x)| ≤ ‖φ‖ · sup_{i≥M}|x_i|`
+for every `M`. Suppose `φ ≠ 0`. For every `0 < s < ‖φ‖` there is `w` with `φ(w) = 1`, `‖w‖ ≤ 1/s`. Choose increments
+`s_n ∈ ℓ^∞` with `φ(s_n) = c_{n+2} − c_{n+1}` and `‖s_n‖ ≤ r_n/‖φ‖` — possible **because `r_{n+1} < r_n`**: take `w` with
+`‖w‖ ≤ r_n /(r_{n+1}‖φ‖)` and `s_n = (c_{n+2} − c_{n+1}) w`. Let `x_n = c_1 w_0 + Σ_{k<n} s_k`, so `φ(x_n) = c_{n+1}` and
+`‖x_{n+d} − x_n‖ ≤ r_n/‖φ‖` (ultrametric). The diagonal `y_i := x_i(i)` is bounded and `|y_i − x_n(i)| ≤ r_n/‖φ‖` for `i ≥ n`,
+hence `|φ(y) − c_{n+1}| ≤ r_n`, hence `|φ(y) − c_n| ≤ r_n` for all `n`: `φ(y)` lies in every ball. Contradiction. (The shift of
+the index by one is what absorbs the usual `(1+ε)` loss; no Hahn–Banach, no spherical completeness of `ℓ^∞/c₀` is needed.)
+
 ## 4. Gluing
 
 Assume a bounded bilinear `P` with `P(f,f) = Q(f)`. `‖m_a‖ = ‖a‖_∞`; `m₀ := W` is a bounded alternating map `E×E → F`
@@ -252,7 +272,11 @@ small fields; `sec4_faithful.py` finite model of §4; `p6_escape.py` the big-tar
 
 ## 8. Lean formalization (2026-09-19)
 
-This repository (`AltCounter/`), about 3600 lines, no `sorry`, axioms `propext`, `Classical.choice`, `Quot.sound` only.
+This repository (`AltCounter/`), about 4400 lines, no `sorry`, axioms `propext`, `Classical.choice`, `Quot.sound` only.
+
+    theorem false_of_general_contDiff_omega
+        (h : ∀ (𝕜 : Type) [NontriviallyNormedField 𝕜] (E E' F : Type) [NormedAddCommGroup E] [NormedSpace 𝕜 E] …
+              (ι : Type) [Fintype ι], ContDiff 𝕜 ω (fun f : E →L[𝕜] E' => compContinuousLinearMapCLM f)) : False
 
     theorem not_analyticAt_Q_of_NSC [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
         (hres : InfiniteResidue 𝕜) (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
@@ -261,7 +285,9 @@ This repository (`AltCounter/`), about 3600 lines, no `sorry`, axioms `propext`,
 "(ℓ^∞/c₀)' = 0" (a functional on `ℓ^∞` killing every standard basis vector is zero); `InfiniteResidue` is "arbitrarily
 many unit-ball points pairwise at distance 1".
 
-Formalized: the bilinear lift of §1, the identity of §2′ (with Corollary A′), §3 and §4 — giving non-analyticity **at `0`**.
-Not formalized: the existence of a field with these properties (van der Put's theorem and the completed algebraic closure
-of `𝔽₂((t))`), the §1 reduction to an arbitrary base point, the border form of Lemma A in §2 (superseded by §2′), and the
-consequences listed in §0 (index types with more than two elements, the bundle-level statement).
+Formalized: the bilinear lift of §1, the identity of §2′ (with Corollary A′), §3, §3′ (the explicit field and
+"nested balls ⟹ `(ℓ^∞/c₀)' = 0`") and §4 — giving non-analyticity **at `0`**, and the unconditional theorem "the general
+`C^ω` statement implies `False`". `Challenge.lean` / `Solution.lean` are a `leanprover/comparator` pair for the latter.
+Not formalized: the §1 reduction to an arbitrary base point, the border form of Lemma A in §2 (superseded by §2′), and the
+consequences listed in §0 (index types with more than two elements, the bundle-level statement). The field used in Lean
+(completed 2-power Puiseux series) differs from the example named in §0 (completed algebraic closure of `F_2((t))`).
