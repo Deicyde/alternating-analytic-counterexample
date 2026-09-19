@@ -286,13 +286,15 @@ $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This con
 \section{An explicit field}\label{sec:field}
 Let $k_0$ be any field of characteristic $2$; the simplest choice is $k_0=\mathbb F_2$, which is what the Lean
 development takes. For
-$j\ge0$ let $k_0((t^{1/2^j}))$ be the field of Laurent series in the single variable $t^{1/2^j}$. These fields form an
+$j\ge0$ let $k_0((t^{1/2^j}))$ be the field of \emph{formal} Laurent series $\sum_{n\ge N}a_nt^{n/2^j}$ ($N\in\Z$, $a_n\in k_0$) in
+the single variable $t^{1/2^j}$: only finitely many exponents are negative, unlike for the Laurent series of complex
+analysis, and this is what makes the product of two series well defined. These fields form an
 increasing chain, and we let
 \[
 \cP:=\bigcup_{j\ge0}k_0((t^{1/2^j})),\qquad \abs f:=2^{-\operatorname{ord}f},
 \]
 be the field of \emph{$2$-power Puiseux series}. Here, for $f=\sum_qa_qt^q\ne0$, $\operatorname{ord}f$ is the smallest
-exponent $q$ with $a_q\ne0$ (it exists because $f$ is a Laurent series in some $t^{1/2^j}$), and we put
+exponent $q$ with $a_q\ne0$ (it exists because the exponents of $f$ are bounded below and lie in some $2^{-j}\Z$), and we put
 $\operatorname{ord}0=+\infty$, $\abs0=0$. The lowest terms of two series multiply, so
 $\operatorname{ord}(fg)=\operatorname{ord}f+\operatorname{ord}g$ and $\abs{fg}=\abs f\abs g$; and $f+g$ has no term below
 $\min(\operatorname{ord}f,\operatorname{ord}g)$, so $\operatorname{ord}(f+g)\ge\min(\operatorname{ord}f,\operatorname{ord}g)$, which
