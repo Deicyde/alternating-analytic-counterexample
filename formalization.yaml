@@ -1,0 +1,178 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml — https://github.com/mathlib-initiative/formalization.yaml (v0.4)
+version: "v0.4"
+
+project:
+  name: "alternating-analytic-counterexample"
+  description: >
+    A counterexample, fully formalized in Lean 4 / Mathlib: over a complete ultrametric field of characteristic 2
+    with infinite residue field and with (l^infty/c_0)' = 0, there is a normed space F such that the precomposition map
+    f |-> (m |-> m o (f, f)) (Mathlib's ContinuousAlternatingMap.compContinuousLinearMapCLM) on continuous alternating
+    2-forms l^infty x l^infty -> F is not analytic at 0, hence not C^omega. Consequently the C^n smoothness of this map
+    for n : ENat (draft Mathlib PR #43548) cannot be extended to n = omega without a hypothesis such as invertibility
+    of (card iota)!, which is what obstructs an analytic vector-bundle structure on bundles of continuous alternating
+    maps in full generality.
+  authors: ["Jack McCarthy"]
+  responsible_maintainers: ["Jack McCarthy"]
+  license: "No license chosen yet (all rights reserved pending the maintainer's decision)"
+
+sources:
+  - title: "Precomposition on continuous alternating maps is not analytic in characteristic 2 (paper/COUNTEREXAMPLE.md in this repository)"
+    authors: []
+    contributors:
+      - name: "Claude (Anthropic), working in Claude Code with Jack McCarthy"
+        role: "found the counterexample and wrote the informal proof"
+    id: "https://github.com/Deicyde/alternating-analytic-counterexample/blob/main/paper/COUNTEREXAMPLE.md"
+    type: "original-proof"
+    location: "Sections 1, 2', 3, 4"
+    relationship: "formalizes"
+    note: >
+      The theorem is first presented by this formalization. The Lean proof follows the simplified finite identity of
+      section 2' (even blocks, swap-invariance argument), not the border form of section 2.
+    license: ""
+    author_endorsement: "participated"
+  - title: "Espaces de Banach non archimédiens"
+    authors: ["Marius van der Put"]
+    id: "Bull. Soc. Math. France 97 (1969), 309-320; http://www.numdam.org/item/BSMF_1969__97__309_0/"
+    type: "article"
+    location: "Théorème (3.2)"
+    relationship: "background"
+    note: >
+      Not used in the Lean proof. It is what shows, on paper, that fields satisfying the hypothesis (l^infty/c_0)' = 0
+      exist: every complete non-archimedean field that is not spherically complete satisfies it.
+    license: "proprietary"
+    author_endorsement: "n/a"
+  - title: "feat(Analysis/Calculus/ContDiff): smoothness reflects along a linear isometry with closed range (Mathlib PR #43548, draft)"
+    authors: ["Jack McCarthy"]
+    id: "https://github.com/leanprover-community/mathlib4/pull/43548"
+    type: "other"
+    relationship: "background"
+    note: "Proves the C^n statement (n : ENat) whose analytic extension is refuted here; see also the Zulip thread 'bundles of alternating maps' in #mathlib4."
+    license: "Apache-2.0"
+    author_endorsement: "participated"
+
+related_formalizations: []
+
+classification:
+  arxiv: ["math.FA", "math.DG"]
+  msc2020: ["46S10", "26E30", "15A75", "58B99", "68V20"]
+
+status:
+  scope: >
+    Complete for the stated theorem: no sorry, standard axioms only. Hypotheses on the field are explicit assumptions
+    of the theorem (characteristic 2, ultrametric, complete, infinite residue field, (l^infty/c_0)' = 0). NOT formalized:
+    the existence of a field satisfying them (the completion of an algebraic closure of F_2((t)), via van der Put's
+    theorem) — so non-vacuity rests on a paper argument; non-analyticity at base points other than 0; index types with
+    more than two elements; the bundle-level consequence. Characteristic p >= 3 is open.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+  - declaration: "AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM"
+    file: "Solution.lean"
+    sorry_count: 0
+    axioms: ["propext", "Classical.choice", "Quot.sound"]
+    comparator_config: "comparator.json"
+    literature_dependencies: []
+  - declaration: "AlternatingAnalyticChallenge.exists_not_contDiff_omega_compContinuousLinearMapCLM"
+    file: "Solution.lean"
+    sorry_count: 0
+    axioms: ["propext", "Classical.choice", "Quot.sound"]
+    comparator_config: "comparator.json"
+    literature_dependencies: []
+  - declaration: "AltCounter.not_analyticAt_Q_of_NSC"
+    file: "AltCounter/MainNSC.lean"
+    sorry_count: 0
+    axioms: ["propext", "Classical.choice", "Quot.sound"]
+    comparator_config: ""
+    literature_dependencies: []
+
+automation:
+  methods:
+    - method: "autonomous"
+      models: ["claude-fable-5-1", "claude-opus-5"]
+      framework: "Claude Code"
+      tool_setup: >
+        Claude Code (desktop app) with multi-agent workflows. The orchestrating model found the counterexample with the
+        help of finite F_2 models, exact solvers (z3) and Python experiments, wrote the informal proof and the complete
+        Lean statement skeleton (all statements fixed, compiling with sorry), and then dispatched one subagent per file to
+        fill the proofs; files were compiled one at a time against a prebuilt Mathlib. Independent agent passes refereed
+        the informal proof and audited the repository (statement faithfulness, proof integrity, documentation).
+      cost:
+        wall_time: "Counterexample search: several sessions between 2026-09-07 and 2026-09-19; Lean formalization: about one hour of wall-clock time with ten parallel agents"
+        spend_usd: "subscription-based usage"
+        hardware: "API-only; Lean compilation on a laptop (Apple M3 Pro, 18 GB)"
+      prompting_notes: >
+        The human (Jack McCarthy) posed the problem (is the alternating bundle C^omega in positive characteristic?),
+        asked for a counterexample, and then asked for the Lean formalization, the repository, and this metadata. No Lean
+        code was written or edited by hand.
+  spend_usd: "subscription-based usage"
+  notes: >
+    Everything in this repository (mathematics, Lean code, documentation, this file) was produced by the AI system and
+    has not been edited by a human. The Lean development is machine-checked (CI builds it from scratch at the pinned
+    Mathlib commit, enforces the axiom list with #guard_msgs, and runs leanprover/comparator on Challenge/Solution).
+
+fidelity:
+  divergences: >
+    (1) The Lean theorem is stated for an arbitrary field with the listed properties as hypotheses; the write-up's
+    statement names the properties "not spherically complete" and "infinite residue field" — in Lean these are replaced
+    by their consequences hdual ((l^infty/c_0)' = 0) and hres (arbitrarily many unit-ball points pairwise at distance 1).
+    (2) Lean proves non-analyticity at 0 only; the write-up's reduction to an arbitrary base point is not formalized.
+    (3) The finite identity is formalized in the simplified form of section 2' of the write-up. (4) Challenge.lean
+    existentially quantifies the target space F; the witness is the closed span of the matrices x (x) y + y (x) x in
+    l^infty(N x N), as in the write-up.
+
+review:
+  status: "agent-reviewed"
+  reviewers: []
+  notes: >
+    Seven independent adversarial AI referee agents and an adjudicator checked the informal proof (no mathematical error
+    found; editorial gaps fixed); three further AI agents audited the Lean statements for faithfulness and vacuity, the
+    proofs for integrity, and the documentation for accuracy. No human expert in non-archimedean functional analysis has
+    reviewed the write-up or the unformalized field-existence step yet.
+
+alignment:
+  namespace: "AltCounter"
+  statements:
+    - source: "Theorem (section 0): Q is not analytic"
+      lean: "AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM, AltCounter.not_analyticAt_Q_of_NSC"
+      module: "Solution, AltCounter.MainNSC"
+      status: "proved"
+      note: "at the base point 0"
+    - source: "Section 1: analytic and homogeneous of degree 2 implies a bounded bilinear lift"
+      lean: "AltCounter.exists_bilinear_of_analyticAt_of_homogeneous"
+      module: "AltCounter.Criterion"
+      status: "proved"
+    - source: "Section 2': determinant of a symmetric zero-diagonal matrix in characteristic 2; odd number of perfect matchings"
+      lean: "AltCounter.det_eq_sum_PM_sq, AltCounter.card_PM_odd"
+      module: "AltCounter.Pfaffian"
+      status: "proved"
+    - source: "Section 2': balanced-coefficient lemma and the key coefficient identity"
+      lean: "AltCounter.coeff_bal_of_swap_invariant, AltCounter.coeff_bal_prod_matching"
+      module: "AltCounter.Balanced"
+      status: "proved"
+    - source: "Corollary A' (unit-polydisc point with a value of norm >= 1)"
+      lean: "AltCounter.exists_unit_eval, AltCounter.exists_block_point"
+      module: "AltCounter.GaussPoint, AltCounter.FiniteLemma"
+      status: "proved"
+    - source: "Section 3: multilinear Phillips lemma from (l^infty/c_0)' = 0"
+      lean: "AltCounter.tail_functional, AltCounter.tail_multilinear, AltCounter.tailProperty_of_NSC, AltCounter.nsc_of_dual"
+      module: "AltCounter.PhillipsOne, AltCounter.Phillips, AltCounter.Bridge"
+      status: "proved"
+    - source: "Section 4: gluing and the determinant contradiction"
+      lean: "AltCounter.core_false, AltCounter.norm_det_le_of_close_to_lowrank, AltCounter.one_le_norm_det_add"
+      module: "AltCounter.Gluing, AltCounter.DetBounds"
+      status: "proved"
+    - source: "Existence of a field satisfying the hypotheses (van der Put, Thm 3.2; completed algebraic closure of F_2((t)))"
+      lean: ""
+      module: ""
+      status: "not-formalized"
+    - source: "Section 1: reduction to an arbitrary base point; section 0: index types with more than two elements, bundle-level corollary"
+      lean: ""
+      module: ""
+      status: "not-formalized"
+
+acknowledgements: >
+  Mathlib and its contributors; Sébastien Gouëzel's work on smoothness of alternating-map constructions (Mathlib PRs
+  #43234, #43338) and the Zulip discussion "bundles of alternating maps"; leanprover/comparator and
+  mathlib-initiative/formalization.yaml.

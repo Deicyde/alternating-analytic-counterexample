@@ -1,6 +1,6 @@
 name = "AltCounter"
 version = "0.1.0"
-defaultTargets = ["AltCounter"]
+defaultTargets = ["AltCounter", "Challenge", "Solution"]
 
 [[require]]
 name = "mathlib"
@@ -9,3 +9,11 @@ rev = "0383a80e644c8b14e66fd137516001534006077f"
 
 [[lean_lib]]
 name = "AltCounter"
+
+# Comparator pair (https://github.com/leanprover/comparator): `Challenge.lean` is Mathlib-only and states the result with
+# `sorry`; `Solution.lean` proves the same statements from the `AltCounter` library. Config: `comparator.json`.
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

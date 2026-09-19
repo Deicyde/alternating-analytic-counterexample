@@ -33,6 +33,35 @@ theorem not_contDiff_omega_Q_of_NSC ... : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞
 All theorems are free of `sorry` and depend only on `propext`, `Classical.choice`, `Quot.sound`;
 `AltCounter/Check.lean` enforces this with `#guard_msgs`, so the CI build fails otherwise.
 
+### Comparator challenge / solution pair
+
+[`Challenge.lean`](Challenge.lean) states the result with `sorry`, using **only Mathlib constants** (no project
+definitions: the field hypotheses are written out, and the target space `F` is existentially quantified), so its
+statement can be audited without reading the development:
+
+```lean
+theorem AlternatingAnalyticChallenge.exists_not_analyticAt_compContinuousLinearMapCLM
+    {𝕜 : Type u} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
+    (hres : ∀ N : ℕ, ∃ t : Fin N → 𝕜, (∀ i, ‖t i‖ ≤ 1) ∧ ∀ i j, i ≠ j → ‖t i - t j‖ = 1)
+    (hdual : ∀ φ : (ℕ →ᵇ 𝕜) →L[𝕜] 𝕜,
+      (∀ x : ℕ →ᵇ 𝕜, Tendsto (fun i => x i) atTop (𝓝 0) → φ x = 0) → φ = 0) :
+    ∃ (F : Type u) (_ : NormedAddCommGroup F) (_ : NormedSpace 𝕜 F),
+      ¬ AnalyticAt 𝕜
+        (fun f : (ℕ →ᵇ 𝕜) →L[𝕜] (ℕ →ᵇ 𝕜) =>
+          (ContinuousAlternatingMap.compContinuousLinearMapCLM f :
+            ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F) →L[𝕜] ((ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F))) 0
+```
+
+(and the same with `¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) …`). `hdual` is `(ℓ^∞/c₀)' = 0` in its literal form: a continuous
+functional vanishing on every null sequence is zero. [`Solution.lean`](Solution.lean) proves both statements verbatim
+from the `AltCounter` library, and [`comparator.json`](comparator.json) configures
+[`leanprover/comparator`](https://github.com/leanprover/comparator) (permitted axioms `propext`, `Quot.sound`,
+`Classical.choice`). CI runs the real comparator (tag `v4.34.0-rc2`, with the `landrun` sandbox, on Linux) on every push
+and fails unless it reports `Your solution is okay!`.
+
+Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initiative/formalization.yaml) format (v0.4):
+[`formalization.yaml`](formalization.yaml).
+
 ### What is *not* formalized
 
 * **Existence of a field satisfying the hypotheses** (so, formally, non-vacuity). On paper: let `K` be the completion of an
@@ -90,6 +119,8 @@ from scratch at the pinned Mathlib commit on every push.
 | `Main` | 476 | assembly; `not_analyticAt_Q` under `TailProperty` |
 | `PhillipsOne`, `Phillips` | ~1000 | `NSC ⟹ TailProperty` |
 | `MainNSC`, `Check` | 24 + 40 | final statements; enforced axiom check |
+| `Bridge` | 60 | the literal `(ℓ^∞/c₀)' = 0` implies `NSC` |
+| `Challenge.lean`, `Solution.lean` | | Mathlib-only challenge and its solution (comparator pair) |
 
 ## Provenance
 

@@ -10,4 +10,5 @@ import AltCounter.Main
 import AltCounter.PhillipsOne
 import AltCounter.Phillips
 import AltCounter.MainNSC
+import AltCounter.Bridge
 import AltCounter.Check

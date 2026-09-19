@@ -3,7 +3,7 @@
 ## Dependency graph
 Defs → {GaussPoint, DetBounds}; Pfaffian (independent) → Balanced; {Balanced, GaussPoint} → FiniteLemma;
 {FiniteLemma, DetBounds} → Gluing; Criterion (independent); {Gluing, Criterion} → Main;
-FiniteLemma → PhillipsOne → Phillips; {Main, Phillips} → MainNSC → Check.
+FiniteLemma → PhillipsOne → Phillips; {Main, Phillips} → MainNSC → {Check, Bridge}; Bridge → Solution. Challenge imports Mathlib only.
 
 ## Local single-file builds (optional)
 `lake build` is the supported way to build. On a machine that already has a *built* Mathlib checkout at the pinned
