@@ -54,17 +54,13 @@ $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the 
 Throughout, $\kk$ is a complete non-archimedean valued field such that
 \begin{itemize}
 \item[(K1)] $\operatorname{char}\kk=2$;
-\item[(K2)] there is a sequence of closed balls $B(c_n,r_n)$ with $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and
-$\bigcap_n B(c_n,r_n)=\emptyset$.
+\item[(K2)] $\kk$ is not spherically complete: there is a sequence of closed balls $B(c_n,r_n)$ with
+$\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and $\bigcap_n B(c_n,r_n)=\emptyset$.\footnote{The balls are nested by the
+ultrametric inequality. Conversely, any chain of closed balls with empty intersection contains such a sequence: every
+point of a ball is a centre of it, so the infimum of the radii of the chain is not attained, and balls of the chain with
+radii decreasing strictly to it have empty intersection. The proof uses (K2) only in the displayed form, which is also
+the hypothesis of the formalization.}
 \end{itemize}
-Only the existence of one such sequence is assumed. Condition (K2) is equivalent to $\kk$ not being spherically
-complete, i.e.\ to the existence of \emph{some} chain of closed balls with empty intersection. In one direction, the balls
-in (K2) are nested, $B(c_{n+1},r_{n+1})\subseteq B(c_n,r_n)$, by the ultrametric inequality. Conversely, let a chain of closed
-balls have empty intersection and let $\rho$ be the infimum of its radii. Every point of a ball is a centre of it, so a
-ball of the chain of radius $\rho$ would be contained in every ball of the chain; hence $\rho$ is not attained, the chain
-contains balls $B(c_n,r_n)$ with $r_n$ strictly decreasing to $\rho$, each ball of the chain contains one of them, and
-these $B(c_n,r_n)$ satisfy (K2). This equivalence is not used below and is not part of the formalization, which assumes
-(K2) as stated.
 Such fields exist; an explicit one is given in \S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
 algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
 $\norm{m_a}\le\norm a$, and $e_i$ for the unit vectors. For $x,y\in E$ let
