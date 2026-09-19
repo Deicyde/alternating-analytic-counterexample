@@ -284,7 +284,8 @@ $\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more tha
 $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
 
 \section{An explicit field}\label{sec:field}
-Let $k_0=\mathbb F_2$ (or any field of characteristic $2$). For
+The purpose of this section is to construct a field satisfying (K1) and (K2). Towards that end, let $k_0=\mathbb F_2$
+(or any field of characteristic $2$). For
 $j\ge0$ let $k_0((t^{1/2^j}))$ be the field of \emph{formal} Laurent series $\sum_{n\ge N}a_nt^{n/2^j}$ ($N\in\Z$, $a_n\in k_0$) in
 the single variable $t^{1/2^j}$. These fields form an
 increasing chain, and we let
@@ -295,7 +296,11 @@ be the field of \emph{$2$-power Puiseux series}. Here $\operatorname{ord}f$ is t
 Let $\kk$ be the completion of $\cP$ for this (ultrametric) absolute value. This is characteristic $2$ since
 $k_0\hookrightarrow\cP\hookrightarrow\kk$.
 
-To verify (K2), put
+\begin{proposition}\label{prop:field}
+$\kk$ is not spherically complete.
+\end{proposition}
+\begin{proof}
+We exhibit a sequence of balls as in (K2). Put
 \[
 \gamma_m:=1-2^{-(m+1)},\qquad
 c_n:=\sum_{m=0}^{n}t^{\gamma_m}\in\cP,\qquad r_n:=2^{-\gamma_{n+1}} .
@@ -316,6 +321,7 @@ $2^{-\gamma_j}>2^{-\gamma_{n+1}}=r_n$. Furthermore, the term $t^{\gamma_j}$ occu
 \quad\text{and}\quad \abs{y-c_n}\ge2^{-\gamma_j}>r_n,
 \]
 which contradicts \eqref{eq:yball}.
+\end{proof}
 
 \section{Remarks}
 \begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]
