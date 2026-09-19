@@ -305,18 +305,17 @@ $\abs{c_{n+1}-c_n}=2^{-\gamma_{n+1}}=r_n$. Since the $\gamma_m$ are strictly inc
 
 \emph{The intersection is empty.} Suppose that $a\in\kk$ satisfies $\abs{a-c_n}\le r_n$ for all $n$. As $\cP$ is dense in $\kk$
 there is $y\in\cP$ with $\abs{a-y}<\tfrac12$, and then for every $n$
-\[
+\begin{equation}\label{eq:yball}
 \abs{y-c_n}\le\max\bigl(\abs{y-a},\abs{a-c_n}\bigr)\le\max\bigl(\tfrac12,r_n\bigr)=r_n .
-\]
+\end{equation}
 Now $y\in k_0((t^{1/2^j}))$ for some $j$. The exponent
-$\gamma_j=(2^{j+1}-1)/2^{j+1}$ has an odd numerator, therefore $\gamma_j$ is not a multiple of $1/2^j$ and so $\coeff_{t^{\gamma_j}}y=0$. For $n\ge j$ the
-term $t^{\gamma_j}$ occurs in $c_n$, so
+$\gamma_j=(2^{j+1}-1)/2^{j+1}$ has an odd numerator, therefore $\gamma_j$ is not a multiple of $1/2^j$ and so $\coeff_{t^{\gamma_j}}y=0$. For $n\ge j$ we have
+$2^{-\gamma_j}>2^{-\gamma_{n+1}}=r_n$. Furthermore, the term $t^{\gamma_j}$ occurs in $c_n$, so
 \[
 \coeff_{t^{\gamma_j}}(y-c_n)=0-1\ne0,\qquad\text{hence}\qquad \operatorname{ord}(y-c_n)\le\gamma_j
-\quad\text{and}\quad \abs{y-c_n}\ge2^{-\gamma_j}.
+\quad\text{and}\quad \abs{y-c_n}\ge2^{-\gamma_j}>r_n,
 \]
-But $\gamma_j<\gamma_{n+1}$ because $j<n+1$, so $2^{-\gamma_j}>2^{-\gamma_{n+1}}=r_n$. Thus $\abs{y-c_n}>r_n$, contradicting the previous
-display.
+which contradicts \eqref{eq:yball}.
 
 Informally, the only candidate for a common point of the balls is the formal sum $\sum_mt^{\gamma_m}$. Its exponents have
 unbounded denominators and all lie below $1$, so its terms do not tend to $0$ and the partial sums $c_n$ are not a
