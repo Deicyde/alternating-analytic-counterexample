@@ -27,7 +27,7 @@
 \title[Alternating precomposition is not analytic in characteristic 2]{Precomposition on continuous alternating maps\\ is not analytic in characteristic 2}
 \author{Jack McCarthy}
 \thanks{The counterexample, its proof and the Lean formalization described here were produced with Anthropic's Claude
-(in Claude Code). Theorems~\ref{thm:main} and~\ref{thm:false} are machine-checked in Lean~4 with Mathlib; see
+(in Claude Code). Theorems~\ref{thm:false} and~\ref{thm:main} are machine-checked in Lean~4 with Mathlib; see
 \S\ref{sec:lean}. The informal text has not yet been reviewed by a human expert.}
 \date{September 2026}
 
@@ -44,11 +44,70 @@ $C^\omega$ statement implies \texttt{False}''.
 \end{abstract}
 \maketitle
 
-\section{Statement}
+\section{Introduction}
+Let $\kk$ be a nontrivially normed field. For normed spaces $E,E',F$ over $\kk$ and a finite set $\iota$ we write $\cL(E,E')$
+for the space of continuous linear maps with the operator norm, and $\Alt^\iota(E,F)$ for the normed space of continuous
+alternating $\iota$-linear maps $E^\iota\to F$, i.e.\ those vanishing whenever two arguments coincide; we write $\Alt^2$ when
+$\abs\iota=2$.
+
+\subsection*{Functors and vector bundles}
+New vector bundles are built from old ones by applying functors fibrewise: duals, $\operatorname{Hom}$ bundles, bundles of
+alternating forms. The transition functions of the new bundle are obtained by applying the functor to those of the old
+one, so the new bundle is as regular as the functor is. Lang~\cite[Ch.~III, \S4]{La} calls a functor $T$ on Banach spaces
+\emph{of class $C^p$} if $f\mapsto T(f)$ is $C^p$. We use the same definition over $\kk$ and add the analytic case, where a
+map between normed spaces over $\kk$ is \emph{analytic} if near each point it is the sum of a convergent power series of
+bounded multilinear maps ($C^\omega$ in Mathlib). So call a contravariant functor $T$ from normed spaces over $\kk$ to
+normed spaces over $\kk$ \emph{analytic} (resp.\ \emph{of class $C^n$}) if for all $E,E'$ the map
+\[
+\cL(E,E')\to\cL\bigl(T(E'),T(E)\bigr),\qquad f\mapsto T(f),
+\]
+is analytic (resp.\ $C^n$). For a normed space $F$ and a finite set $\iota$, the assignment $E\mapsto\Alt^\iota(E,F)$,
+$f\mapsto(m\mapsto m\circ(f,\dots,f))$, is such a functor. In the second variable $\Alt^\iota(E,F)$ is covariant and acts on
+morphisms by a bounded linear map, so only the first variable matters for regularity.
+
+\subsection*{Motivation: alternating bundles in Mathlib}
+In Mathlib~\cite{mathlib}, manifolds and vector bundles are modelled on normed spaces over an arbitrary nontrivially normed
+field $\kk$, possibly of infinite dimension, and their regularity is an element $n\in\N\cup\{\infty,\omega\}$, where
+$C^\omega$ means analytic. Differential forms require the bundle of continuous alternating maps between two $C^n$ vector
+bundles to be a $C^n$ vector bundle again (an instance of \texttt{ContMDiffVectorBundle}). Its transition functions are
+those of the given bundles with $\Alt^\iota$ applied, so this comes down to the regularity of the functor $\Alt^\iota(-,F)$,
+i.e.\ of the precomposition map
+\begin{center}\texttt{ContinuousAlternatingMap.compContinuousLinearMapCLM}.\end{center}
+Two cases have been settled, in pull requests to Mathlib.
+\begin{itemize}
+\item If $\abs\iota!$ is invertible in $\kk$ then $\Alt^\iota(-,F)$ is analytic, by polarisation. In Mathlib this is done in
+characteristic~$0$ by Gou\"ezel~\cite{G1}, who uses it to construct the bundle for every $n$ in
+characteristic~$0$~\cite{G2}; he remarks that a variant of the argument, not included there, covers finite-dimensional
+spaces in positive characteristic, but not the general case.
+\item Over every $\kk$, with no hypothesis on the characteristic or the dimension, $\Alt^\iota(-,F)$ is of class $C^n$ for every
+$n\in\N\cup\{\infty\}$~\cite{PR}.
+\end{itemize}
+This leaves open the case where $\abs\iota!$ is not invertible in $\kk$ and the spaces are infinite-dimensional: is
+$\Alt^\iota(-,F)$ analytic there?
+
+\subsection*{Main result}
+The answer is no.
+
+\begin{theorem}\label{thm:false}
+Let $\kk$ be a complete ultrametric field of characteristic $2$ which is not spherically complete. There is a Banach
+space $F$ over $\kk$ such that the functor $\Alt^2(-,F)$ is not analytic.
+\end{theorem}
+
+Such fields exist (Proposition~\ref{prop:field}). So $\Alt^\iota(-,F)$ is not analytic in general, already for
+$\abs\iota=2$, and neither is the bifunctor $\Alt^\iota$. The terms used in the theorem are recalled in
+\S\ref{sec:statement}, where $F$ is given explicitly and the failure is located at $E=E'=\linf(\N,\kk)$, the bounded sequences
+with the sup norm, and at the point $0\in\cL(E,E)$ (Theorem~\ref{thm:main}). Consequently the restriction $n\ne\omega$
+in~\cite{PR} cannot be removed, and a $C^\omega$ structure on bundles of continuous alternating maps needs a hypothesis such
+as the invertibility of $\abs\iota!$. We do not treat the bundles themselves here, only the functor. In characteristic
+$\ell\ge3$ the case $\abs\iota\ge\ell$ remains open (Remark~\ref{rem:higher}).
+
+Theorems~\ref{thm:false} and~\ref{thm:main} and Proposition~\ref{prop:field} are machine-checked in Lean~4 with Mathlib;
+together they give the statement verified there, ``if precomposition is $C^\omega$ for all $\kk,E,E',F,\iota$, then
+\texttt{False}''; see \S\ref{sec:lean}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
+
+\section{Statement}\label{sec:statement}
 \subsection*{Notation}
-For normed spaces, $\cL(E,E')$ is the space of continuous linear maps with the operator norm, and $\Alt^\iota(E,F)$ is the
-normed space of continuous alternating $\iota$-linear maps $E^\iota\to F$, i.e.\ those vanishing whenever two arguments
-coincide; we write $\Alt^2$ when $\abs\iota=2$. For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
+For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
 $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the indicator of a set $S$, and $\1=\1_\N$.
 
 Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $\abs{\,\cdot\,}$ satisfying the
@@ -69,7 +128,7 @@ $\norm{m_a}=\norm a$ (evaluate at $\1$), and $e_i$ for the unit vectors. For $x,
 \[
 W(x,y):=x\otimes y+y\otimes x\in\linf(\N\times\N,\kk),\qquad W(x,y)_{pq}=x_py_q+x_qy_p ,
 \]
-and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$. Every element of $F$ is a symmetric
+and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$, a Banach space. Every element of $F$ is a symmetric
 matrix with zero diagonal (as $W(x,y)_{pp}=2x_py_p=0$) and a uniform limit of matrices of finite rank (as $W(x,y)$ has
 rank $\le2$). By the ultrametric inequality $\norm{W(x,y)}\le\norm x\norm y$, and $W(x,x)=2\,x\otimes x=0$; so
 $W\colon E\times E\to F$ is a bounded alternating bilinear map of norm $\le1$. Let
@@ -81,21 +140,10 @@ Q\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad Q(f)(m)=m\circ(
 $Q$ is not analytic at $0$. In particular $Q$ is not $C^\omega$.
 \end{theorem}
 
-Following Lang~\cite[Ch.~III, \S4]{La}, call a contravariant functor $T$ from normed spaces over $\kk$ to normed spaces
-over $\kk$ \emph{analytic} (resp.\ \emph{of class $C^n$}) if for all $E,E'$ the map
-$\cL(E,E')\to\cL(T(E'),T(E))$, $f\mapsto T(f)$, is analytic (resp.\ $C^n$). For a normed space $F$ and a finite set $\iota$,
-the assignment $E\mapsto\Alt^\iota(E,F)$, $f\mapsto(m\mapsto m\circ(f,\dots,f))$, is such a functor; it is of class $C^n$ for every
-$n\in\N\cup\{\infty\}$~\cite{PR}, and $Q$ is its action on $\cL(E,E)$ for $\abs\iota=2$.
+The map $Q$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem~\ref{thm:main} implies
+Theorem~\ref{thm:false}.
 
-\begin{theorem}\label{thm:false}
-The functor $\Alt^\iota(-,F)$ is not analytic in general: for $\kk$ and $F$ as above, $\Alt^2(-,F)$ is not analytic.
-\end{theorem}
-
-Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1) and (K2). Since
-$\Alt^\iota(E,F)$ is linear in the morphisms of $F$, the bifunctor $\Alt^\iota$ is not analytic either. The rest of
-this note proves Theorem~\ref{thm:main} in four steps.
-
-\section{Step 1: analyticity forces a bilinear lift}
+\section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
 \begin{lemma}\label{lem:lift}
 Let $Q\colon X\to Z$ be a map between normed spaces with $Q(tf)=t^2Q(f)$. If $Q$ is analytic at $0$ then there is a bounded
 bilinear $P\colon X\times X\to Z$ with $P(f,f)=Q(f)$ for all $f$.
@@ -267,7 +315,7 @@ inductive hypothesis for the $(d-1)$-linear form $\lambda(x,\cdot)$.
 \end{proof}
 This is exactly where $\linf$ and (K2) are used; the statement is false for $c_0$ and for spherically complete fields.
 
-\section{Step 4: gluing}
+\section{Step 4: gluing}\label{sec:step4}
 Choose inductively blocks $I_1<I_2<\cdots$ with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
 Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
 $\abs{\det G_t}\ge1$, where $G_t=\Phi(a'+a_t,b'+b_t;a'+a_t,b'+b_t)|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
@@ -352,7 +400,7 @@ of the previous remark has norm $1$ and satisfies all the identities of Step~2, 
 obstruction: the invariant is the rank of one element of $F$ against the size of the blocks, and Step~3 is what allows
 infinitely many blocks to be glued into one element.
 \end{remark}
-\begin{remark}[Higher degree, other characteristics]
+\begin{remark}[Higher degree, other characteristics]\label{rem:higher}
 On paper, in characteristic $2$ every $\abs\iota\ge2$ is covered by wedging with a coordinate of $E\oplus\kk$; this is not
 formalized. In odd characteristic $\ell$, for forms of degree $\ell$, the question is open: odd-degree forms have no
 Pfaffian-type top power, so a different invariant is needed.
@@ -376,7 +424,13 @@ elements, the positive statements in the remarks, and the bundle-level consequen
 bundles of continuous alternating maps in this generality).
 
 \begin{thebibliography}{9}
+\bibitem{G1} S.~Gou\"ezel, \emph{In characteristic $0$, precomposition by a linear map is analytic on the space of
+alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43338}}.
+\bibitem{G2} S.~Gou\"ezel, \emph{The bundle of continuous alternating maps is $C^n$}, draft pull request \#43234 to Mathlib,\\
+{\small\url{https://github.com/leanprover-community/mathlib4/pull/43234}}.
 \bibitem{La} S.~Lang, \emph{Fundamentals of Differential Geometry}, Graduate Texts in Mathematics 191, Springer, 1999.
+\bibitem{mathlib} The mathlib Community, \emph{The Lean mathematical library}, in: Proceedings of the 9th ACM SIGPLAN
+International Conference on Certified Programs and Proofs (CPP 2020), 367--381.
 \bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
 \bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
