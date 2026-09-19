@@ -53,7 +53,9 @@ $\abs\iota=2$.
 \subsection*{Analytic functors}
 A map $f\colon X\to Z$ between normed spaces over $\kk$ is \textbf{analytic at} $x_0\in X$ if there are bounded $n$-linear maps
 $p_n\colon X^n\to Z$ and a radius $r>0$ with $\sup_n\norm{p_n}r^n<\infty$ such that $f(x_0+h)=\sum_{n\ge0}p_n(h,\dots,h)$ whenever
-$\norm h<r$. It is \textbf{analytic}, or $C^\omega$, if it is analytic at every point of $X$; this is the definition used in Mathlib.
+$\norm h<r$. It is \textbf{analytic}, or $C^\omega$, if it is analytic at every point of $X$. In Mathlib these are \texttt{AnalyticAt},
+defined through \texttt{HasFPowerSeriesOnBall} in the module \texttt{Mathlib.Analysis.Analytic.Basic}~\cite{docs}, and
+\texttt{ContDiff} at $n=\omega$; the two agree by \texttt{contDiff\_omega\_iff\_analyticOnNhd}.
 
 Lang~\cite[Ch.~III, \S4]{La} calls a functor $T$ on Banach spaces
 \textbf{of class $\boldsymbol{C^p}$} if $f\mapsto T(f)$ is $C^p$. Similarly, we call a contravariant endofunctor $T$ on the category of normed spaces over $\kk$
@@ -429,6 +431,8 @@ alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github
 \bibitem{La} S.~Lang, \emph{Fundamentals of Differential Geometry}, Graduate Texts in Mathematics 191, Springer, 1999.
 \bibitem{mathlib} The mathlib Community, \emph{The Lean mathematical library}, in: Proceedings of the 9th ACM SIGPLAN
 International Conference on Certified Programs and Proofs (CPP 2020), 367--381.
+\bibitem{docs} The mathlib Community, \emph{Mathlib documentation}, module \texttt{Mathlib.Analysis.Analytic.Basic},\\
+{\small\url{https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Analytic/Basic.html#AnalyticAt}}.
 \bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
 \bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
