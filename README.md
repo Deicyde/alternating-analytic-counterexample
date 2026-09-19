@@ -99,7 +99,9 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
    `a, b ∈ ℓ^∞`; the resulting element of `F` has minors of norm `≥ 1` of every size, contradicting the fact that every
    element of `F` is a uniform limit of finite-rank matrices.
 
-The full mathematical write-up is in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md); exploratory and verification
+A short self-contained note is in [`paper/counterexample.pdf`](paper/counterexample.pdf) (LaTeX source
+[`paper/counterexample.tex`](paper/counterexample.tex)). The full mathematical write-up, including the original form of the
+parity identity and the search that led to it, is in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md); exploratory and verification
 scripts (pure Python) are in [`scripts/`](scripts/).
 
 ## Building

@@ -1,0 +1,317 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amssymb,amsmath,amsthm,mathtools}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\kk}{k}
+\newcommand{\linf}{\ell^\infty}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\cL}{\mathcal{L}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\Alt}{\operatorname{Alt}}
+\newcommand{\coeff}{\operatorname{coeff}}
+\newcommand{\sh}{\operatorname{sh}}
+\newcommand{\abs}[1]{\lvert #1\rvert}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\1}{\mathbf{1}}
+\newcommand{\tail}[2]{#2|_{\ge #1}}
+
+\title[Alternating precomposition is not analytic in characteristic 2]{Precomposition on continuous alternating maps\\ is not analytic in characteristic 2}
+\author{Jack McCarthy}
+\thanks{The counterexample, its proof and the Lean formalization described here were produced with Anthropic's Claude
+(in Claude Code). Theorems~\ref{thm:main} and~\ref{thm:false} are machine-checked in Lean~4 with Mathlib; see
+\S\ref{sec:lean}. The informal text has not yet been reviewed by a human expert.}
+\date{September 2026}
+
+\begin{document}
+\begin{abstract}
+For normed spaces $E,E',F$ over a nontrivially normed field $\kk$ and a finite set $\iota$, precomposition
+$f\mapsto(m\mapsto m\circ(f,\dots,f))$ sends continuous linear maps $E\to E'$ to continuous linear maps between spaces of
+continuous alternating maps. It is $C^n$ for every $n\in\N\cup\{\infty\}$ in every characteristic~\cite{PR}, and analytic
+when $\abs{\iota}!$ is invertible in $\kk$ (by polarisation). We show that it is \emph{not} analytic in general: over a
+complete ultrametric field of characteristic~$2$ with infinite residue field that is not spherically complete, with
+$E=E'=\linf$ and $\abs{\iota}=2$, analyticity fails at $0$. The proof is a finite parity identity for determinants in
+characteristic~$2$, glued along $\linf$. The result is formalized in Lean~4/Mathlib in the form ``the general
+$C^\omega$ statement implies \texttt{False}''.
+\end{abstract}
+\maketitle
+
+\section{Statement}
+\subsection*{Notation}
+For normed spaces, $\cL(E,E')$ is the space of continuous linear maps with the operator norm, and $\Alt^\iota(E,F)$ is the
+normed space of continuous alternating $\iota$-linear maps $E^\iota\to F$, i.e.\ those vanishing whenever two arguments
+coincide; we write $\Alt^2$ when $\abs\iota=2$. For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
+$\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the indicator of a set $S$, and $\1=\1_\N$.
+
+Throughout, $\kk$ is a complete non-archimedean valued field such that
+\begin{itemize}
+\item[(K1)] $\operatorname{char}\kk=2$;
+\item[(K2)] the residue field of $\kk$ is infinite;
+\item[(K3)] there is a sequence of closed balls $B(c_n,r_n)$ with $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and
+$\bigcap_n B(c_n,r_n)=\emptyset$; in particular $\kk$ is not spherically complete.
+\end{itemize}
+Such fields exist; an explicit one is given in \S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
+algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
+$\norm{m_a}\le\norm a$, and $e_i$ for the unit vectors. For $x,y\in E$ let
+\[
+W(x,y):=x\otimes y+y\otimes x\in\linf(\N\times\N,\kk),\qquad W(x,y)_{pq}=x_py_q+x_qy_p ,
+\]
+and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$. Every element of $F$ is a symmetric
+matrix with zero diagonal (as $W(x,y)_{pp}=2x_py_p=0$) and a uniform limit of matrices of finite rank (as $W(x,y)$ has
+rank $\le2$). By the ultrametric inequality $\norm{W(x,y)}\le\norm x\norm y$, and $W(x,x)=2\,x\otimes x=0$; so
+$W\colon E\times E\to F$ is a bounded alternating bilinear map of norm $\le1$. Let
+\[
+Q\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad Q(f)(m)=m\circ(f,f).
+\]
+
+\begin{theorem}\label{thm:main}
+$Q$ is not analytic at $0$. In particular $Q$ is not $C^\omega$.
+\end{theorem}
+
+\begin{theorem}\label{thm:false}
+The statement ``for all nontrivially normed fields $\kk$, all normed spaces $E,E',F$ over $\kk$ and all finite $\iota$,
+precomposition $\cL(E,E')\to\cL(\Alt^\iota(E',F),\Alt^\iota(E,F))$ is $C^\omega$'' is false. So is the weaker statement in which
+$\kk$ ranges only over complete ultrametric fields of characteristic $2$, $E=E'$ and $F$ range only over Banach spaces, and
+$\abs\iota=2$.
+\end{theorem}
+
+Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1)--(K3). The rest of
+this note proves Theorem~\ref{thm:main} in four steps.
+
+\section{Step 1: analyticity forces a bilinear lift}
+\begin{lemma}\label{lem:lift}
+Let $Q\colon X\to Z$ be a map between normed spaces with $Q(tf)=t^2Q(f)$. If $Q$ is analytic at $0$ then there is a bounded
+bilinear $P\colon X\times X\to Z$ with $P(f,f)=Q(f)$ for all $f$.
+\end{lemma}
+\begin{proof}
+Let $\sum_n p_n$ be a power series of $Q$ at $0$. For fixed $f$ the one-variable power series
+$\sum_n t^n\,p_n(f,\dots,f)$ and the polynomial $t^2Q(f)$ agree for small $t$. Power series coefficients in one variable
+are unique over any nontrivially normed field, so $p_2(f,f)=Q(f)$. Take $P=p_2$. (No division by $2$ occurs, and $P$
+need not be symmetric.)
+\end{proof}
+
+So assume that a bounded bilinear $P$ with $P(f,f)=Q(f)$ exists, and put, for $a,b,x,y\in E$,
+\[
+\Phi(a,b;x,y):=P(m_a,m_b)(W)(x,y)\in F .
+\]
+Then $\Phi$ is $4$-linear, and since $\norm{m_a}\le\norm a$ and $\norm W\le1$ we have
+\[
+\norm{\Phi(a,b;x,y)}\le C\norm a\,\norm b\,\norm x\,\norm y,\qquad C:=\max(1,\norm P).
+\]
+Moreover
+\begin{equation}\label{eq:Phi}
+\Phi(a,b;x,x)=0,\qquad \Phi(a,a;x,y)=W(ax,ay).
+\end{equation}
+Since $2=0$, the first identity gives the symmetry $\Phi(a,b;x,y)=\Phi(a,b;y,x)$. We will contradict the existence of such
+a $\Phi$.
+
+\section{Step 2: a finite parity identity}
+Fix a finite block $I\subset\N$ of even size $2m$ and $a',b'\in E$ vanishing on $I$ with $\norm{a'},\norm{b'}\le1$. Let
+$X_i,Y_i$ ($i\in I$) be indeterminates. Expanding $\Phi$ multilinearly in $x=\sum_{i\in I}X_ie_i$ and $y=\sum_{i\in I}Y_ie_i$
+defines polynomials
+\[
+G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X,Y]\qquad(p,q\in I),
+\]
+whose values at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. The matrix
+$G$ is symmetric with zero diagonal, each $G_{pq}$ has degree $\le2$ in $X$ and $\le2$ in $Y$, its part of bidegree $(2,2)$
+is $g_{pq}:=\Phi(x,y;x,y)_{pq}$, and $G_{pq}-g_{pq}$ has total degree $\le3$.
+
+\begin{lemma}\label{lem:g}
+For $p\neq q$ we have, in $\kk[X,Y]$,
+\[
+g_{pq}(Y,X)=g_{pq}(X,Y)+X_p^2Y_q^2+X_q^2Y_p^2\qquad\text{and}\qquad g_{pq}(X,X)=0 .
+\]
+\end{lemma}
+\begin{proof}
+As $\kk$ is infinite it suffices to check these at points $x,y\in\kk^I$. By the symmetry in the last two slots,
+$g(y,x)=\Phi(y,x;y,x)=\Phi(y,x;x,y)$, so by bilinearity in the first two slots and \eqref{eq:Phi}
+\begin{align*}
+g(x,y)+g(y,x)&=\Phi(x+y,x+y;x,y)+\Phi(x,x;x,y)+\Phi(y,y;x,y)\\
+&=W\bigl((x+y)x,(x+y)y\bigr)+W(x^2,xy)+W(xy,y^2).
+\end{align*}
+Expanding, $W((x+y)x,(x+y)y)=W(x^2,xy)+W(x^2,y^2)+W(xy,xy)+W(xy,y^2)$. The first and last terms cancel against the two
+other summands and $W(xy,xy)=0$, which leaves $W(x^2,y^2)$, whose $(p,q)$ entry is $x_p^2y_q^2+x_q^2y_p^2$. Finally
+$g(x,x)=W(x^2,x^2)=0$.
+\end{proof}
+
+Let $\tau$ be the automorphism of $\kk[X,Y]$ swapping $X_i\leftrightarrow Y_i$, and $\delta$ the substitution $Y_i:=X_i$.
+
+\begin{lemma}[balanced coefficients]\label{lem:bal}
+Let $f\in\kk[X,Y]$ with $\tau f=f$ and $\operatorname{char}\kk=2$. For every $S\subseteq I$ the coefficient of
+$\prod_{i\in S}X_iY_i$ in $f$ equals the coefficient of $\prod_{i\in S}X_i^2$ in $\delta f$.
+\end{lemma}
+\begin{proof}
+The coefficient of $\prod_{S}X_i^2$ in $\delta f$ is the sum of the coefficients in $f$ of all monomials $X^\alpha Y^\beta$ with
+$\alpha+\beta=2\cdot\1_S$. The involution $(\alpha,\beta)\mapsto(\beta,\alpha)$ of this set of monomials preserves coefficients (as
+$\tau f=f$), and its only fixed point is $\alpha=\beta=\1_S$; all other terms cancel in pairs.
+\end{proof}
+
+\begin{proposition}\label{prop:matching}
+Let $M$ be a perfect matching of $I$ and $\nu:=\prod_{i\in I}X_iY_i$. Then
+\[\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}=1 .\]
+\end{proposition}
+\begin{proof}
+The monomial $\nu$ has total degree $4m$, the maximum possible, so only the top parts contribute:
+\[\coeff_\nu\prod_{M} G_{pq}=\coeff_\nu\prod_{M} g_{pq}.\]
+Put $g'_{pq}:=g_{pq}+X_p^2Y_q^2$. By Lemma~\ref{lem:g},
+\[\tau g'_{pq}=g'_{pq}\qquad\text{and}\qquad \delta g'_{pq}=X_p^2X_q^2 .\]
+A product containing a factor $X_p^2Y_q^2$ has no squarefree monomial, so replacing every $g_{pq}$ by $g'_{pq}$ does
+not change the coefficient of $\nu$. By Lemma~\ref{lem:bal}, applied to the $\tau$-invariant product $\prod_M g'_{pq}$,
+this coefficient is the coefficient of $\prod_{i\in I}X_i^2$ in
+\[\delta\prod_{M} g'_{pq}=\prod_{\{p,q\}\in M}X_p^2X_q^2=\prod_{i\in I}X_i^2,\]
+namely $1$.
+\end{proof}
+
+\begin{lemma}\label{lem:det}
+Let $A$ be a symmetric matrix with zero diagonal over a commutative ring of characteristic $2$, of even size $2m$. Then
+$\det A=\sum_M\prod_{\{p,q\}\in M}A_{pq}^2$, the sum being over perfect matchings; and the number of perfect matchings,
+$(2m-1)!!$, is odd.
+\end{lemma}
+\begin{proof}
+In $\det A=\sum_\sigma\prod_iA_{i\sigma(i)}$ (all signs are $1$), $\sigma$ and $\sigma^{-1}$ contribute equally by symmetry, so
+only involutions survive; those with a fixed point contribute $0$; a fixed-point-free involution is a perfect matching
+and contributes $\prod A_{pq}^2$.
+\end{proof}
+
+\begin{corollary}\label{cor:point}
+$\coeff_{\nu^2}\det G=1$. Consequently, by \textup{(K2)}, there are $x,y\in\kk^I$ with $\abs{x_i},\abs{y_i}\le1$ and
+$\abs{\det G(x,y)}\ge1$.
+\end{corollary}
+\begin{proof}
+Squaring is additive on coefficients in characteristic $2$, so by Lemma~\ref{lem:det} and
+Proposition~\ref{prop:matching}
+\[\coeff_{\nu^2}\det G=\sum_M\Bigl(\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}\Bigr)^2=(2m-1)!!\cdot1=1,\]
+because $(2m-1)!!$ is odd. A polynomial with a coefficient of absolute value $\ge1$ has Gauss norm $\ge1$; normalising by
+its largest coefficient and reducing modulo the maximal ideal gives a nonzero polynomial over the infinite residue field,
+which has a non-vanishing point; lift it to the unit polydisc.
+\end{proof}
+
+The point is that the coefficient $1$ does not depend on the unknown lift $P$: all of its freedom is carried by
+$\tau$-invariant terms vanishing on the diagonal $Y=X$, which Lemma~\ref{lem:bal} cannot see.
+
+\section{Step 3: locality on \texorpdfstring{$\linf$}{l-infinity}}
+For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
+\begin{proposition}\label{prop:nsc}
+Under \textup{(K3)}, a bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
+\end{proposition}
+\begin{proof}
+$\varphi$ kills finitely supported sequences, so $\abs{\varphi(x)}\le\norm\varphi\sup_{i\ge M}\abs{x_i}$ for every $M$. Suppose
+$\varphi\ne0$. For every $0<s<\norm\varphi$ there is $w$ with $\varphi(w)=1$ and $\norm w\le1/s$; fix one such vector $w_0$. Because
+$r_{n+1}<r_n$ we can choose $s_n\in\linf$ with $\varphi(s_n)=c_{n+2}-c_{n+1}$ and $\norm{s_n}\le r_n/\norm\varphi$: take
+$s_n=(c_{n+2}-c_{n+1})w$ with $\norm w\le r_n/(r_{n+1}\norm\varphi)$. Let $x_n:=c_1w_0+\sum_{k<n}s_k$; then $\varphi(x_n)=c_{n+1}$
+and $\norm{x_{n+d}-x_n}\le r_n/\norm\varphi$ by the ultrametric inequality. The diagonal sequence $y_i:=x_i(i)$ is bounded, since
+$\norm{x_i}\le\max(\norm{x_0},r_0/\norm\varphi)$, and $\abs{y_i-x_n(i)}\le r_n/\norm\varphi$ for $i\ge n$. Hence
+$\abs{\varphi(y)-c_{n+1}}=\abs{\varphi(y-x_n)}\le r_n$, and since $\abs{c_{n+1}-c_n}\le r_n$ the ultrametric inequality gives
+$\abs{\varphi(y)-c_n}\le r_n$ for every $n$. So $\varphi(y)\in\bigcap_nB(c_n,r_n)$, a contradiction.
+\end{proof}
+This is the direction of van der Put's theorem~\cite{vdP} that we need, $(\linf/c_0)'=0$; the index shift absorbs the usual
+$(1+\varepsilon)$ loss, and no Hahn--Banach argument is used.
+
+\begin{proposition}[multilinear Phillips property]\label{prop:tails}
+Let $\lambda$ be a bounded $d$-linear form on $\linf$ and $\varepsilon>0$. There is $N$ such that
+$\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_j}\le1$ for all $j$ and $u_j=\tail N{u_j}$ for some $j$.
+\end{proposition}
+\begin{proof}[Sketch \textup{(the complete proof is in the Lean development)}]
+\emph{The case $d=1$}, $\lambda=\varphi$. (a) $\varphi(e_i)\to0$. Otherwise $\abs{\varphi(e_{i_k})}\ge\varepsilon$ along a subsequence. Let $T$ be
+the bounded operator with $T(x)_{i_k}=x_k/\varphi(e_{i_k})$ and all other coordinates $0$, and $\psi:=\varphi\circ T$, so that
+$\psi(e_k)=1$ for all $k$. With $\sh$ the right shift, $\psi\circ(1-\sh)$ kills every $e_k$, hence vanishes by
+Proposition~\ref{prop:nsc}; but $(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$. (b) For fixed $x$,
+$\varphi(\tail Nx)-\varphi(\tail{N+1}x)=x_N\varphi(e_N)\to0$, so $\varphi(\tail Nx)$ converges; the limit is a bounded linear functional
+of $x$ killing every $e_i$, hence it is $0$. (c) If the claim failed for $\varepsilon$, then (b) would give unit vectors $w_k$ with
+disjoint finite supports moving to infinity and $\abs{\varphi(w_k)}>\varepsilon$; the functional
+$c\mapsto\varphi(\sum_kc_kw_k)$ (coordinatewise sum) then contradicts (a).
+
+\emph{The case $d>1$}, by induction on $d$. Suppose the claim fails for $\varepsilon$. First, for every $M$ there is a unit tuple
+with $\abs\lambda>\varepsilon$ \emph{all} of whose slots vanish below $M$: start from a witness one of whose slots is supported very far
+out, and split any other slot into its part below $M$, a finite combination of the $e_i$, and its tail; the inductive
+hypothesis, applied to the finitely many $(d-1)$-linear forms obtained by freezing that slot at $e_i$, $i<M$, shows that
+the part below $M$ contributes at most $\varepsilon$, so the tail carries $\abs\lambda>\varepsilon$. Next, by (b) each slot can be cut down to
+a finite window. Finally choose such tuples $z^{(s)}$ with windows moving to infinity fast enough and let $x$ be the
+coordinatewise sum of their first slots. Then $\lambda(x,z^{(s)}_2,\dots,z^{(s)}_d)$ equals $\lambda(z^{(s)})$, plus finitely many
+terms with an earlier first slot (each $\le\varepsilon$ by the inductive hypothesis for $\lambda(z^{(r)}_1,\cdot)$, $r<s$), plus one
+term with a far first slot ($\le\varepsilon$ by the case $d=1$). So it has absolute value $>\varepsilon$ for every $s$, contradicting the
+inductive hypothesis for the $(d-1)$-linear form $\lambda(x,\cdot)$.
+\end{proof}
+This is exactly where $\linf$ and (K3) are used; the statement is false for $c_0$ and for spherically complete fields.
+
+\section{Step 4: gluing}
+Choose inductively blocks $I_1<I_2<\cdots$ with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\kk^{I_t}$ in the unit polydisc as follows.
+Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
+$\abs{\det G_t}\ge1$, where $G_t=\Phi(a'+a_t,b'+b_t;a'+a_t,b'+b_t)|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
+Proposition~\ref{prop:tails} (with $d=4$) for the finitely many entry forms $\Phi(\cdot)_{pq}$, $p,q\in I_t$, to place all later
+blocks so far out that these forms are at most $\varepsilon_t$ on unit arguments one of which is supported there.
+
+Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere (these are not norm-convergent sums), and
+$\mathcal O:=\Phi(a,b;a,b)\in F$. Splitting $a=a^{\le t}+a^{>t}$, $b=b^{\le t}+b^{>t}$ and using multilinearity,
+$\norm{\mathcal O|_{I_t\times I_t}-G_t}\le\varepsilon_t$. All entries are bounded by $C$. Expanding the determinant multilinearly in
+columns, every term containing a column of the perturbation is at most $\varepsilon_tC^{2t-1}<1$, so the ultrametric inequality
+gives
+\[
+\abs{\det\mathcal O|_{I_t\times I_t}}=\abs{\det G_t}\ge1\qquad\text{for every }t .
+\]
+On the other hand $\mathcal O\in F$ is within $\eta:=(2C)^{-1}$ of a matrix $R$ of some finite rank $r$. Expanding
+$\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more than $r$ columns from $R$ vanish, so
+$\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
+
+\section{An explicit field}\label{sec:field}
+Let $k_0$ be an infinite field of characteristic $2$ and $\cP=\bigcup_jk_0((t^{1/2^j}))$ the field of $2$-power Puiseux
+series with $\abs f=2^{-\operatorname{ord}f}$; let $\kk$ be its completion. Then (K1) holds, and (K2) holds because the
+nonzero constants and their differences have absolute value $1$. For (K3) let $\gamma_m=1-2^{-(m+1)}$,
+$c_n=\sum_{m\le n}t^{\gamma_m}$ and $r_n=2^{-\gamma_{n+1}}$: then $\abs{c_{n+1}-c_n}=r_n$, the radii decrease strictly, and
+$r_n>\tfrac12$. If some $a\in\kk$ lay in all the balls, pick $y\in\cP$ with $\abs{a-y}<\tfrac12$; then $y$ lies in all of them
+too. But $y$ has exponents in $2^{-j}\Z$ for some $j$, while $\gamma_j$ has denominator $2^{j+1}$, so for $n\ge j$ the series
+$y-c_n$ has a nonzero coefficient at $t^{\gamma_j}$ and $\abs{y-c_n}\ge2^{-\gamma_j}>r_n$. (The completion of an algebraic
+closure of $\mathbb F_2((t))$ is another example.)
+
+\section{Remarks}
+\begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]
+In characteristic $\neq2$ the lift $\tfrac12\bigl(m\circ(f,g)+m\circ(g,f)\bigr)$ exists, and the parity argument breaks
+(pairs add instead of cancelling). If $E$ has an orthogonal base $(e_i)$, e.g.\ $E=c_0$, and $F$ is Banach, then
+\[
+P(f,g)(m)(x,y)=\sum_{i<j}(x_iy_j-x_jy_i)\,m(fe_i,ge_j)
+\]
+is a bounded lift in every characteristic, so $Q$ is analytic; a similar formula works for a base of $E'$, and
+$t$-orthogonal bases suffice. This covers finite-dimensional $E$ and all Banach spaces over a discretely valued
+$\kk$~\cite{vR}, so the counterexample needs a dense valuation; one can also show that $Q$ is analytic when $F$ is
+spherically complete. On $c_0$ the glued vectors $a,b$ of Step~4 do not exist and Proposition~\ref{prop:tails} fails. For
+$E=\linf$ and the larger target $\linf(\N\times\N,\kk)\supseteq F$ a bounded lift also exists (sort the indices entrywise),
+but it sends $W$ to matrices such as the ``staircase'' $\1_{\{(p,q)\,:\,p\text{ odd},\,q\text{ even},\,p<q\}}$, which are
+not limits of finite-rank matrices, so it leaves $F$. These positive statements are not proved here and are not part of
+the formalization.
+\end{remark}
+\begin{remark}[Higher degree, other characteristics]
+On paper, in characteristic $2$ every $\abs\iota\ge2$ is covered by wedging with a coordinate of $E\oplus\kk$; this is not
+formalized. In odd characteristic $\ell$, for forms of degree $\ell$, the question is open: odd-degree forms have no
+Pfaffian-type top power, so a different invariant is needed.
+\end{remark}
+
+\section{Formalization}\label{sec:lean}
+The Lean~4/Mathlib development is at
+\begin{center}\url{https://github.com/Deicyde/alternating-analytic-counterexample}\end{center}
+The library \texttt{AltCounter/} contains no \texttt{sorry}, and the only axioms it uses are the three standard ones
+(\texttt{propext}, \texttt{Quot.sound} and \texttt{Classical.choice}). Its headline theorem assumes that Mathlib's
+\begin{center}\texttt{ContinuousAlternatingMap.compContinuousLinearMapCLM}\end{center}
+is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index types, and derives \texttt{False}; a second
+theorem does the same from the weaker statement in Theorem~\ref{thm:false}. Both are restated in a Mathlib-only file
+\texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
+\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized,
+including the complete proof of Proposition~\ref{prop:tails} by induction on $d$; the Lean constants in Step~4 are chosen
+with more slack than here. Not formalized: non-analyticity at base points other than $0$, index types with more than two
+elements, the positive statements in the remarks, and the bundle-level consequence (no $C^\omega$ vector-bundle structure on
+bundles of continuous alternating maps in this generality).
+
+\begin{thebibliography}{9}
+\bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
+to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
+\bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
+\bibitem{vR} A.~C.~M.~van Rooij, \emph{Non-Archimedean Functional Analysis}, Marcel Dekker, 1978.
+\end{thebibliography}
+\end{document}
