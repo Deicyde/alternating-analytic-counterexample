@@ -81,14 +81,18 @@ Q\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad Q(f)(m)=m\circ(
 $Q$ is not analytic at $0$. In particular $Q$ is not $C^\omega$.
 \end{theorem}
 
+Following Lang~\cite[Ch.~III, \S4]{La}, call a contravariant functor $T$ from normed spaces over $\kk$ to normed spaces
+over $\kk$ \emph{analytic} (resp.\ \emph{of class $C^n$}) if for all $E,E'$ the map
+$\cL(E,E')\to\cL(T(E'),T(E))$, $f\mapsto T(f)$, is analytic (resp.\ $C^n$). For a normed space $F$ and a finite set $\iota$,
+the assignment $E\mapsto\Alt^\iota(E,F)$, $f\mapsto(m\mapsto m\circ(f,\dots,f))$, is such a functor; it is of class $C^n$ for every
+$n\in\N\cup\{\infty\}$~\cite{PR}, and $Q$ is its action on $\cL(E,E)$ for $\abs\iota=2$.
+
 \begin{theorem}\label{thm:false}
-The statement ``for all nontrivially normed fields $\kk$, all normed spaces $E,E',F$ over $\kk$ and all finite $\iota$,
-precomposition $\cL(E,E')\to\cL(\Alt^\iota(E',F),\Alt^\iota(E,F))$ is $C^\omega$'' is false. So is the weaker statement in which
-$\kk$ ranges only over complete ultrametric fields of characteristic $2$, $E=E'$ and $F$ range only over Banach spaces, and
-$\abs\iota=2$.
+The functor $\Alt^\iota(-,F)$ is not analytic in general: for $\kk$ and $F$ as above, $\Alt^2(-,F)$ is not analytic.
 \end{theorem}
 
-Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1) and (K2). The rest of
+Theorem~\ref{thm:false} follows from Theorem~\ref{thm:main} and the existence of a field with (K1) and (K2). Since
+$\Alt^\iota(E,F)$ is linear in the morphisms of $F$, the bifunctor $\Alt^\iota$ is not analytic either. The rest of
 this note proves Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}
@@ -361,7 +365,8 @@ The library \texttt{AltCounter/} contains no \texttt{sorry}, and the only axioms
 (\texttt{propext}, \texttt{Quot.sound} and \texttt{Classical.choice}). Its headline theorem assumes that Mathlib's
 \begin{center}\texttt{ContinuousAlternatingMap.compContinuousLinearMapCLM}\end{center}
 is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index types, and derives \texttt{False}; a second
-theorem does the same from the weaker statement in Theorem~\ref{thm:false}. Both are restated in a Mathlib-only file
+theorem does the same assuming this only for complete ultrametric fields of characteristic $2$, Banach spaces,
+$E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 \texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
 \texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized, including the complete proof of Proposition~\ref{prop:tails} by
 induction on $d$; Lemma~\ref{lem:cube} is \texttt{sum\_eval\_cubePt}, and the field of \S\ref{sec:field} is built with
@@ -371,6 +376,7 @@ elements, the positive statements in the remarks, and the bundle-level consequen
 bundles of continuous alternating maps in this generality).
 
 \begin{thebibliography}{9}
+\bibitem{La} S.~Lang, \emph{Fundamentals of Differential Geometry}, Graduate Texts in Mathematics 191, Springer, 1999.
 \bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
 \bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
