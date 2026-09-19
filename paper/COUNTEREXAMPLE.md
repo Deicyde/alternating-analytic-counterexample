@@ -1,9 +1,12 @@
 # The analytic case fails in characteristic 2: a counterexample
 
-Date: 2026-09-19. Status: **refereed by AI agents and formalized in Lean (see the repository README).** Seven independent adversarial AI referees (one per section, one "does it prove
-too much", one global) plus an adjudicator found **no mathematical error**; every gap they listed was editorial and is
-incorporated below. The key finite identity (Lemma A) is verified as a polynomial identity with *all* free parameters
-formal (3160 symbols at n = 5, 20013 at n = 7, and n = 9 with 27000) — `scripts/full5.py`, `full7.py`, `sym_lemmaA.py`.
+Date: 2026-09-19. Status: **AI-refereed only (no human expert review); the Lean development is machine-checked — see the
+repository README.** Seven independent adversarial AI referees (one per section, one "does it prove too much", one global)
+plus an adjudicator found no mathematical error; every gap they listed was editorial and is incorporated below. The
+border form of the finite identity (Lemma A, §2) was verified as a polynomial identity with all free parameters formal
+(`scripts/full5.py`: 3160 parameters at n = 5; `scripts/full7.py`: 20013 at n = 7; `scripts/sym_lemmaA.py`: n = 9). The
+simplified identity of §2′ — the one the Lean proof uses — is checked numerically (`scripts/nobord.py`) and proved in Lean
+(`AltCounter/Balanced.lean`, `coeff_bal_prod_matching`).
 
 ## 0. Statement
 
@@ -13,15 +16,17 @@ Let `k` be a complete, nontrivially valued non-archimedean field with
 * `k` **not spherically complete**,
 * infinite residue field.
 
-Example: the completion of an algebraic closure of `F_2((t))` (value group `ℚ`, residue field `F̄_2`, separable as a
-metric space, hence not spherically complete).
+Example: the completion of an algebraic closure of `F_2((t))`: value group `ℚ` (dense), residue field `F̄_2`. It is
+separable as a metric space, and a complete non-archimedean field that is separable and densely valued is never
+spherically complete (the same classical argument that shows `ℂ_p` is not spherically complete; see e.g. Schikhof,
+*Ultrametric Calculus*, §20).
 
 Let `E = ℓ^∞(ℕ,k)` with the sup norm, `W(x,y) := x⊗y + y⊗x ∈ ℓ^∞(ℕ×ℕ,k)` (`W(x,y)_{pq} = x_p y_q + x_q y_p`), and let
 `F ⊆ ℓ^∞(ℕ×ℕ,k)` be the closed linear span of `{W(x,y) : x,y ∈ E}` (a Banach space).
 
 > **Theorem.** The continuous homogeneous quadratic map
 > `Q : L(E,E) → L(E[⋀^Fin 2]→L[k] F, E[⋀^Fin 2]→L[k] F)`, `Q(f)(m) = m∘(f,f)` (Mathlib: `compContinuousLinearMapCLM`),
-> is not analytic at any point of `L(E,E)`.
+> is not analytic at any point of `L(E,E)`. (Lean: at `0`; the reduction to an arbitrary base point is §1, on paper.)
 
 Consequences.
 
@@ -186,7 +191,8 @@ diagonal, hence factors through `Λ²(k^I)`; its values are alternating `I×I` m
 `W`-correspondence; and `Φ(a,a;x,y)|_I = (a⊗a)∘W(x,y)|_I`. So `ℛ_I(a,b)(x∧y) := Φ(a,b;x,y)|_{I×I}` is a lift in the sense of §2.
 
 *Construction.* All `ε`'s and `η` below are **real** constants (not field elements). Inductively for `t = 1,2,…`:
-1. choose a block `I_t ⊂ [N_t, ∞)` (with `N_1 = 0`), `|I_t| = 2m_t+3`, `m_t ≥ t`, to the right of `I_{t-1}`;
+1. choose a block `I_t ⊂ [N_t, ∞)` (with `N_1 = 0`), `|I_t| = 2m_t+3`, `m_t ≥ t`, to the right of `I_{t-1}`
+   (in the §2′ form used by Lean: `|I_t| = 2m_t` even, and below `J_t = I_t`);
 2. with `a' := Σ_{s<t} a_s`, `b' := Σ_{s<t} b_s` (fixed), the matrix
    `G_t(a_t,b_t) := Φ(a'+a_t, b'+b_t; a'+a_t, b'+b_t)|_{I_t×I_t}` is, in `k[a_{t,i}, b_{t,i} : i ∈ I_t]`, of degree `≤ 2` in
    `a_t` and `≤ 2` in `b_t` (slots 1,3 carry `a`, slots 2,4 carry `b`), with `(2,2)`-part exactly
@@ -244,25 +250,18 @@ Scripts: `scripts/` (`full5.py`, `full7.py`, `sym_lemmaA.py` formal identity;
 small fields; `sec4_faithful.py` finite model of §4; `p6_escape.py` the big-target lift leaving `F`; `liftdiagonal.py`,
 `topcoef*.py` the original discovery runs).
 
-## 13. RESOLVED 2026-09-19: the analytic case FAILS in characteristic 2
-
-See `alt-bundle-analytic-COUNTEREXAMPLE.md` (refereed by seven adversarial agents + adjudicator, no mathematical error;
-key identity verified with all parameters formal for n = 5, 7, 9). Summary: k complete, char 2, not spherically complete,
-infinite residue field; E = E' = ℓ^∞; F = closed span of {x⊗y+y⊗x}; Q not analytic anywhere. My §9 estimate ("≈80% true")
-was wrong. What broke the deadlock after six agent rounds: a finite F_2 model, exact solvers, and a search for UNIVERSAL
-parity relations — which exposed an anticanonical-degree invariant on Gr(2,n) whose top coefficient is 1 for every lift.
-The earlier rounds' obstacles are explained: the obstruction is rank/approximability, not norm constants (so "no finitary
-uniform-constant obstruction" was true and irrelevant), it needs the diagonal restriction Π = P of Gr×Gr (the full
-Gr×Gr count is identically even), and it needs the target F to consist of approximable matrices containing W.
-
 ## 8. Lean formalization (2026-09-19)
 
-this repository (`AltCounter/`) — about 3600 lines, no `sorry`, axioms `propext`, `Classical.choice`, `Quot.sound` only.
+This repository (`AltCounter/`), about 3600 lines, no `sorry`, axioms `propext`, `Classical.choice`, `Quot.sound` only.
 
     theorem not_analyticAt_Q_of_NSC [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
         (hres : InfiniteResidue 𝕜) (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
 
 `Q 𝕜 f = ContinuousAlternatingMap.compContinuousLinearMapCLM f` on `(ℕ →ᵇ 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`; `NSC` is
-"(ℓ^∞/c₀)' = 0" (a functional on `ℓ^∞` killing every unit vector is zero); `InfiniteResidue` is "arbitrarily many unit-ball
-points pairwise at distance 1". Everything in §§1–4 is formalized (using the simplified identity of §2′). NOT formalized:
-the existence of a field with these properties (van der Put's theorem + the completed algebraic closure of `𝔽₂((t))`).
+"(ℓ^∞/c₀)' = 0" (a functional on `ℓ^∞` killing every standard basis vector is zero); `InfiniteResidue` is "arbitrarily
+many unit-ball points pairwise at distance 1".
+
+Formalized: the bilinear lift of §1, the identity of §2′ (with Corollary A′), §3 and §4 — giving non-analyticity **at `0`**.
+Not formalized: the existence of a field with these properties (van der Put's theorem and the completed algebraic closure
+of `𝔽₂((t))`), the §1 reduction to an arbitrary base point, the border form of Lemma A in §2 (superseded by §2′), and the
+consequences listed in §0 (index types with more than two elements, the bundle-level statement).

@@ -470,7 +470,7 @@ theorem not_analyticAt_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : Infinit
 
 /-- In particular `Q` is not `C^ω`: the restriction to `n : ℕ∞` in the smooth statement is sharp. -/
 theorem not_contDiff_omega_Q [IsUltrametricDist 𝕜] [CharP 𝕜 2] (hres : InfiniteResidue 𝕜)
-    (htail : TailProperty 𝕜) : ¬ ContDiff 𝕜 ⊤ (Q 𝕜) := fun h =>
+    (htail : TailProperty 𝕜) : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) (Q 𝕜) := fun h =>
   not_analyticAt_Q hres htail (h.analyticOnNhd (s := Set.univ) 0 (Set.mem_univ 0))
 
 end AltCounter

@@ -5,10 +5,12 @@ A counterexample, with a complete Lean 4 / Mathlib formalization.
 **Context.** For normed spaces `E, E', F` over a nontrivially normed field `𝕜`, the map
 `f ↦ (m ↦ m ∘ (f, …, f))` from `E →L[𝕜] E'` to `(E' [⋀^ι]→L[𝕜] F) →L[𝕜] (E [⋀^ι]→L[𝕜] F)`
 (`ContinuousAlternatingMap.compContinuousLinearMapCLM`) is `C^n` for every `n : ℕ∞`, in every characteristic
-(Mathlib PR [#43548](https://github.com/leanprover-community/mathlib4/pull/43548)), and analytic when `(card ι)!` is
-invertible in `𝕜` (polarisation). This repository shows that the analytic (`n = ω`) statement is **false** in
-characteristic 2 in infinite dimensions, so the restriction `n : ℕ∞` is sharp. This is what obstructs a
-`ContMDiffVectorBundle ω` instance for bundles of continuous alternating maps in full generality.
+(draft Mathlib PR [#43548](https://github.com/leanprover-community/mathlib4/pull/43548), not yet merged), and analytic
+when `(card ι)!` is invertible in `𝕜` (polarisation). This repository shows that the analytic (`n = ω`) statement
+**fails over every field satisfying the hypotheses below** — complete, ultrametric, characteristic 2, infinite residue
+field, `(ℓ^∞/c₀)' = 0`. That such fields exist is classical but is argued on paper, not in Lean (see below). Granting
+it, the restriction `n : ℕ∞` is sharp, and this is the expected obstruction to a `ContMDiffVectorBundle ω` instance for
+bundles of continuous alternating maps in full generality (the bundle-level consequence is not formalized).
 
 ## The theorem (`AltCounter/MainNSC.lean`)
 
@@ -17,27 +19,31 @@ theorem not_analyticAt_Q_of_NSC
     {𝕜 : Type*} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜] [CompleteSpace 𝕜] [CharP 𝕜 2]
     (hres : InfiniteResidue 𝕜) (hnsc : NSC 𝕜) : ¬ AnalyticAt 𝕜 (Q 𝕜) 0
 
-theorem not_contDiff_omega_Q_of_NSC ... : ¬ ContDiff 𝕜 ⊤ (Q 𝕜)      -- `⊤ : WithTop ℕ∞` is `ω`
+theorem not_contDiff_omega_Q_of_NSC ... : ¬ ContDiff 𝕜 (⊤ : WithTop ℕ∞) (Q 𝕜)      -- `(⊤ : WithTop ℕ∞)` is `ω`
 ```
 
 * `Linf 𝕜 := ℕ →ᵇ 𝕜` is `ℓ^∞(ℕ, 𝕜)`.
 * `F 𝕜` is the closed linear span, in `ℓ^∞(ℕ × ℕ, 𝕜)`, of the matrices `x ⊗ y + y ⊗ x`.
 * `Q 𝕜 f := ContinuousAlternatingMap.compContinuousLinearMapCLM f`, acting on `(Linf 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`.
 * `InfiniteResidue 𝕜`: for every `N` there are `N` points of the unit ball pairwise at distance exactly `1`
-  (i.e. the residue field is infinite).
-* `NSC 𝕜`: a continuous linear functional on `ℓ^∞` that vanishes on every unit vector is zero, i.e. `(ℓ^∞/c₀)' = 0`.
+  (for an ultrametric field: the residue field is infinite).
+* `NSC 𝕜`: a continuous linear functional on `ℓ^∞` that vanishes on every standard basis vector `eᵢ` is zero,
+  i.e. `(ℓ^∞/c₀)' = 0`.
 
-All theorems are free of `sorry` and depend only on `propext`, `Classical.choice`, `Quot.sound`
-(`AltCounter/Check.lean` prints this).
+All theorems are free of `sorry` and depend only on `propext`, `Classical.choice`, `Quot.sound`;
+`AltCounter/Check.lean` enforces this with `#guard_msgs`, so the CI build fails otherwise.
 
 ### What is *not* formalized
 
-The existence of a field satisfying the hypotheses. On paper: by van der Put (*Espaces de Banach non archimédiens*,
-Bull. SMF 97 (1969), Thm 3.2) a complete non-archimedean field satisfies `(ℓ^∞/c₀)' = 0` iff it is **not spherically
-complete**; the completion of an algebraic closure of `𝔽₂((t))` is complete, of characteristic 2, not spherically
-complete, and has residue field `𝔽̄₂`. Mathlib has neither this field nor van der Put's theorem, so the Lean
-theorem is stated for an arbitrary field with these properties as explicit hypotheses (they are hypotheses, not axioms).
-Characteristic `p ≥ 3` (forms of degree `p`) is open.
+* **Existence of a field satisfying the hypotheses** (so, formally, non-vacuity). On paper: let `K` be the completion of an
+  algebraic closure of `𝔽₂((t))`. It is complete, non-archimedean, of characteristic 2, with value group `ℚ` (dense) and
+  residue field `𝔽̄₂` (infinite, which gives `InfiniteResidue`). It is separable as a metric space with dense value group,
+  hence not spherically complete. By van der Put (*Espaces de Banach non archimédiens*, Bull. SMF 97 (1969), Thm 3.2) a
+  complete non-archimedean field that is not spherically complete satisfies `(ℓ^∞/c₀)' = 0`; only this implication is
+  used. Mathlib has neither this field nor van der Put's theorem, so they appear as explicit hypotheses (not axioms).
+* Non-analyticity at base points other than `0` (on paper: `Q(f₀+h) = Q(f₀) + B(f₀,h) + Q(h)` with `B` bounded bilinear).
+* The consequences discussed in the write-up: index types with more than two elements, and the bundle-level statement.
+* Characteristic `p ≥ 3` (forms of degree `p`) is open.
 
 ## Idea of the proof
 
@@ -47,7 +53,8 @@ Characteristic `p ≥ 3` (forms of degree `p`) is open.
    universal alternating form `W(x,y) = x⊗y + y⊗x`. On any coordinate block of even size, the block matrix is a
    polynomial in the block variables, symmetric with zero diagonal. In characteristic 2 its determinant is a sum of
    squares over perfect matchings; a swap-invariance argument shows that every matching product has coefficient `1` at
-   the monomial `∏ XᵢYᵢ`, and the number of perfect matchings is odd, so the determinant has a coefficient equal to `1`.
+   the monomial `∏ XᵢYᵢ`. Squaring is additive on coefficients in characteristic 2 and the number of perfect matchings is
+   odd, so the determinant has coefficient `1` at `(∏ XᵢYᵢ)²`.
    With an infinite residue field this yields unit vectors at which the block has `‖det‖ ≥ 1`.
 3. *(PhillipsOne, Phillips)* From `(ℓ^∞/c₀)' = 0`, bounded multilinear forms on `ℓ^∞` are uniformly small as soon as one
    argument is supported far out.
@@ -65,7 +72,8 @@ lake exe cache get
 lake build
 ```
 
-Lean `v4.34.0-rc2`, Mathlib pinned in `lakefile.toml` / `lake-manifest.json`. CI builds the project on every push.
+Lean `v4.34.0-rc2`, Mathlib pinned in `lakefile.toml` / `lake-manifest.json`. CI (GitHub Actions) builds the project
+from scratch at the pinned Mathlib commit on every push.
 (`build.sh` is a local convenience script that compiles a single file against an already-built Mathlib checkout whose
 `LEAN_PATH` is stored in an untracked `.leanpath` file; see `ARCHITECTURE.md`.)
 
@@ -81,7 +89,7 @@ Lean `v4.34.0-rc2`, Mathlib pinned in `lakefile.toml` / `lake-manifest.json`. CI
 | `Criterion` | 65 | analytic + homogeneous of degree 2 ⟹ bilinear lift |
 | `Main` | 476 | assembly; `not_analyticAt_Q` under `TailProperty` |
 | `PhillipsOne`, `Phillips` | ~1000 | `NSC ⟹ TailProperty` |
-| `MainNSC`, `Check` | | final statements, axiom check |
+| `MainNSC`, `Check` | 24 + 40 | final statements; enforced axiom check |
 
 ## Provenance
 

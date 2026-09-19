@@ -1,7 +1,7 @@
 # Development notes
 
 ## Dependency graph
-Defs → {Pfaffian, GaussPoint, DetBounds}; Pfaffian → Balanced; {Balanced, GaussPoint} → FiniteLemma;
+Defs → {GaussPoint, DetBounds}; Pfaffian (independent) → Balanced; {Balanced, GaussPoint} → FiniteLemma;
 {FiniteLemma, DetBounds} → Gluing; Criterion (independent); {Gluing, Criterion} → Main;
 FiniteLemma → PhillipsOne → Phillips; {Main, Phillips} → MainNSC → Check.
 
