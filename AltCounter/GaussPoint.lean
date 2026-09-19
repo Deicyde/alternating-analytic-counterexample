@@ -18,6 +18,7 @@ variable {𝕜 : Type*} [NontriviallyNormedField 𝕜] [IsUltrametricDist 𝕜]
 /-- All coefficients of `p` have norm at most `1`. -/
 def IsIntPoly (p : Polynomial 𝕜) : Prop := ∀ n, ‖p.coeff n‖ ≤ 1
 
+omit [IsUltrametricDist 𝕜] in
 theorem isIntPoly_one : IsIntPoly (1 : Polynomial 𝕜) := by
   intro n
   rw [Polynomial.coeff_one]
@@ -30,14 +31,16 @@ theorem IsIntPoly.mul {p q : Polynomial 𝕜} (hp : IsIntPoly p) (hq : IsIntPoly
   refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one ?_
   intro x _
   rw [norm_mul]
-  exact mul_le_one₀ (hp _) (norm_nonneg _) (hq _)
+  exact (mul_le_mul (hp _) (hq _) (norm_nonneg _) zero_le_one).trans_eq (one_mul 1)
 
+omit [IsUltrametricDist 𝕜] in
 theorem IsIntPoly.C_mul {c : 𝕜} (hc : ‖c‖ ≤ 1) {p : Polynomial 𝕜} (hp : IsIntPoly p) :
     IsIntPoly (Polynomial.C c * p) := by
   intro n
   rw [Polynomial.coeff_C_mul, norm_mul]
-  exact mul_le_one₀ hc (norm_nonneg _) (hp _)
+  exact (mul_le_mul hc (hp _) (norm_nonneg _) zero_le_one).trans_eq (one_mul 1)
 
+omit [IsUltrametricDist 𝕜] in
 theorem isIntPoly_X_sub_C {t : 𝕜} (ht : ‖t‖ ≤ 1) :
     IsIntPoly (Polynomial.X - Polynomial.C t : Polynomial 𝕜) := by
   intro n
@@ -64,7 +67,8 @@ theorem exists_unit_eval_poly (hres : InfiniteResidue 𝕜) (f : Polynomial 𝕜
     (hk : 1 ≤ ‖f.coeff k‖) : ∃ t : 𝕜, ‖t‖ ≤ 1 ∧ 1 ≤ ‖f.eval t‖ := by
   classical
   by_contra hcon
-  push_neg at hcon
+  rw [not_exists] at hcon
+  simp only [not_and, not_le] at hcon
   obtain ⟨t, ht1, ht2⟩ := hres (f.natDegree + 1)
   have hinj : Set.InjOn t ↑(Finset.univ : Finset (Fin (f.natDegree + 1))) := by
     intro i _ j _ hij
@@ -72,7 +76,7 @@ theorem exists_unit_eval_poly (hres : InfiniteResidue 𝕜) (f : Polynomial 𝕜
     have h1 := ht2 i j hne
     rw [hij, sub_self, norm_zero] at h1
     exact zero_ne_one h1
-  have hdeg : f.degree < #(Finset.univ : Finset (Fin (f.natDegree + 1))) := by
+  have hdeg : f.degree < (Finset.univ : Finset (Fin (f.natDegree + 1))).card := by
     rw [Finset.card_univ, Fintype.card_fin]
     exact lt_of_le_of_lt Polynomial.degree_le_natDegree
       (by exact_mod_cast Nat.lt_succ_self f.natDegree)

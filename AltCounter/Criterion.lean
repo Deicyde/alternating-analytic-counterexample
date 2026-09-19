@@ -21,11 +21,11 @@ noncomputable def sqSeries (𝕜 : Type*) [NontriviallyNormedField 𝕜]
 
 lemma sqSeries_apply (v : Z) (n : ℕ) (m : Fin n → 𝕜) :
     sqSeries 𝕜 v n m = (∏ i, m i) • (if n = 2 then v else 0) :=
-  ContinuousMultilinearMap.mkPiRing_apply _ _ _ _
+  ContinuousMultilinearMap.mkPiRing_apply _ _
 
 lemma sqSeries_eq_zero_of_ne (v : Z) {n : ℕ} (hn : n ≠ 2) : sqSeries 𝕜 v n = 0 := by
-  rw [sqSeries]
-  simp only [hn, if_false]
+  have hv : (if n = 2 then v else 0) = 0 := by simp [hn]
+  rw [sqSeries, hv]
   exact ContinuousMultilinearMap.mkPiRing_zero
 
 lemma hasFPowerSeriesAt_sqSeries (v : Z) :
@@ -35,8 +35,9 @@ lemma hasFPowerSeriesAt_sqSeries (v : Z) :
     · intro m hm
       exact sqSeries_eq_zero_of_ne v (by omega)
     · intro y _
-      rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_one]
-      simp [sqSeries_apply, Fin.prod_const]
+      rw [Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_one,
+        sqSeries_apply, sqSeries_apply, sqSeries_apply]
+      simp
   exact H.hasFiniteFPowerSeriesAt.hasFPowerSeriesAt
 
 theorem exists_bilinear_of_analyticAt_of_homogeneous (Q : X → Z)
@@ -58,7 +59,7 @@ theorem exists_bilinear_of_analyticAt_of_homogeneous (Q : X → Z)
   have key : (p.compContinuousLinearMap u) 2 (fun _ => (1 : 𝕜))
       = sqSeries 𝕜 (Q y) 2 (fun _ => (1 : 𝕜)) := by rw [heq]
   rw [FormalMultilinearSeries.compContinuousLinearMap_apply, sqSeries_apply] at key
-  simp only [Function.comp_def, huapp, one_smul, Finset.prod_const_one, if_pos] at key
+  simp only [Function.comp_def, huapp, one_smul, Finset.prod_const_one] at key
   simpa using key
 
 end AltCounter
