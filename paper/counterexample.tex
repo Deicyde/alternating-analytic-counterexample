@@ -51,17 +51,17 @@ normed space of continuous alternating $\iota$-linear maps $E^\iota\to F$, i.e.\
 coincide; we write $\Alt^2$ when $\abs\iota=2$. For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
 $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the indicator of a set $S$, and $\1=\1_\N$.
 
-Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $\abs{\,\cdot\,}$ that is
-\emph{non-archimedean}, i.e.\ satisfies the \emph{ultrametric inequality} $\abs{x+y}\le\max(\abs x,\abs y)$; we also call
-such a field ultrametric. The sup norms used below inherit this inequality. We assume that
+Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $\abs{\,\cdot\,}$ satisfying the
+\emph{ultrametric inequality} $\abs{x+y}\le\max(\abs x,\abs y)$; we call such a field \emph{ultrametric}. (Absolute values
+with this property are also called non-archimedean; this is a condition on the absolute value and is unrelated to
+non-Archimedean \emph{ordered} fields.) The sup norms used below inherit the inequality. We assume that
 \begin{itemize}
 \item[(K1)] $\operatorname{char}\kk=2$;
-\item[(K2)] $\kk$ is not spherically complete: there is a sequence of closed balls
-$B(c_n,r_n)=\{a\in\kk:\abs{a-c_n}\le r_n\}$ in the field $\kk$ itself, with centres $c_n\in\kk$ and radii $r_n>0$, such that
+\item[(K2)] $\kk$ is not spherically complete: there is a sequence of closed balls $B(c_n,r_n)$ such that
 $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and $\bigcap_n B(c_n,r_n)=\emptyset$.
 \end{itemize}
-The balls in (K2) are nested by the ultrametric inequality of $\kk$: for $a\in B(c_{n+1},r_{n+1})$ we have
-$\abs{a-c_n}\le\max(\abs{a-c_{n+1}},\abs{c_{n+1}-c_n})\le\max(r_{n+1},r_n)=r_n$. In characteristic $2$ that inequality is in fact automatic: an absolute value is non-archimedean as soon as it
+The balls in (K2) are balls in $\kk$, and they are nested by the ultrametric inequality: for $a\in B(c_{n+1},r_{n+1})$ we have
+$\abs{a-c_n}\le\max(\abs{a-c_{n+1}},\abs{c_{n+1}-c_n})\le\max(r_{n+1},r_n)=r_n$. In characteristic $2$ that inequality is in fact automatic: an absolute value satisfies it as soon as it
 is bounded on the multiples of $1$, and here these are only $0$ and $1$. Such fields exist; an explicit one is given in
 \S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
 algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
