@@ -236,9 +236,10 @@ Let $M$ be a perfect matching of $I$ and $\nu:=\prod_{i\in I}X_iY_i$. Then
 \[\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}=1 .\]
 \end{proposition}
 \begin{proof}
-A perfect matching has $m$ edges and each $G_{pq}-g_{pq}$ has total degree $\le3$ (Proposition~\ref{prop:top}), so
-$\prod_MG_{pq}-\prod_Mg_{pq}$ has total degree $\le4m-1$. The monomial $\nu$ has total degree $4m$, so only the top parts
-contribute to its coefficient:
+Write $G_{pq}=g_{pq}+c_{pq}$, where $g_{pq}$ is homogeneous of total degree $4$ and $c_{pq}$ has total degree $\le3$
+(Proposition~\ref{prop:top}). Expanding the product over the $m$ edges of $M$ gives $\prod_Mg_{pq}$ plus terms that contain
+at least one factor $c_{pq}$, and each such term has total degree $\le3+4(m-1)=4m-1$. The monomial $\nu$ has total degree
+$4m$, so only $\prod_Mg_{pq}$ contributes to its coefficient:
 \[\coeff_\nu\prod_{M} G_{pq}=\coeff_\nu\prod_{M} g_{pq}.\]
 Put $g'_{pq}:=g_{pq}+X_p^2Y_q^2$. By Proposition~\ref{lem:g},
 \[\tau g'_{pq}=g'_{pq}\qquad\text{and}\qquad \delta g'_{pq}=X_p^2X_q^2 .\]
