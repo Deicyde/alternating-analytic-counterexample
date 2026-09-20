@@ -111,7 +111,9 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
 
 A short self-contained note is in [`paper/counterexample.pdf`](paper/counterexample.pdf) (LaTeX source
 [`paper/counterexample.tex`](paper/counterexample.tex)). The full mathematical write-up, including the original form of the
-parity identity and the search that led to it, is in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md); exploratory and verification
+parity identity and the search that led to it, is in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md); a record of the
+literature search on bilinear lifts (what is known, what was not found, every reference checked) is in
+[`paper/LITERATURE.md`](paper/LITERATURE.md); exploratory and verification
 scripts (pure Python) are in [`scripts/`](scripts/).
 
 ## Building
