@@ -168,15 +168,29 @@ defines, for any fixed $p,q\in I$, a polynomial
 \[
 G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X_i,Y_i]_{i\in I}
 \]
-in the polynomial ring in these $4m$ variables, which we abbreviate to $\kk[X,Y]$. The values of the $G_{pq}$ at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. Every element
-of $F$ is a symmetric matrix with zero diagonal, since $W(x,y)_{pq}=W(x,y)_{qp}$ and $W(x,y)_{pp}=2x_py_p=0$, and both
-properties pass to the closed span. So the matrix $G$ is symmetric with zero diagonal. By $4$-linearity, $G_{pq}$ is a sum of $16$ terms, according to whether each of the four slots is filled by the constant
-vector ($a'$ or $b'$) or by the variable one ($x$ or $y$). The term in which all four slots are variable is
+in the polynomial ring in these $4m$ variables, which we abbreviate to $\kk[X,Y]$. The values of the $G_{pq}$ at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. We also put
 \[
-g_{pq}:=\Phi(x,y;x,y)_{pq}=\sum_{i,j,k,l\in I}\Phi(e_i,e_j;e_k,e_l)_{pq}\,X_iY_jX_kY_l ,
+g_{pq}:=\Phi(x,y;x,y)_{pq}=\sum_{i,j,k,l\in I}\Phi(e_i,e_j;e_k,e_l)_{pq}\,X_iY_jX_kY_l\in\kk[X,Y] .
 \]
-which is homogeneous of degree $2$ in the $X_i$ and of degree $2$ in the $Y_i$. Every other term has a constant slot, so
-$G_{pq}-g_{pq}$ has total degree $\le3$.
+
+\begin{proposition}\label{prop:symm}
+The matrix $G=(G_{pq})_{p,q\in I}$ is symmetric with zero diagonal: $G_{pq}=G_{qp}$ and $G_{pp}=0$ in $\kk[X,Y]$.
+\end{proposition}
+\begin{proof}
+Every element of $F$ is a symmetric matrix with zero diagonal, since $W(x,y)_{pq}=W(x,y)_{qp}$ and
+$W(x,y)_{pp}=2x_py_p=0$, and both properties pass to the closed span. The coefficients of $G_{pq}$ are the $(p,q)$ entries
+of values of $\Phi$, which lie in $F$.
+\end{proof}
+
+\begin{proposition}\label{prop:top}
+The polynomial $g_{pq}$ is homogeneous of degree $2$ in the $X_i$ and of degree $2$ in the $Y_i$, and $G_{pq}-g_{pq}$ has
+total degree $\le3$. In particular $G_{pq}$ has total degree $\le4$.
+\end{proposition}
+\begin{proof}
+By $4$-linearity, $G_{pq}$ is a sum of $16$ terms, according to whether each of the four slots is filled by the constant
+vector ($a'$ or $b'$) or by the variable one ($x$ or $y$). The term in which all four slots are variable is $g_{pq}$.
+Every other term has a constant slot, so it has total degree $\le3$.
+\end{proof}
 
 \begin{lemma}\label{lem:g}
 For $p\neq q$ we have, in $\kk[X,Y]$,
@@ -213,7 +227,7 @@ Let $M$ be a perfect matching of $I$ and $\nu:=\prod_{i\in I}X_iY_i$. Then
 \[\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}=1 .\]
 \end{proposition}
 \begin{proof}
-A perfect matching has $m$ edges and each $G_{pq}-g_{pq}$ has total degree $\le3$, so
+A perfect matching has $m$ edges and each $G_{pq}-g_{pq}$ has total degree $\le3$ (Proposition~\ref{prop:top}), so
 $\prod_MG_{pq}-\prod_Mg_{pq}$ has total degree $\le4m-1$. The monomial $\nu$ has total degree $4m$, so only the top parts
 contribute to its coefficient:
 \[\coeff_\nu\prod_{M} G_{pq}=\coeff_\nu\prod_{M} g_{pq}.\]
@@ -254,9 +268,9 @@ The values of $\det G$ at the $0/1$ points sum to $1$,
 and consequently there are $x,y\in\{0,1\}^I$ with $\abs{\det G(x,y)}\ge1$.
 \end{corollary}
 \begin{proof}
-Each $G_{pq}$ has total degree $\le4$, so for a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total
+Each $G_{pq}$ has total degree $\le4$ (Proposition~\ref{prop:top}), so for a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total
 degree $\le4m$, which is the number of variables $X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over the $0/1$ points is therefore
-$\coeff_\nu\prod_MG_{pq}=1$. The matrix $G$ is symmetric with zero diagonal, so Lemma~\ref{lem:det} applies to it; as squaring is additive in
+$\coeff_\nu\prod_MG_{pq}=1$. The matrix $G$ is symmetric with zero diagonal (Proposition~\ref{prop:symm}), so Lemma~\ref{lem:det} applies to it; as squaring is additive in
 characteristic $2$, we get
 \[
 \sum_{x,y\in\{0,1\}^I}\det G(x,y)=\sum_M\Bigl(\,\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)\Bigr)^2=(2m-1)!!\cdot1=1,
