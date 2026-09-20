@@ -314,7 +314,9 @@ For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $
 A bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
 \end{proposition}
 \begin{proof}
-By linearity, $\varphi$ kills finitely supported sequences, so $\abs{\varphi(x)}\le\norm\varphi\sup_{i\ge M}\abs{x_i}$ for every $M$. Suppose
+By linearity, $\varphi$ kills finitely supported sequences. For $x\in\linf$ and any $M$ the difference $x-\tail Mx$ is finitely
+supported, so $\varphi(x)=\varphi(\tail Mx)$ and therefore
+$\abs{\varphi(x)}\le\norm\varphi\,\norm{\tail Mx}=\norm\varphi\sup_{i\ge M}\abs{x_i}$. Suppose
 $\varphi\ne0$. For every $0<s<\norm\varphi$ there is $w$ with $\varphi(w)=1$ and $\norm w\le1/s$; fix one such vector $w_0$. Because
 $r_{n+1}<r_n$ we can choose $s_n\in\linf$ with $\varphi(s_n)=c_{n+2}-c_{n+1}$ and $\norm{s_n}\le r_n/\norm\varphi$: take
 $s_n=(c_{n+2}-c_{n+1})w$ with $\norm w\le r_n/(r_{n+1}\norm\varphi)$. Let $x_n:=c_1w_0+\sum_{k<n}s_k$; then $\varphi(x_n)=c_{n+1}$
