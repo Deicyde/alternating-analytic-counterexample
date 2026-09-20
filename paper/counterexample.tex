@@ -133,20 +133,13 @@ Let $Q\colon X\to Z$ be a map between normed spaces with $Q(tf)=t^2Q(f)$. If $Q$
 bilinear $P\colon X\times X\to Z$ with $P(f,f)=Q(f)$ for all $f$.
 \end{lemma}
 \begin{proof}
-By definition there are bounded $n$-linear maps $p_n\colon X^n\to Z$ and $r>0$ with $\norm{p_n}r^n\le A$ for all $n$ and
-$Q(h)=\sum_np_n(h,\dots,h)$ for $\norm h<r$. Fix $f\in X$ and put $c_n:=p_n(f,\dots,f)\in Z$. For every scalar $t$ with
-$\abs t\norm f<r$, homogeneity of $Q$ and multilinearity of the $p_n$ give
+Let $\sum_np_n$ be a power series of $Q$ at $0$, and fix $f\in X$. For scalars $t\in\kk$ with $\abs t$ small,
 \[
-t^2Q(f)=Q(tf)=\sum_nt^nc_n .
+t^2Q(f)=Q(tf)=\sum_nt^n\,p_n(f,\dots,f).
 \]
-So the power series $\sum_nt^nd_n$, where $d_2:=c_2-Q(f)$ and $d_n:=c_n$ for $n\ne2$, vanishes for all small $t$. We claim
-that every $d_n$ is $0$. If not, let $N$ be the least index with $d_N\ne0$. Dividing by $t^N$ gives, for small $t\ne0$,
-\[
-d_N=-t\sum_{n>N}t^{\,n-N-1}d_n ,
-\]
-and since $\norm{d_n}\le A(\norm f/r)^n$ for $n\ne2$, the norm of the right-hand side is at most $M\abs t$ for a constant
-$M$ and all $t$ with $\abs t\norm f\le r/2$. As $\kk$ is nontrivially normed there are $t\ne0$ with $\abs t$ arbitrarily
-small, so $d_N=0$, a contradiction. In particular $d_2=0$, that is, $p_2(f,f)=Q(f)$. Take $P=p_2$.
+Both sides are power series in the variable $t\in\kk$ with coefficients in $Z$. The coefficients of a convergent power
+series in one variable are unique over any nontrivially normed field, so comparing the coefficients of $t^2$ gives
+$p_2(f,f)=Q(f)$. Take $P=p_2$.
 \end{proof}
 
 So assume that a bounded bilinear $P$ with $P(f,f)=Q(f)$ exists. The map $W\colon E\times E\to F$ is bilinear, it is
