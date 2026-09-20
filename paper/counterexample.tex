@@ -300,9 +300,9 @@ because $(2m-1)!!$ is odd. If all the values $\det G(x,y)$ had absolute value $<
 $\abs1<1$.
 \end{proof}
 
-The point is that the coefficient $1$ does not depend on the unknown lift $P$: all of its freedom is carried by
-$\tau$-invariant terms vanishing on the diagonal $Y=X$, which Lemma~\ref{lem:bal} cannot see. No single pair $(x,y)$
-works for every lift, but the $2^{4m}$ vertices of the cube cannot all fail at once.
+The matrix $G$ depends on the lift $P$, about which we know nothing beyond \eqref{eq:Phi}. Corollary~\ref{cor:point} holds
+for every such $P$: the two identities \eqref{eq:Phi} alone force the sum to be $1$. The pair $(x,y)$ that it provides
+does depend on $P$ (Remark~\ref{rem:forced}).
 
 \section{Step 3: locality on \texorpdfstring{$\linf$}{l-infinity}}
 For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
@@ -427,7 +427,7 @@ but it sends $W$ to matrices such as the ``staircase'' $\1_{\{(p,q)\,:\,p\text{ 
 not limits of finite-rank matrices, so it leaves $F$. These positive statements are not proved here and are not part of
 the formalization.
 \end{remark}
-\begin{remark}[What is forced]
+\begin{remark}[What is forced]\label{rem:forced}
 No single pair $(x,y)$ works for every lift: adding to $\Phi$ a bounded $4$-linear map with values in $F$ that is
 alternating in $(a,b)$ and in $(x,y)$ gives another admissible $\Phi$, and this can change a given off-diagonal entry
 of $G(x,y)$ by an arbitrary scalar. Sets $I$ of bounded size cannot give a contradiction either: for $u=\1_{\mathrm{odd}}$, $v=\1_{\mathrm{even}}$ the
