@@ -252,8 +252,8 @@ which is exactly $1$.
 
 \begin{lemma}\label{lem:det}
 Let $A$ be a symmetric matrix with zero diagonal over a commutative ring of characteristic $2$, of even size $2m$. Then
-$\det A=\sum_M\prod_{\{p,q\}\in M}A_{pq}^2$, the sum being over perfect matchings; and the number of perfect matchings,
-$(2m-1)!!$, is odd.
+$\det A=\sum_M\prod_{\{p,q\}\in M}A_{pq}^2$, the sum being over perfect matchings; and the number of perfect matchings is
+$(2m-1)!!$.
 \end{lemma}
 \begin{proof}
 In characteristic $2$ we have $\det A=\sum_\sigma\prod_iA_{i\sigma(i)}$. As $A$ is symmetric, $\sigma$ and $\sigma^{-1}$ give the same product, so the permutations with
@@ -264,8 +264,8 @@ $\{p,q\}$ form a perfect matching $M$, every perfect matching arises exactly onc
 \det A=\sum_M\prod_{\{p,q\}\in M}A_{pq}A_{qp}=\sum_M\prod_{\{p,q\}\in M}A_{pq}^2 .
 \]
 Finally, pairing the smallest index with one of the $2m-1$
-others and continuing with the remaining indices shows that there are $(2m-1)(2m-3)\cdots3\cdot1$ perfect matchings, an odd
-number.
+others and continuing with the remaining indices shows that there are $(2m-1)(2m-3)\cdots3\cdot1=(2m-1)!!$
+perfect matchings.
 \end{proof}
 
 \begin{lemma}[hypercube sum]\label{lem:cube}
@@ -292,7 +292,7 @@ characteristic $2$, we get
 \[
 \sum_{x,y\in\{0,1\}^I}\det G(x,y)=\sum_M\Bigl(\,\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)\Bigr)^2=(2m-1)!!\cdot1=1,
 \]
-because $(2m-1)!!$ is odd. If all the values $\det G(x,y)$ had absolute value $<1$, the ultrametric inequality would give
+because $(2m-1)!!$ is a product of odd numbers, hence odd. If all the values $\det G(x,y)$ had absolute value $<1$, the ultrametric inequality would give
 $\abs1<1$.
 \end{proof}
 
