@@ -166,9 +166,9 @@ Fix a finite set $I\subset\N$ of even size $2m$ and $a',b'\in E$ with $\norm{a'}
 $X_i,Y_i$ ($i\in I$) be indeterminates. Expanding $\Phi$ multilinearly in $x=\sum_{i\in I}X_ie_i$ and $y=\sum_{i\in I}Y_ie_i$
 defines polynomials
 \[
-G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X,Y]\qquad(p,q\in I),
+G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X_i,Y_i]_{i\in I}\qquad(p,q\in I),
 \]
-whose values at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. Every element
+in the polynomial ring in these $4m$ variables, which we abbreviate to $\kk[X,Y]$. Their values at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. Every element
 of $F$ is a symmetric matrix with zero diagonal, since $W(x,y)_{pq}=W(x,y)_{qp}$ and $W(x,y)_{pp}=2x_py_p=0$, and both
 properties pass to the closed span. So the matrix $G$ is symmetric with zero diagonal. Each $G_{pq}$ has degree $\le2$ in $X$ and $\le2$ in $Y$, its part of bidegree $(2,2)$
 is $g_{pq}:=\Phi(x,y;x,y)_{pq}$, and $G_{pq}-g_{pq}$ has total degree $\le3$.
