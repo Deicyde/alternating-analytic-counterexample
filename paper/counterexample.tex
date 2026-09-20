@@ -454,9 +454,14 @@ The lifts of Step~1 are classical in algebra. A quadratic form on a module is a 
 form $Q(x+y)-Q(x)-Q(y)$ is bilinear, and one asks for a bilinear form $\beta$, not necessarily symmetric, with
 $Q(x)=\beta(x,x)$. Two such $\beta$ differ by an alternating form, and on a finitely generated projective module $\beta$
 always exists: on a free module one orders a basis $(v_i)$ and lets $\beta(v_i,v_j)$ be the polar form for $i<j$, $Q(v_i)$
-for $i=j$ and $0$ for $i>j$~\cite[Lemma~1.12]{SP}. Over a field this is the exact sequence
-$0\to\operatorname{Alt}\to\operatorname{Bil}\to\operatorname{Quad}\to0$~\cite[Ch.~II]{EKM}. It is the sorted lift of
-Remark~\ref{rem:why}. The name ``bilinear lift'' is used in~\cite[\S3]{Sc} for symmetric $\beta$ over a field of
+for $i=j$ and $0$ for $i>j$~\cite[Lemma~1.12]{SP}. This is the sorted lift of Remark~\ref{rem:why}. Over a field it is summarised by the exact sequence
+\[
+0\to\operatorname{Alt}(V)\to\operatorname{Bil}(V)\to\operatorname{Quad}(V)\to0,\qquad \beta\mapsto\bigl(x\mapsto\beta(x,x)\bigr),
+\]
+of alternating, bilinear and quadratic forms on a finite-dimensional vector space $V$~\cite[Ch.~II]{EKM}: surjectivity
+says that lifts exist, and exactness in the middle that they are unique up to alternating forms. In these terms the
+present note shows that the corresponding map from bounded bilinear maps to bounded quadratic maps on $\cL(E,E)$ is not
+surjective. The name ``bilinear lift'' is used in~\cite[\S3]{Sc} for symmetric $\beta$ over a field of
 characteristic $2$; there the forms being lifted have vanishing polar form, existence is taken as known, and the question
 is uniqueness. The notion of this note appears under the name ``expansion'' in~\cite[Def.~5.1]{IKR}, with the sorted lift
 as its existence proof. Equivalently, $Q$ is a linear map on the divided power $\Gamma^2$ (\cite{Ro}; see~\cite{CLF}), which for a
