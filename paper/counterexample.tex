@@ -170,8 +170,13 @@ G_{pq}:=\Phi(a'+x,\,b'+y;\,a'+x,\,b'+y)_{pq}\in\kk[X_i,Y_i]_{i\in I}
 \]
 in the polynomial ring in these $4m$ variables, which we abbreviate to $\kk[X,Y]$. The values of the $G_{pq}$ at points $x,y\in\kk^I$ (vectors supported on $I$) are the entries of an $I\times I$ matrix $G(x,y)$. Every element
 of $F$ is a symmetric matrix with zero diagonal, since $W(x,y)_{pq}=W(x,y)_{qp}$ and $W(x,y)_{pp}=2x_py_p=0$, and both
-properties pass to the closed span. So the matrix $G$ is symmetric with zero diagonal. Each $G_{pq}$ has degree $\le2$ in $X$ and $\le2$ in $Y$, its part of bidegree $(2,2)$
-is $g_{pq}:=\Phi(x,y;x,y)_{pq}$, and $G_{pq}-g_{pq}$ has total degree $\le3$.
+properties pass to the closed span. So the matrix $G$ is symmetric with zero diagonal. By $4$-linearity, $G_{pq}$ is a sum of $16$ terms, according to whether each of the four slots is filled by the constant
+vector ($a'$ or $b'$) or by the variable one ($x$ or $y$). The term in which all four slots are variable is
+\[
+g_{pq}:=\Phi(x,y;x,y)_{pq}=\sum_{i,j,k,l\in I}\Phi(e_i,e_j;e_k,e_l)_{pq}\,X_iY_jX_kY_l ,
+\]
+which is homogeneous of degree $2$ in the $X_i$ and of degree $2$ in the $Y_i$. Every other term has a constant slot, so
+$G_{pq}-g_{pq}$ has total degree $\le3$.
 
 \begin{lemma}\label{lem:g}
 For $p\neq q$ we have, in $\kk[X,Y]$,
