@@ -213,7 +213,9 @@ Let $M$ be a perfect matching of $I$ and $\nu:=\prod_{i\in I}X_iY_i$. Then
 \[\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}=1 .\]
 \end{proposition}
 \begin{proof}
-The monomial $\nu$ has total degree $4m$, the maximum possible, so only the top parts contribute:
+A perfect matching has $m$ edges and each $G_{pq}-g_{pq}$ has total degree $\le3$, so
+$\prod_MG_{pq}-\prod_Mg_{pq}$ has total degree $\le4m-1$. The monomial $\nu$ has total degree $4m$, so only the top parts
+contribute to its coefficient:
 \[\coeff_\nu\prod_{M} G_{pq}=\coeff_\nu\prod_{M} g_{pq}.\]
 Put $g'_{pq}:=g_{pq}+X_p^2Y_q^2$. By Lemma~\ref{lem:g},
 \[\tau g'_{pq}=g'_{pq}\qquad\text{and}\qquad \delta g'_{pq}=X_p^2X_q^2 .\]
@@ -252,9 +254,10 @@ The values of $\det G$ at the $0/1$ points sum to $1$,
 and consequently there are $x,y\in\{0,1\}^I$ with $\abs{\det G(x,y)}\ge1$.
 \end{corollary}
 \begin{proof}
-For a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total degree $\le4m$, which is the number of variables
-$X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over the $0/1$ points is therefore
-$\coeff_\nu\prod_MG_{pq}=1$. Squaring is additive in characteristic $2$, so by Lemma~\ref{lem:det}
+Each $G_{pq}$ has total degree $\le4$, so for a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total
+degree $\le4m$, which is the number of variables $X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over the $0/1$ points is therefore
+$\coeff_\nu\prod_MG_{pq}=1$. The matrix $G$ is symmetric with zero diagonal, so Lemma~\ref{lem:det} applies to it; as squaring is additive in
+characteristic $2$, we get
 \[
 \sum_{x,y\in\{0,1\}^I}\det G(x,y)=\sum_M\Bigl(\,\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)\Bigr)^2=(2m-1)!!\cdot1=1,
 \]
