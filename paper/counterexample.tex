@@ -296,8 +296,12 @@ characteristic $2$ we have the Frobenius endomorphism $a\mapsto a^2$ of $\kk$. H
 &=\sum_{x,y\in\{0,1\}^I}\ \sum_M\ \prod_{\{p,q\}\in M}G_{pq}(x,y)^2\\
 &=\sum_M\Bigl(\,\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)\Bigr)^2=\sum_M1^2=(2m-1)!!=1,
 \end{align*}
-because $(2m-1)!!$ is odd. If all the values $\det G(x,y)$ had absolute value $<1$, the ultrametric inequality would give
-$\abs1<1$.
+because $(2m-1)!!$ is odd. Finally, the ultrametric inequality for finite
+sums, $\abs{\sum_ia_i}\le\max_i\abs{a_i}$, gives
+\[
+1=\abs1=\Bigl\lvert\sum_{x,y\in\{0,1\}^I}\det G(x,y)\Bigr\rvert\le\max_{x,y\in\{0,1\}^I}\abs{\det G(x,y)},
+\]
+so some pair $x,y\in\{0,1\}^I$ has $\abs{\det G(x,y)}\ge1$.
 \end{proof}
 
 The matrix $G$ depends on the lift $P$, about which we know nothing beyond \eqref{eq:Phi}. Corollary~\ref{cor:point} holds
