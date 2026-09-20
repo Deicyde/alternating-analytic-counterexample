@@ -187,9 +187,15 @@ The polynomial $g_{pq}$ is homogeneous of degree $2$ in the $X_i$ and of degree 
 total degree $\le3$. In particular $G_{pq}$ has total degree $\le4$.
 \end{proposition}
 \begin{proof}
-By $4$-linearity, $G_{pq}$ is a sum of $16$ terms, according to whether each of the four slots is filled by the constant
-vector ($a'$ or $b'$) or by the variable one ($x$ or $y$). The term in which all four slots are variable is $g_{pq}$.
-Every other term has a constant slot, so it has total degree $\le3$.
+Expanding by $4$-linearity,
+\[
+G_{pq}=\sum_{u_1,u_3\in\{a',x\}}\ \sum_{u_2,u_4\in\{b',y\}}\Phi(u_1,u_2;u_3,u_4)_{pq},
+\]
+a sum of $16$ terms. Since $x$ is linear in the $X_i$, $y$ is linear in the $Y_i$, and $a',b'$ are constants, each term is
+homogeneous, and its total degree is the number of slots occupied by $x$ or $y$. The only term of degree $4$ is
+$\Phi(x,y;x,y)_{pq}=g_{pq}$; it contains $x$ twice and $y$ twice, so it has degree $2$ in the $X_i$ and degree $2$ in the $Y_i$.
+Each of the other $15$ terms contains $a'$ or $b'$ at least once, so it has total degree $\le3$; their sum is
+$G_{pq}-g_{pq}$.
 \end{proof}
 
 \begin{lemma}\label{lem:g}
