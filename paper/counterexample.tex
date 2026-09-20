@@ -280,13 +280,13 @@ $Z_1\cdots Z_N$.
 \end{proof}
 
 \begin{corollary}\label{cor:point}
-The values of $\det G$ at the $0/1$ points sum to $1$,
+We have
 \[\sum_{x,y\in\{0,1\}^I}\det G(x,y)=1,\]
 and consequently there are $x,y\in\{0,1\}^I$ with $\abs{\det G(x,y)}\ge1$.
 \end{corollary}
 \begin{proof}
 Each $G_{pq}$ has total degree $\le4$ (Proposition~\ref{prop:top}), so for a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total
-degree $\le4m$, which is the number of variables $X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over the $0/1$ points is therefore
+degree $\le4m$, which is the number of variables $X_i,Y_i$. By Lemma~\ref{lem:cube} and Proposition~\ref{prop:matching} its sum over all $x,y\in\{0,1\}^I$ is therefore
 $\coeff_\nu\prod_MG_{pq}=1$. The matrix $G$ is symmetric with zero diagonal (Proposition~\ref{prop:symm}), so Lemma~\ref{lem:det} applies to it; as squaring is additive in
 characteristic $2$, we get
 \[
