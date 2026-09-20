@@ -205,11 +205,12 @@ vanishes at every point is zero. So it suffices to check these identities at poi
 $g(y,x)=\Phi(y,x;y,x)=\Phi(y,x;x,y)$, so by bilinearity in the first two slots and \eqref{eq:Phi}
 \begin{align*}
 g(x,y)+g(y,x)&=\Phi(x+y,x+y;x,y)+\Phi(x,x;x,y)+\Phi(y,y;x,y)\\
-&=W\bigl((x+y)x,(x+y)y\bigr)+W(x^2,xy)+W(xy,y^2).
+&=W\bigl((x+y)x,(x+y)y\bigr)+W(x^2,xy)+W(xy,y^2)\\
+&=\bigl[W(x^2,xy)+W(x^2,y^2)+W(xy,xy)+W(xy,y^2)\bigr]\\
+&\qquad{}+W(x^2,xy)+W(xy,y^2)\\
+&=W(x^2,y^2),
 \end{align*}
-Expanding by bilinearity, $W((x+y)x,(x+y)y)=W(x^2,xy)+W(x^2,y^2)+W(xy,xy)+W(xy,y^2)$. Here $W(xy,xy)=0$, and the terms
-$W(x^2,xy)$ and $W(xy,y^2)$ now each occur twice in $g(x,y)+g(y,x)$, so they cancel because $2=0$. This leaves
-$g(x,y)+g(y,x)=W(x^2,y^2)$, whose $(p,q)$ entry is $x_p^2y_q^2+x_q^2y_p^2$. Finally
+where the last step uses $2=0$ and $W(xy,xy)=0$. This is the matrix whose $(p,q)$ entry is $x_p^2y_q^2+x_q^2y_p^2$. Finally
 $g(x,x)=W(x^2,x^2)=0$.
 \end{proof}
 
