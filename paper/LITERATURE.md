@@ -462,3 +462,30 @@ once, with the independent assessments of each pair of agents.
 - No source found for 'polarisation in characteristic p' for *continuous* polynomial maps between infinite-dimensional spaces. The only characteristic-p polarisation material I saw was for polynomials over finite fields, which is a different question.
 - I could not verify the Bourbaki reference that Gouëzel mentions (which chapter/section imposes the n!-invertibility condition), nor the classical statement that every quadratic form on a free module is q(x)=b(x,x) for some bilinear b via an ordered basis — i.e. the algebraic ancestor of the note's 'sorted lift'. I saw this attributed to Bourbaki only in a search-engine summary, never on a page I loaded, so I am not citing it.
 - Ingleton's theorem (Hahn–Banach over k holds iff k is spherically complete) appeared only in search summaries; both the Semantic Scholar page and the two PDFs I tried failed to render, so I am not citing it as verified.
+
+---
+
+# Addendum: review of the note's "Related work" section (2026-09-20)
+
+Two further agents checked the section "Related work" of `paper/counterexample.tex` against this record. Outcomes:
+
+- **Galindo versus Garibaldi–Nakano.** Only in Garibaldi–Nakano does a lift exist once extra structure (G-invariance) is
+  forgotten. In Galindo's setting the failure is absolute: there is no bilinear `b` at all. The note was corrected.
+- **Scully.** His "bilinear lifts" are symmetric, so in characteristic 2 the forms being lifted have vanishing polar form
+  (quasilinear forms); he takes existence as known and studies uniqueness. The note was corrected to say so.
+- **Izhakian–Knebusch–Rowen** (arXiv:1509.01039, Definition 5.1, Construction 5.2) is the closest published match to the note's
+  notion and to the sorted lift, under the name "expansion". It is now cited in the note.
+- **Glöckner 2005.** The verified statement is that there are finite-dimensional smooth Lie groups over local fields of positive
+  characteristic admitting no compatible analytic Lie group structure. The note's wording was tightened.
+- **Gouëzel's pull request #43338** records that his argument does not cover the general positive-characteristic case; it does
+  not pose an open problem, and the note does not settle all of characteristic 2 (only fields that are not spherically
+  complete). The note's wording was corrected.
+- **Chevalley–Warning.** The note describes its hypercube-sum lemma as the computation in the standard proof of the
+  Chevalley–Warning theorem and gives no reference. A draft had cited J. Ax, "Zeros of polynomials over finite fields",
+  Amer. J. Math. 86 (1964), 255–261; the bibliographic data are correct, but that paper proves a strengthening by another
+  method and is not the standard reference, so the citation was removed.
+- **Elman–Karpenko–Merkurjev.** A reviewer checked the table of contents of the published AMS volume: Chapter II is "Quadratic
+  Forms" and its Section 7 is "Foundations", consistent with the preliminary draft used in the search. The note cites the chapter.
+- **Bochnak–Siciak 1971** is not cited in the note, because its text could not be read.
+- **Multilinear tail property.** Not found in the literature by this search; van Rooij's and Perez-Garcia–Schikhof's books were
+  not read, so the case `d = 1` (which follows from van der Put's theorem) and possibly more may be classical there.

@@ -418,7 +418,7 @@ which contradicts \eqref{eq:yball}.
 \end{proof}
 
 \section{Remarks}
-\begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]
+\begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]\label{rem:why}
 In characteristic $\neq2$ the lift $\tfrac12\bigl(m\circ(f,g)+m\circ(g,f)\bigr)$ exists, and the parity argument breaks
 (pairs add instead of cancelling). If $E$ has an orthogonal base $(e_i)$, e.g.\ $E=c_0$, and $F$ is Banach, then
 \[
@@ -448,6 +448,49 @@ formalized. In odd characteristic $\ell$, for forms of degree $\ell$, the questi
 Pfaffian-type top power, so a different invariant is needed.
 \end{remark}
 
+\section{Related work}\label{sec:related}
+\subsection*{What is known}
+The lifts of Step~1 are classical in algebra. A quadratic form on a module is a map $Q$ with $Q(ax)=a^2Q(x)$ whose polar
+form $Q(x+y)-Q(x)-Q(y)$ is bilinear, and one asks for a bilinear form $\beta$, not necessarily symmetric, with
+$Q(x)=\beta(x,x)$. Two such $\beta$ differ by an alternating form, and on a finitely generated projective module $\beta$
+always exists: on a free module one orders a basis $(v_i)$ and lets $\beta(v_i,v_j)$ be the polar form for $i<j$, $Q(v_i)$
+for $i=j$ and $0$ for $i>j$~\cite[Lemma~1.12]{SP}. Over a field this is the exact sequence
+$0\to\operatorname{Alt}\to\operatorname{Bil}\to\operatorname{Quad}\to0$~\cite[Ch.~II]{EKM}. It is the sorted lift of
+Remark~\ref{rem:why}. The name ``bilinear lift'' is used in~\cite[\S3]{Sc} for symmetric $\beta$ over a field of
+characteristic $2$; there the forms being lifted have vanishing polar form, existence is taken as known, and the question
+is uniqueness. The notion of this note appears under the name ``expansion'' in~\cite[Def.~5.1]{IKR}, with the sorted lift
+as its existence proof. Equivalently, $Q$ is a linear map on the divided power $\Gamma^2$ (\cite{Ro}; see~\cite{CLF}), which for a
+free module is the module of symmetric tensors, and a lift is an extension of this map to the whole tensor square;
+polynomial laws and divided powers are being formalized in Lean~\cite{CLF}.
+
+Lifts can fail to exist for algebraic reasons. For abelian groups, every quadratic form with values in every group has a
+lift if and only if the group has no $2$-torsion~\cite[\S5]{Ga}. In characteristic $2$ a nonzero invariant quadratic form on
+a nontrivial irreducible representation of a split reductive group $G$ has no invariant lift, and the obstruction lies in
+$H^1(G,\Lambda^2V)$~\cite[\S11]{GN}. In the second case, as in this note, a lift exists once the extra structure is
+forgotten; in the first it fails outright.
+
+Over $\mathbb R$ and $\mathbb C$ polarisation makes the question vacuous. Gl\"ockner~\cite{Gl} constructed
+finite-dimensional smooth Lie groups over local fields of positive characteristic that admit no compatible analytic Lie
+group structure, by a different mechanism. The
+failure of the Hahn--Banach theorem over fields that are not spherically complete goes back to Ingleton~\cite{In} and van
+der Put~\cite{vdP}; Proposition~\ref{prop:nsc} is one direction of van der Put's theorem. Lemma~\ref{lem:det} is the
+classical fact that the determinant of an alternating matrix is the square of its Pfaffian, and Lemma~\ref{lem:cube} is
+the computation in the standard proof of the Chevalley--Warning theorem.
+
+\subsection*{What is new}
+We did not find the following in the literature; the search and its limits are recorded in the file
+\texttt{paper/LITERATURE.md} of the repository of \S\ref{sec:lean}.
+\begin{itemize}
+\item The question of \emph{bounded} lifts between normed spaces, and an example in which none exists
+(Lemma~\ref{lem:lift} and Steps~2--4).
+\item The identity of Step~2 (Proposition~\ref{prop:matching} and Corollary~\ref{cor:point}), which holds for every
+$4$-linear $\Phi$ satisfying~\eqref{eq:Phi}.
+\item The multilinear form of the tail property (Proposition~\ref{prop:tails}); for $d=1$ it follows from van der Put's
+theorem.
+\item The consequence that $\Alt^\iota(-,F)$ is not analytic: the general case in positive characteristic, which
+\cite{G1} does not cover, has a negative answer in characteristic~$2$.
+\end{itemize}
+
 \section{Formalization}\label{sec:lean}
 The Lean~4/Mathlib development is at
 \begin{center}\url{https://github.com/Deicyde/alternating-analytic-counterexample}\end{center}
@@ -465,16 +508,33 @@ Corollary~\ref{cor:point} records only that the witnesses lie in the unit ball, 
 elements, the positive statements in the remarks, and the bundle-level consequence (no $C^\omega$ vector-bundle structure on
 bundles of continuous alternating maps in this generality).
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
+\bibitem{CLF} A.~Chambert-Loir and M.~I.~de Frutos-Fern\'andez, \emph{Formalizing polynomial laws and the universal divided
+power algebra}, CPP~'26, arXiv:2512.05750.
+\bibitem{EKM} R.~Elman, N.~Karpenko and A.~Merkurjev, \emph{The Algebraic and Geometric Theory of Quadratic Forms}, Amer.\
+Math.\ Soc.\ Colloquium Publications 56, 2008.
+\bibitem{Ga} C.~Galindo, \emph{A note on the Eilenberg--Mac~Lane isomorphism for quadratic forms}, arXiv:2507.15726, 2025.
+\bibitem{GN} S.~Garibaldi and D.~K.~Nakano, \emph{Bilinear and quadratic forms on rational modules of split reductive groups},
+Canad.\ J.\ Math.\ \textbf{68} (2016), 395--421.
+\bibitem{Gl} H.~Gl\"ockner, \emph{Smooth Lie groups over local fields of positive characteristic need not be analytic},
+J.\ Algebra \textbf{285} (2005), 356--371.
 \bibitem{G1} S.~Gou\"ezel, \emph{In characteristic $0$, precomposition by a linear map is analytic on the space of
 alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43338}}.
 \bibitem{G2} S.~Gou\"ezel, \emph{The bundle of continuous alternating maps is $C^n$}, draft pull request \#43234 to Mathlib,\\
 {\small\url{https://github.com/leanprover-community/mathlib4/pull/43234}}.
+\bibitem{In} A.~W.~Ingleton, \emph{The Hahn--Banach theorem for non-Archimedean-valued fields}, Proc.\ Cambridge Philos.\
+Soc.\ \textbf{48} (1952), 41--45.
+\bibitem{IKR} Z.~Izhakian, M.~Knebusch and L.~Rowen, \emph{Quadratic and symmetric bilinear forms on modules with unique base
+over a semiring}, arXiv:1509.01039, 2015.
 \bibitem{La} S.~Lang, \emph{Fundamentals of Differential Geometry}, Graduate Texts in Mathematics 191, Springer, 1999.
 \bibitem{docs} The mathlib Community, \emph{Mathlib documentation}, \texttt{docs\#AnalyticAt},\\
 {\small\url{https://leanprover-community.github.io/mathlib4_docs/find/?pattern=AnalyticAt#doc}}.
 \bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
+\bibitem{Ro} N.~Roby, \emph{Lois polyn\^omes et lois formelles en th\'eorie des modules}, Ann.\ Sci.\ \'Ecole Norm.\ Sup.\ (3)
+\textbf{80} (1963), 213--348.
+\bibitem{SP} R.~Schulze-Pillot, \emph{Lecture notes on quadratic forms and their arithmetic}, arXiv:2008.12847, 2021.
+\bibitem{Sc} S.~Scully, \emph{On the holes in $I^n$ for symmetric bilinear forms in characteristic $2$}, arXiv:2409.02061, 2024.
 \bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
 \bibitem{vR} A.~C.~M.~van Rooij, \emph{Non-Archimedean Functional Analysis}, Marcel Dekker, 1978.
 \end{thebibliography}
