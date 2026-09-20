@@ -286,9 +286,13 @@ and consequently there are $x,y\in\{0,1\}^I$ with $\abs{\det G(x,y)}\ge1$.
 \end{corollary}
 \begin{proof}
 Each $G_{pq}$ has total degree $\le4$ (Proposition~\ref{prop:top}), so for a perfect matching $M$ the product $\prod_{\{p,q\}\in M}G_{pq}$ has total
-degree $\le4m$. By Lemma~\ref{lem:cube} with $N=4m$, the number of variables of $\kk[X,Y]$, its sum over all $x,y\in\{0,1\}^I$ is therefore
-the coefficient of the monomial $\prod_{i\in I}X_iY_i$, in which every variable occurs once, and this coefficient is $1$ by
-Proposition~\ref{prop:matching}. For each pair $x,y$ the
+degree $\le4m$. By Lemma~\ref{lem:cube} with $N=4m$, the number of variables of $\kk[X,Y]$, and by
+Proposition~\ref{prop:matching},
+\[
+\sum_{x,y\in\{0,1\}^I}\ \prod_{\{p,q\}\in M}G_{pq}(x,y)=\coeff_\nu\prod_{\{p,q\}\in M}G_{pq}=1,
+\qquad\text{where }\nu=\prod_{i\in I}X_iY_i .
+\]
+For each pair $x,y$ the
 matrix $G(x,y)$ is symmetric with zero diagonal (Proposition~\ref{prop:symm}), so Lemma~\ref{lem:det} applies to it. In
 characteristic $2$ we have the Frobenius endomorphism $a\mapsto a^2$ of $\kk$. Hence
 \begin{align*}
