@@ -331,11 +331,8 @@ $\norm{y-\sum_{k<n}\tail k{s_k}}\le\max_{k\ge n}r_k/\norm\varphi=r_n/\norm\varph
 \le\norm\varphi\,\Bigl\lVert y-\sum_{k<n}\tail k{s_k}\Bigr\rVert\le\norm\varphi\cdot\frac{r_n}{\norm\varphi}=r_n .
 \]
 Put $a:=\varphi(y)+c_1\in\kk$. We have just shown that $\abs{a-c_{n+1}}\le r_n$, and $\abs{c_{n+1}-c_n}\le r_n$ by
-\textup{(K2)}, so the ultrametric inequality gives
-\[
-\abs{a-c_n}\le\max\bigl(\abs{a-c_{n+1}},\abs{c_{n+1}-c_n}\bigr)\le r_n .
-\]
-This holds for every $n$. Thus $a\in\bigcap_nB(c_n,r_n)$, which contradicts \textup{(K2)}.
+\textup{(K2)}, so by the ultrametric inequality
+$\abs{a-c_n}\le\max\bigl(\abs{a-c_{n+1}},\abs{c_{n+1}-c_n}\bigr)\le r_n$ for every $n$. Thus $a\in\bigcap_nB(c_n,r_n)$, which contradicts \textup{(K2)}.
 \end{proof}
 This is the direction of van der Put's theorem~\cite{vdP} that we need, $(\linf/c_0)'=0$; the index shift absorbs the usual
 $(1+\varepsilon)$ loss, and no Hahn--Banach argument is used.
