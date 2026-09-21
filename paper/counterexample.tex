@@ -336,35 +336,84 @@ Put $a:=\varphi(y)+c_1\in\kk$. We have just shown that $\abs{a-c_{n+1}}\le r_n$,
 \textup{(K2)}, so by the ultrametric inequality
 $\abs{a-c_n}\le\max\bigl(\abs{a-c_{n+1}},\abs{c_{n+1}-c_n}\bigr)\le r_n$ for every $n$. Thus $a\in\bigcap_nB(c_n,r_n)$, which contradicts \textup{(K2)}.
 \end{proof}
-This is the direction of van der Put's theorem~\cite{vdP} that we need, $(\linf/c_0)'=0$; the index shift absorbs the usual
-$(1+\varepsilon)$ loss, and no Hahn--Banach argument is used.
+This is one direction of van der Put's theorem~\cite[Th\'eor\`eme~(3.2)]{vdP}: $\kk$ is spherically complete if and only if
+$(\linf/c_0)'\ne0$. The next lemma, the description of the dual of $\linf$, is~\cite[Th\'eor\`eme~(4.1)]{vdP}; see
+also~\cite[Ch.~4]{vR}. We include a proof.
+
+\begin{lemma}\label{lem:dual}
+Let $\varphi$ be a bounded linear functional on $\linf$. Then $\varphi(e_i)\to0$, and $\varphi(x)=\sum_ix_i\varphi(e_i)$ for every
+$x\in\linf$. In particular $\abs{\varphi(u)}\le\norm u\,\sup_{i\ge N}\abs{\varphi(e_i)}$ whenever $u=\tail Nu$.
+\end{lemma}
+\begin{proof}
+Suppose that $\varphi(e_i)\not\to0$. Then there are $\varepsilon_0>0$ and indices $i_0<i_1<\cdots$ with
+$\abs{\varphi(e_{i_k})}\ge\varepsilon_0$. Let $T\colon\linf\to\linf$ be the operator with $T(x)(i_k)=x_k/\varphi(e_{i_k})$ and all other
+coordinates $0$; it is linear and $\norm{T(x)}\le\norm x/\varepsilon_0$. So $\psi:=\varphi\circ T$ is a bounded functional, and
+$\psi(e_k)=1$ for all $k$. Let $\sh$ be the right shift, $\sh(x)(0)=0$ and $\sh(x)(i+1)=x(i)$. The bounded functional
+$\psi\circ(1-\sh)$ takes the value $\psi(e_k)-\psi(e_{k+1})=0$ at every $e_k$, so it vanishes by Proposition~\ref{prop:nsc}. But
+$(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$, a contradiction.
+
+Hence $x_i\varphi(e_i)\to0$ for every $x\in\linf$, and since $\kk$ is complete the series $\sigma(x):=\sum_ix_i\varphi(e_i)$
+converges, with $\abs{\sigma(x)}\le\norm x\,\sup_i\abs{\varphi(e_i)}\le\norm\varphi\norm x$. So $\sigma$ is a bounded functional with
+$\sigma(e_j)=\varphi(e_j)$ for all $j$, and $\varphi=\sigma$ by Proposition~\ref{prop:nsc}. The last assertion follows by applying this formula to $u=\tail Nu$ and
+bounding the partial sums by the ultrametric inequality.
+\end{proof}
 
 \begin{proposition}[multilinear Phillips property]\label{prop:tails}
 Let $\lambda$ be a bounded $d$-linear form on $\linf$ and $\varepsilon>0$. There is $N$ such that
 $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_j}\le1$ for all $j$ and $u_j=\tail N{u_j}$ for some $j$.
 \end{proposition}
-\begin{proof}[Sketch \textup{(the complete proof is in the Lean development)}]
-\emph{The case $d=1$}, $\lambda=\varphi$. (a) $\varphi(e_i)\to0$. Otherwise $\abs{\varphi(e_{i_k})}\ge\varepsilon$ along a subsequence. Let $T$ be
-the bounded operator with $T(x)_{i_k}=x_k/\varphi(e_{i_k})$ and all other coordinates $0$, and $\psi:=\varphi\circ T$, so that
-$\psi(e_k)=1$ for all $k$. With $\sh$ the right shift, $\psi\circ(1-\sh)$ kills every $e_k$, hence vanishes by
-Proposition~\ref{prop:nsc}; but $(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$. (b) For fixed $x$,
-$\varphi(\tail Nx)-\varphi(\tail{N+1}x)=x_N\varphi(e_N)\to0$, so $\varphi(\tail Nx)$ converges, as $\kk$ is complete; the limit is a bounded linear functional
-of $x$ killing every $e_i$, hence it is $0$. (c) If the claim failed for $\varepsilon$, then (b) would give unit vectors $w_k$ with
-disjoint finite supports moving to infinity and $\abs{\varphi(w_k)}>\varepsilon$; the functional
-$c\mapsto\varphi(\sum_kc_kw_k)$ (coordinatewise sum) then contradicts (a).
+We call such an $N$ a \textbf{threshold} for $\lambda$; every larger integer is then a threshold too. In the proof
+$\varepsilon$ is fixed once and for all.
+\begin{proof}
+By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
 
-\emph{The case $d>1$}, by induction on $d$. Suppose the claim fails for $\varepsilon$. First, for every $M$ there is a unit tuple
-with $\abs\lambda>\varepsilon$ \emph{all} of whose slots vanish below $M$: start from a witness one of whose slots is supported very far
-out, and split any other slot into its part below $M$, a finite combination of the $e_i$, and its tail; the inductive
-hypothesis, applied to the finitely many $(d-1)$-linear forms obtained by freezing that slot at $e_i$, $i<M$, shows that
-the part below $M$ contributes at most $\varepsilon$, so the tail carries $\abs\lambda>\varepsilon$. Next, by (b) each slot can be cut down to
-a finite window. Finally choose such tuples $z^{(s)}$ with windows moving to infinity fast enough and let $x$ be the
-coordinatewise sum of their first slots. Then $\lambda(x,z^{(s)}_2,\dots,z^{(s)}_d)$ equals $\lambda(z^{(s)})$, plus finitely many
-terms with an earlier first slot (each $\le\varepsilon$ by the inductive hypothesis for $\lambda(z^{(r)}_1,\cdot)$, $r<s$), plus one
-term with a far first slot ($\le\varepsilon$ by the case $d=1$). So it has absolute value $>\varepsilon$ for every $s$, contradicting the
-inductive hypothesis for the $(d-1)$-linear form $\lambda(x,\cdot)$.
+Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to find, for each $j$, an integer
+that works when the slot supported far out is the $j$-th one, since the largest of these $d$ integers is then a threshold;
+and as permuting the variables of $\lambda$ gives another bounded $d$-linear form, we may take $j=1$. Suppose that no integer
+works for the first slot. For $u_1,\dots,u_d$ in the unit ball of $\linf$ with $u_1=\tail N{u_1}$,
+Lemma~\ref{lem:dual} applied to the bounded functional $\lambda(\cdot,u_2,\dots,u_d)$ gives
+$\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$. If the left-hand side is $>\varepsilon$, so is one of the
+terms on the right. Hence:
+\begin{itemize}
+\item[$(\ast)$] for every $N$ there are $i\ge N$ and $w_2,\dots,w_d$ in the unit ball with $\abs{\lambda(e_i,w_2,\dots,w_d)}>\varepsilon$.
+\end{itemize}
+The inductive hypothesis applies to the following forms in $d-1$ variables: $\mu_i:=\lambda(e_i,\cdot)$, and, for
+$2\le l\le d$, the form $\nu_{l,i}$ obtained from $\lambda$ by putting $e_i$ in slot $l$; they are bounded because $\norm{e_i}=1$.
+
+We construct indices $i_1<i_2<\cdots$, integers $0=M_0<M_1<\cdots$ and vectors $z^{(s)}_2,\dots,z^{(s)}_d$ in the unit ball, supported in
+$[M_{s-1},M_s)$ such that
+\begin{equation}\label{eq:hump}
+\abs{\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)}>\varepsilon .
+\end{equation}
+Suppose that stages $1,\dots,s-1$ have been carried out. Let $K_s$ be a common threshold for the finitely many forms
+$\nu_{l,i}$ with $2\le l\le d$ and $i<M_{s-1}$; for $s=1$ there are none, and we put $K_1:=0$ and $i_0:=-1$. By $(\ast)$ with
+$N=\max(K_s,i_{s-1}+1)$ there are $i_s\ge K_s$, with $i_s>i_{s-1}$, and
+$w_2,\dots,w_d$ in the unit ball with $\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$. Let $M_s>M_{s-1}$ be a threshold for $\mu_{i_s}$, and put
+\[
+z^{(s)}_l:=\tail{M_{s-1}}{w_l}-\tail{M_s}{w_l},\qquad\text{so that}\qquad w_l=h_l+z^{(s)}_l+t_l ,
+\]
+where $t_l:=\tail{M_s}{w_l}$ and $h_l$ is a combination of the $e_i$ with $i<M_{s-1}$, with coefficients of absolute value
+$\le1$. Expand $\mu_{i_s}(w_2,\dots,w_d)$ multilinearly into $3^{d-1}$ terms. A term containing some $t_l$ has absolute value
+$\le\varepsilon$, because $M_s$ is a threshold for $\mu_{i_s}$. Consider a term containing no $t_l$ but
+some $h_l$. Expanding one such $h_l$, and leaving the other entries in place, writes the term as a combination, with
+coefficients of absolute value $\le1$, of values of the forms $\nu_{l,i}$, $i<M_{s-1}$, at vectors in the unit ball whose first
+entry is $e_{i_s}=\tail{K_s}{e_{i_s}}$. These values have absolute value $\le\varepsilon$ because $K_s$ is a threshold for
+$\nu_{l,i}$, and so does the term, by the ultrametric inequality. As
+$\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$ while all these terms have absolute value $\le\varepsilon$, the ultrametric inequality shows
+that the one remaining term satisfies~\eqref{eq:hump}.
+
+Now let $u_l:=\sum_sz^{(s)}_l$ coordinatewise; it lies in the unit ball because the supports are disjoint. Let
+$\chi:=\lambda(\cdot,u_2,\dots,u_d)$, a bounded functional. Fix $s$ and write $u_l=A_l+z^{(s)}_l+B_l$ with
+$A_l:=\sum_{r<s}z^{(r)}_l$, a combination of the $e_i$ with $i<M_{s-1}$ with coefficients of absolute value $\le1$, and
+$B_l:=\sum_{r>s}z^{(r)}_l=\tail{M_s}{B_l}$, which lies in the unit ball. Expand
+$\chi(e_{i_s})=\mu_{i_s}(u_2,\dots,u_d)$ multilinearly. Exactly as before, with $K_s$ and $M_s$ as in stage $s$, the terms
+containing some $B_l$, and the terms containing no $B_l$ but some $A_l$, have absolute value $\le\varepsilon$, and the remaining term is
+$\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)$. By~\eqref{eq:hump} and the ultrametric inequality, $\abs{\chi(e_{i_s})}>\varepsilon$ for every
+$s$. Since $i_s\to\infty$, this contradicts Lemma~\ref{lem:dual}.
 \end{proof}
-This is exactly where $\linf$ and (K2) are used; the statement is false for $c_0$ and for spherically complete fields.
+This is where (K2) is used. The statement fails on $c_0$, where $x\mapsto\sum_ix_i$ is a bounded functional taking the value
+$1$ at every $e_i$, and it fails on $\linf$ over a spherically complete field, where the Hahn--Banach theorem~\cite{In}
+gives a nonzero bounded functional vanishing on $c_0$.
 
 \section{Step 4: gluing}\label{sec:step4}
 Recall from Step~1 that $\Phi$ is $4$-linear with values in $F$ and that
@@ -494,7 +543,7 @@ Over $\mathbb R$ and $\mathbb C$ polarisation makes the question vacuous. Gl\"oc
 finite-dimensional smooth Lie groups over local fields of positive characteristic that admit no compatible analytic Lie
 group structure, by a different mechanism. The
 failure of the Hahn--Banach theorem over fields that are not spherically complete goes back to Ingleton~\cite{In} and van
-der Put~\cite{vdP}; Proposition~\ref{prop:nsc} is one direction of van der Put's theorem. Lemma~\ref{lem:det} is the
+der Put~\cite{vdP}; Proposition~\ref{prop:nsc} and Lemma~\ref{lem:dual} are his~\cite[Th\'eor\`emes (3.2) and (4.1)]{vdP}. Lemma~\ref{lem:det} is the
 classical fact that the determinant of an alternating matrix is the square of its Pfaffian, and Lemma~\ref{lem:cube} is
 the computation in the standard proof of the Chevalley--Warning theorem.
 
@@ -506,8 +555,7 @@ We did not find the following in the literature; the search and its limits are r
 (Lemma~\ref{lem:lift} and Steps~2--4).
 \item The identity of Step~2 (Proposition~\ref{prop:matching} and Corollary~\ref{cor:point}), which holds for every
 $4$-linear $\Phi$ satisfying~\eqref{eq:Phi}.
-\item The multilinear form of the tail property (Proposition~\ref{prop:tails}); for $d=1$ it follows from van der Put's
-theorem.
+\item The multilinear form of the tail property (Proposition~\ref{prop:tails}); the case $d=1$ is Lemma~\ref{lem:dual}.
 \item The consequence that $\Alt^\iota(-,F)$ is not analytic: the general case in positive characteristic, which
 \cite{G1} does not cover, has a negative answer in characteristic~$2$.
 \end{itemize}
@@ -522,8 +570,11 @@ is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index
 theorem does the same assuming this only for complete ultrametric fields of characteristic $2$, Banach spaces,
 $E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 \texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
-\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized, including the complete proof of Proposition~\ref{prop:tails} by
-induction on $d$; Lemma~\ref{lem:cube} is \texttt{sum\_eval\_cubePt}, and the field of \S\ref{sec:field} is built with
+\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized.
+Proposition~\ref{prop:tails} is \texttt{tail\_multilinear}, proved in Lean by the same induction on $d$ but organised
+differently: the series formula of Lemma~\ref{lem:dual} is not formalized, and the case $d=1$ (\texttt{tail\_functional}) is
+deduced from $\varphi(e_i)\to0$ (\texttt{tendsto\_apply\_basisVec}) by a gliding hump. Lemma~\ref{lem:cube} is
+\texttt{sum\_eval\_cubePt}, and the field of \S\ref{sec:field} is built with
 $k_0=\mathbb F_2$. The Lean constants in Step~4 are chosen with more slack than here, and the Lean form of
 Corollary~\ref{cor:point} records only that the witnesses lie in the unit ball, which is all that Step~4 uses. Not formalized: non-analyticity at base points other than $0$, index types with more than two
 elements, the positive statements in the remarks, and the bundle-level consequence (no $C^\omega$ vector-bundle structure on
