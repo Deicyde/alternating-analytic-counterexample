@@ -346,9 +346,9 @@ $x\in\linf$. In particular $\abs{\varphi(u)}\le\norm u\,\sup_{i\ge N}\abs{\varph
 \end{lemma}
 \begin{proof}
 Suppose that $\varphi(e_i)\not\to0$. Then there are $\varepsilon_0>0$ and indices $i_0<i_1<\cdots$ with
-$\abs{\varphi(e_{i_k})}\ge\varepsilon_0$. Let $T\colon\linf\to\linf$ be the operator with $T(x)(i_k)=x_k/\varphi(e_{i_k})$ and all other
-coordinates $0$; it is linear and $\norm{T(x)}\le\norm x/\varepsilon_0$. So $\psi:=\varphi\circ T$ is a bounded functional, and
-$\psi(e_k)=1$ for all $k$. Let $\sh$ be the right shift, $\sh(x)(0)=0$ and $\sh(x)(i+1)=x(i)$. The bounded functional
+$\abs{\varphi(e_{i_k})}\ge\varepsilon_0$. Let $T\colon\linf\to\linf$ be the operator which puts $x_k/\varphi(e_{i_k})$ in position $i_k$, for
+every $k$, and $0$ in all other positions; it is linear and $\norm{T(x)}\le\norm x/\varepsilon_0$. Thus
+$T(e_k)=e_{i_k}/\varphi(e_{i_k})$, so $\psi:=\varphi\circ T$ is a bounded functional with $\psi(e_k)=1$ for all $k$. Let $\sh$ be the right shift, $\sh(x)(0)=0$ and $\sh(x)(i+1)=x(i)$. The bounded functional
 $\psi\circ(1-\sh)$ takes the value $\psi(e_k)-\psi(e_{k+1})=0$ at every $e_k$, so it vanishes by Proposition~\ref{prop:nsc}. But
 $(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$, a contradiction.
 
