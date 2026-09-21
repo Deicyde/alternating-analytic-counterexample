@@ -324,11 +324,10 @@ $\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put $s_n:=(c_{n+2}
 \norm{s_n}=\abs{c_{n+2}-c_{n+1}}\,\frac{\norm{u_n}}{\abs{\varphi(u_n)}}\le r_{n+1}\cdot\frac{r_n}{r_{n+1}\norm\varphi}=\frac{r_n}{\norm\varphi} .
 \]
 The difference $s_n-\tail n{s_n}$ is finitely supported, so by linearity $\varphi(s_n-\tail n{s_n})=0$; hence
-$\varphi(\tail n{s_n})=c_{n+2}-c_{n+1}$. Moreover $\norm{\tail n{s_n}}\le\norm{s_n}\le r_n/\norm\varphi$. Define $y$ coordinatewise by
-$y:=\sum_k\tail k{s_k}$. This sum is finite in every coordinate, $y(i)=\sum_{k\le i}s_k(i)$, because $\tail k{s_k}$ vanishes at
-$i$ when $k>i$. By the ultrametric inequality $\abs{y(i)}\le\max_k\norm{s_k}\le r_0/\norm\varphi$, so $y\in\linf$. In the same
-way the $i$-th coordinate of $y-\sum_{k<n}\tail k{s_k}$ is $\sum_{n\le k\le i}s_k(i)$, so
-$\norm{y-\sum_{k<n}\tail k{s_k}}\le\max_{k\ge n}\norm{s_k}\le\max_{k\ge n}r_k/\norm\varphi=r_n/\norm\varphi$. Hence, using the telescoping sum $\sum_{k<n}\varphi(\tail k{s_k})=c_{n+1}-c_1$,
+$\varphi(\tail n{s_n})=c_{n+2}-c_{n+1}$. Moreover $\norm{\tail n{s_n}}\le\norm{s_n}\le r_n/\norm\varphi$. Define
+$y:=\sum_k\tail k{s_k}$ coordinatewise; the sum is finite in every coordinate $i$ because $\tail k{s_k}$ vanishes at $i$ when
+$k>i$. By the ultrametric inequality $\norm y\le\max_k\norm{s_k}\le r_0/\norm\varphi$, so $y\in\linf$, and likewise
+$\norm{y-\sum_{k<n}\tail k{s_k}}\le\max_{k\ge n}\norm{s_k}\le r_n/\norm\varphi$. Hence, using the telescoping sum $\sum_{k<n}\varphi(\tail k{s_k})=c_{n+1}-c_1$,
 \[
 \abs{\varphi(y)+c_1-c_{n+1}}=\Bigl\lvert\varphi\Bigl(y-\sum_{k<n}\tail k{s_k}\Bigr)\Bigr\rvert
 \le\norm\varphi\,\Bigl\lVert y-\sum_{k<n}\tail k{s_k}\Bigr\rVert\le\norm\varphi\cdot\frac{r_n}{\norm\varphi}=r_n .
