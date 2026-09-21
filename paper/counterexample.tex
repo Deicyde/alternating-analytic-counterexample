@@ -375,12 +375,14 @@ $\varepsilon$ is fixed once and for all.
 \begin{proof}
 By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
 
-Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to find, for each $j$, an integer
-that works when the slot supported far out is the $j$-th one, since the largest of these $d$ integers is then a threshold.
-Without loss of generality, assume $j=1$. Suppose that no integer works for the first slot. For $u_1,\dots,u_d$ in the unit ball of $\linf$ with $u_1=\tail N{u_1}$,
-Lemma~\ref{lem:dual} applied to the bounded functional $\lambda(\cdot,u_2,\dots,u_d)$ gives
-$\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$. If the left-hand side is $>\varepsilon$, so is one of the
-terms on the right. Hence:
+Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to show, for each $j$, that there
+is $N_j$ such that $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $u_1,\dots,u_d$ lie in the unit ball of $\linf$ and
+$u_j=\tail{N_j}{u_j}$; then $\max_jN_j$ is a threshold. Without loss of generality, assume $j=1$.
+
+Suppose, for the sake of contradiction, that for every $N$ there are $u_1,\dots,u_d$ in the unit ball with
+$u_1=\tail N{u_1}$ and $\abs{\lambda(u_1,\dots,u_d)}>\varepsilon$. For such a tuple, Lemma~\ref{lem:dual} applied to the bounded
+functional $\lambda(\cdot,u_2,\dots,u_d)$ gives
+$\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$, so one of the terms on the right is $>\varepsilon$. Hence:
 \begin{itemize}
 \item[$(\ast)$] for every $N$ there are $i\ge N$ and $w_2,\dots,w_d$ in the unit ball with $\abs{\lambda(e_i,w_2,\dots,w_d)}>\varepsilon$.
 \end{itemize}
