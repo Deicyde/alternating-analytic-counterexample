@@ -376,9 +376,8 @@ $\varepsilon$ is fixed once and for all.
 By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
 
 Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to find, for each $j$, an integer
-that works when the slot supported far out is the $j$-th one, since the largest of these $d$ integers is then a threshold;
-and as permuting the variables of $\lambda$ gives another bounded $d$-linear form, we may take $j=1$. Suppose that no integer
-works for the first slot. For $u_1,\dots,u_d$ in the unit ball of $\linf$ with $u_1=\tail N{u_1}$,
+that works when the slot supported far out is the $j$-th one, since the largest of these $d$ integers is then a threshold.
+Without loss of generality, assume $j=1$. Suppose that no integer works for the first slot. For $u_1,\dots,u_d$ in the unit ball of $\linf$ with $u_1=\tail N{u_1}$,
 Lemma~\ref{lem:dual} applied to the bounded functional $\lambda(\cdot,u_2,\dots,u_d)$ gives
 $\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$. If the left-hand side is $>\varepsilon$, so is one of the
 terms on the right. Hence:
