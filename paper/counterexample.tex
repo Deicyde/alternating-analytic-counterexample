@@ -307,7 +307,8 @@ because $(2m-1)!!$ is odd. By the ultrametric inequality, $1\le\max_{x,y\in\{0,1
 \end{proof}
 
 \section{Step 3: locality on \texorpdfstring{$\linf$}{l-infinity}}
-This step uses \textup{(K2)} and the completeness of $\kk$, but not the characteristic. Recall \textup{(K2)}: there are
+This step uses \textup{(K2)} and the completeness of $\kk$, which are standing hypotheses of \S\ref{sec:statement}, but not
+the characteristic. Recall \textup{(K2)}: there are
 centres $c_n\in\kk$ and radii $r_0>r_1>\cdots>0$ with $\abs{c_{n+1}-c_n}\le r_n$ such that no element of $\kk$ lies in all the
 balls $B(c_n,r_n)=\{a\in\kk:\abs{a-c_n}\le r_n\}$. Recall also that $e_i\in\linf$ are the unit vectors. For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
 \begin{proposition}\label{prop:nsc}
@@ -346,7 +347,7 @@ $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_j}\le1$ for all $
 the bounded operator with $T(x)_{i_k}=x_k/\varphi(e_{i_k})$ and all other coordinates $0$, and $\psi:=\varphi\circ T$, so that
 $\psi(e_k)=1$ for all $k$. With $\sh$ the right shift, $\psi\circ(1-\sh)$ kills every $e_k$, hence vanishes by
 Proposition~\ref{prop:nsc}; but $(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$. (b) For fixed $x$,
-$\varphi(\tail Nx)-\varphi(\tail{N+1}x)=x_N\varphi(e_N)\to0$, so $\varphi(\tail Nx)$ converges; the limit is a bounded linear functional
+$\varphi(\tail Nx)-\varphi(\tail{N+1}x)=x_N\varphi(e_N)\to0$, so $\varphi(\tail Nx)$ converges, as $\kk$ is complete; the limit is a bounded linear functional
 of $x$ killing every $e_i$, hence it is $0$. (c) If the claim failed for $\varepsilon$, then (b) would give unit vectors $w_k$ with
 disjoint finite supports moving to infinity and $\abs{\varphi(w_k)}>\varepsilon$; the functional
 $c\mapsto\varphi(\sum_kc_kw_k)$ (coordinatewise sum) then contradicts (a).
