@@ -128,6 +128,9 @@ The map $Q$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem
 Theorem~\ref{thm:false}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
+Recall that $Q\colon\cL(E,E)\to\cL(\Alt^2(E,F),\Alt^2(E,F))$ is given by $Q(f)(m)=m\circ(f,f)$, so that $Q(tf)=t^2Q(f)$. This
+step uses nothing about $\kk$ beyond its being nontrivially normed.
+
 \begin{lemma}\label{lem:lift}
 Let $Q\colon X\to Z$ be a map between normed spaces with $Q(tf)=t^2Q(f)$. If $Q$ is analytic at $0$ then there is a bounded
 bilinear $P\colon X\times X\to Z$ with $P(f,f)=Q(f)$ for all $f$.
@@ -162,6 +165,11 @@ Since $2=0$, the first identity gives the symmetry $\Phi(a,b;x,y)=\Phi(a,b;y,x)$
 a $\Phi$.
 
 \section{Step 2: a finite parity identity}
+Recall from Step~1 that $\Phi(a,b;x,y)=P(m_a,m_b)(W)(x,y)$ is $4$-linear with values in $F$, where
+$W(x,y)_{pq}=x_py_q+x_qy_p$, and that it satisfies the two identities~\eqref{eq:Phi}: $\Phi(a,b;x,x)=0$ and
+$\Phi(a,a;x,y)=W(ax,ay)$. This step is algebraic: it uses that $\kk$ has characteristic~$2$, but not \textup{(K2)}, and the
+ultrametric inequality enters only in the last line of Corollary~\ref{cor:point}.
+
 Fix a finite set $I\subset\N$ of even size $2m$ and $a',b'\in E$ with $\norm{a'},\norm{b'}\le1$. Let
 $X_i,Y_i$ ($i\in I$) be indeterminates. Expanding $\Phi$ multilinearly in $x=\sum_{i\in I}X_ie_i$ and $y=\sum_{i\in I}Y_ie_i$
 defines, for any fixed $p,q\in I$, a polynomial
@@ -309,7 +317,9 @@ for a contradiction. The matrix $G$ is built from $P$, but Corollary~\ref{cor:po
 (Remark~\ref{rem:forced}).
 
 \section{Step 3: locality on \texorpdfstring{$\linf$}{l-infinity}}
-For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
+This step uses \textup{(K2)} and the completeness of $\kk$, but not the characteristic. Recall \textup{(K2)}: there are
+centres $c_n\in\kk$ and radii $r_0>r_1>\cdots>0$ with $\abs{c_{n+1}-c_n}\le r_n$ such that no element of $\kk$ lies in all the
+balls $B(c_n,r_n)=\{a\in\kk:\abs{a-c_n}\le r_n\}$. Recall also that $e_i\in\linf$ are the unit vectors. For $x\in\linf$ write $\tail Nx$ for $x$ with its coordinates below $N$ set to $0$.
 \begin{proposition}\label{prop:nsc}
 A bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
 \end{proposition}
@@ -357,6 +367,13 @@ inductive hypothesis for the $(d-1)$-linear form $\lambda(x,\cdot)$.
 This is exactly where $\linf$ and (K2) are used; the statement is false for $c_0$ and for spherically complete fields.
 
 \section{Step 4: gluing}\label{sec:step4}
+Recall from Step~1 that $\Phi$ is $4$-linear with values in $F$ and that
+\[
+\norm{\Phi(a,b;x,y)}\le C\norm a\,\norm b\,\norm x\,\norm y\qquad\text{with }C\ge1 .
+\]
+We now combine Corollary~\ref{cor:point} (Step~2) with
+Proposition~\ref{prop:tails} (Step~3); apart from these, only the ultrametric inequality is used.
+
 Choose inductively finite sets $I_1<I_2<\cdots$ in $\N$ (every element of $I_t$ is smaller than every element of
 $I_{t+1}$) with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
 Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
