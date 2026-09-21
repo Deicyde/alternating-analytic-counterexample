@@ -386,13 +386,14 @@ $\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$, 
 \begin{itemize}
 \item[$(\ast)$] for every $N$ there are $i\ge N$ and $w_2,\dots,w_d$ in the unit ball with $\abs{\lambda(e_i,w_2,\dots,w_d)}>\varepsilon$.
 \end{itemize}
-The inductive hypothesis applies to the following forms in $d-1$ variables: $\mu_i:=\lambda(e_i,\cdot)$, and, for
+The inductive hypothesis applies to the following forms in $d-1$ variables: the form
+$\mu_i(v_2,\dots,v_d):=\lambda(e_i,v_2,\dots,v_d)$ obtained from $\lambda$ by putting $e_i$ in the first slot, and, for
 $2\le l\le d$, the form $\nu_{l,i}$ obtained from $\lambda$ by putting $e_i$ in slot $l$.
 
 We construct indices $i_1<i_2<\cdots$, integers $0=M_0<M_1<\cdots$ and vectors $z^{(s)}_2,\dots,z^{(s)}_d$ in the unit ball, supported in
 $[M_{s-1},M_s)$ such that
 \begin{equation}\label{eq:hump}
-\abs{\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)}>\varepsilon .
+\abs{\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)}=\abs{\lambda(e_{i_s},z^{(s)}_2,\dots,z^{(s)}_d)}>\varepsilon .
 \end{equation}
 Suppose that stages $1,\dots,s-1$ have been carried out. Let $K_s$ be a common threshold for the finitely many forms
 $\nu_{l,i}$ with $2\le l\le d$ and $i<M_{s-1}$; for $s=1$ there are none, and we put $K_1:=0$ and $i_0:=-1$. By $(\ast)$ with
