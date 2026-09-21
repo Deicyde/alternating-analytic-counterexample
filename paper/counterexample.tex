@@ -323,7 +323,8 @@ $\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put $s_n:=(c_{n+2}
 \norm{s_n}=\abs{c_{n+2}-c_{n+1}}\,\frac{\norm{u_n}}{\abs{\varphi(u_n)}}\le r_{n+1}\cdot\frac{r_n}{r_{n+1}\norm\varphi}=\frac{r_n}{\norm\varphi} .
 \]
 The difference $s_n-\tail n{s_n}$ is finitely supported, so by linearity $\varphi(s_n-\tail n{s_n})=0$. Hence replacing $s_n$ by
-$\tail n{s_n}$ changes neither property, and we may assume that $s_n$ vanishes below $n$. Then the sum
+$\tail n{s_n}$ does not change $\varphi(s_n)$. It does not increase the sup norm either, since it only sets some coordinates
+to $0$. So both properties persist, and we may assume that $s_n$ vanishes below $n$. Then the sum
 $y:=\sum_ks_k$ is finite in every coordinate, and by the ultrametric inequality $y\in\linf$ and
 $\norm{y-\sum_{k<n}s_k}\le\max_{k\ge n}r_k/\norm\varphi=r_n/\norm\varphi$. Applying $\varphi$, and using the telescoping sum
 $\sum_{k<n}\varphi(s_k)=c_{n+1}-c_1$, we get $\abs{\varphi(y)+c_1-c_{n+1}}\le r_n$. Since $\abs{c_{n+1}-c_n}\le r_n$, the
