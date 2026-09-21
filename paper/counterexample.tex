@@ -324,9 +324,7 @@ balls $B(c_n,r_n)=\{a\in\kk:\abs{a-c_n}\le r_n\}$. Recall also that $e_i\in\linf
 A bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $i$ is zero.
 \end{proposition}
 \begin{proof}
-By linearity, $\varphi$ kills finitely supported sequences, so $\varphi(x-\tail Mx)=0$. Hence
-$\varphi(x)=\varphi(\tail Mx)$ and
-$\abs{\varphi(x)}\le\norm\varphi\,\norm{\tail Mx}=\norm\varphi\sup_{i\ge M}\abs{x_i}$. Suppose
+By linearity, $\varphi$ kills finitely supported sequences, so $\varphi(x)=\varphi(\tail Mx)$ for all $x$ and $M$. Suppose
 $\varphi\ne0$. Since $r_{n+1}<r_n$ we have
 $\norm\varphi\,r_{n+1}/r_n<\norm\varphi$, so by the definition of the operator norm there is $u_n\in\linf$ with
 $\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put $s_n:=(c_{n+2}-c_{n+1})\,u_n/\varphi(u_n)$. Then
@@ -334,11 +332,12 @@ $\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put $s_n:=(c_{n+2}
 \varphi(s_n)=c_{n+2}-c_{n+1}\qquad\text{and}\qquad
 \norm{s_n}=\abs{c_{n+2}-c_{n+1}}\,\frac{\norm{u_n}}{\abs{\varphi(u_n)}}\le r_{n+1}\cdot\frac{r_n}{r_{n+1}\norm\varphi}=\frac{r_n}{\norm\varphi} .
 \]
-Let $x_n:=\sum_{k<n}s_k$; then by a telescoping sum $\varphi(x_n)=c_{n+1}-c_1$,
-and by the ultrametric inequality $\norm{x_{n+d}-x_n}\le\max_{n\le k<n+d}r_k/\norm\varphi=r_n/\norm\varphi$. The diagonal sequence $y_i:=x_i(i)$ is bounded, since
-$\norm{x_i}=\norm{x_i-x_0}\le r_0/\norm\varphi$, and $\abs{y_i-x_n(i)}\le r_n/\norm\varphi$ for $i\ge n$. Hence
-$\abs{\varphi(y)+c_1-c_{n+1}}=\abs{\varphi(y-x_n)}\le r_n$, and since $\abs{c_{n+1}-c_n}\le r_n$ the ultrametric inequality gives
-$\abs{\varphi(y)+c_1-c_n}\le r_n$ for every $n$. So $\varphi(y)+c_1\in\bigcap_nB(c_n,r_n)$, a contradiction.
+Replacing $s_n$ by $\tail n{s_n}$ changes neither property, so we may assume that $s_n$ vanishes below $n$. Then the sum
+$y:=\sum_ks_k$ is finite in every coordinate, and by the ultrametric inequality $y\in\linf$ and
+$\norm{y-\sum_{k<n}s_k}\le\max_{k\ge n}r_k/\norm\varphi=r_n/\norm\varphi$. Applying $\varphi$, and using the telescoping sum
+$\sum_{k<n}\varphi(s_k)=c_{n+1}-c_1$, we get $\abs{\varphi(y)+c_1-c_{n+1}}\le r_n$. Since $\abs{c_{n+1}-c_n}\le r_n$, the
+ultrametric inequality gives $\abs{\varphi(y)+c_1-c_n}\le r_n$ for every $n$. So $\varphi(y)+c_1\in\bigcap_nB(c_n,r_n)$, a
+contradiction.
 \end{proof}
 This is the direction of van der Put's theorem~\cite{vdP} that we need, $(\linf/c_0)'=0$; the index shift absorbs the usual
 $(1+\varepsilon)$ loss, and no Hahn--Banach argument is used.
