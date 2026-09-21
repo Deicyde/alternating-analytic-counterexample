@@ -330,9 +330,8 @@ $\norm{y-\sum_{k<n}\tail k{s_k}}\le\max_{k\ge n}r_k/\norm\varphi=r_n/\norm\varph
 \abs{\varphi(y)+c_1-c_{n+1}}=\Bigl\lvert\varphi\Bigl(y-\sum_{k<n}\tail k{s_k}\Bigr)\Bigr\rvert
 \le\norm\varphi\,\Bigl\lVert y-\sum_{k<n}\tail k{s_k}\Bigr\rVert\le\norm\varphi\cdot\frac{r_n}{\norm\varphi}=r_n .
 \]
-Since $\abs{c_{n+1}-c_n}\le r_n$, the
-ultrametric inequality gives $\abs{\varphi(y)+c_1-c_n}\le r_n$ for every $n$. So $\varphi(y)+c_1\in\bigcap_nB(c_n,r_n)$, a
-contradiction.
+Thus $\varphi(y)+c_1\in B(c_{n+1},r_n)=B(c_n,r_n)$ for every $n$, the two balls being equal because
+$\abs{c_{n+1}-c_n}\le r_n$. This contradicts \textup{(K2)}.
 \end{proof}
 This is the direction of van der Put's theorem~\cite{vdP} that we need, $(\linf/c_0)'=0$; the index shift absorbs the usual
 $(1+\varepsilon)$ loss, and no Hahn--Banach argument is used.
