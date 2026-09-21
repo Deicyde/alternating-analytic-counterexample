@@ -327,10 +327,17 @@ A bounded linear functional $\varphi$ on $\linf$ with $\varphi(e_i)=0$ for all $
 By linearity, $\varphi$ kills finitely supported sequences, so $\varphi(x-\tail Mx)=0$. Hence
 $\varphi(x)=\varphi(\tail Mx)$ and
 $\abs{\varphi(x)}\le\norm\varphi\,\norm{\tail Mx}=\norm\varphi\sup_{i\ge M}\abs{x_i}$. Suppose
-$\varphi\ne0$. By the definition of the operator norm, for every $0<s<\norm\varphi$ there is $u$ with $\abs{\varphi(u)}>s\norm u$;
-setting $w:=u/\varphi(u)$ gives $\varphi(w)=1$ and $\norm w\le1/s$. Because
-$r_{n+1}<r_n$ we can choose $s_n\in\linf$ with $\varphi(s_n)=c_{n+2}-c_{n+1}$ and $\norm{s_n}\le r_n/\norm\varphi$: take
-$s_n=(c_{n+2}-c_{n+1})w$ with $\norm w\le r_n/(r_{n+1}\norm\varphi)$. Let $x_n:=\sum_{k<n}s_k$; then $\varphi(x_n)=c_{n+1}-c_1$
+$\varphi\ne0$. Since $r_{n+1}<r_n$ we have
+$\norm\varphi\,r_{n+1}/r_n<\norm\varphi$, so by the definition of the operator norm there is $u_n\in\linf$ with
+$\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put
+\[
+s_n:=(c_{n+2}-c_{n+1})\,\frac{u_n}{\varphi(u_n)} .
+\]
+Then $\varphi(s_n)=c_{n+2}-c_{n+1}$ and
+\[
+\norm{s_n}=\abs{c_{n+2}-c_{n+1}}\,\frac{\norm{u_n}}{\abs{\varphi(u_n)}}\le r_{n+1}\cdot\frac{r_n}{r_{n+1}\norm\varphi}=\frac{r_n}{\norm\varphi} .
+\]
+Let $x_n:=\sum_{k<n}s_k$; then $\varphi(x_n)=c_{n+1}-c_1$
 and $\norm{x_{n+d}-x_n}\le r_n/\norm\varphi$ by the ultrametric inequality. The diagonal sequence $y_i:=x_i(i)$ is bounded, since
 $\norm{x_i}=\norm{x_i-x_0}\le r_0/\norm\varphi$, and $\abs{y_i-x_n(i)}\le r_n/\norm\varphi$ for $i\ge n$. Hence
 $\abs{\varphi(y)+c_1-c_{n+1}}=\abs{\varphi(y-x_n)}\le r_n$, and since $\abs{c_{n+1}-c_n}\le r_n$ the ultrametric inequality gives
