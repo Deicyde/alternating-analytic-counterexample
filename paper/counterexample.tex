@@ -355,8 +355,9 @@ $\psi(e_k)=1$ for all $k$ because $T(e_k)=e_{i_k}/\varphi(e_{i_k})$. Let $\sh$ b
 so it vanishes by Proposition~\ref{prop:nsc}. But
 $(1-\sh)\1=e_0$, so $0=\psi(e_0)=1$, a contradiction.
 
-Hence $x_i\varphi(e_i)\to0$ for every $x\in\linf$, and since $\kk$ is complete the series $\sigma(x):=\sum_ix_i\varphi(e_i)$
-converges, with $\abs{\sigma(x)}\le\norm x\,\sup_i\abs{\varphi(e_i)}\le\norm\varphi\norm x$. So $\sigma$ is a bounded functional with
+Hence $x_i\varphi(e_i)\to0$ for every $x\in\linf$. By the ultrametric inequality a difference of two partial sums of
+$\sigma(x):=\sum_ix_i\varphi(e_i)$ is bounded by its largest term, so the partial sums form a Cauchy sequence, and since $\kk$
+is complete the series converges, with $\abs{\sigma(x)}\le\norm x\,\sup_i\abs{\varphi(e_i)}\le\norm\varphi\norm x$. So $\sigma$ is a bounded functional with
 $\sigma(e_j)=\varphi(e_j)$ for all $j$, and $\varphi=\sigma$ by Proposition~\ref{prop:nsc}. The last assertion follows by applying this formula to $u=\tail Nu$ and
 bounding the partial sums by the ultrametric inequality.
 \end{proof}
