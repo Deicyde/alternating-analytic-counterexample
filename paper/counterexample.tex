@@ -329,12 +329,9 @@ $\varphi(x)=\varphi(\tail Mx)$ and
 $\abs{\varphi(x)}\le\norm\varphi\,\norm{\tail Mx}=\norm\varphi\sup_{i\ge M}\abs{x_i}$. Suppose
 $\varphi\ne0$. Since $r_{n+1}<r_n$ we have
 $\norm\varphi\,r_{n+1}/r_n<\norm\varphi$, so by the definition of the operator norm there is $u_n\in\linf$ with
-$\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put
+$\abs{\varphi(u_n)}>\norm\varphi\,(r_{n+1}/r_n)\,\norm{u_n}$. Put $s_n:=(c_{n+2}-c_{n+1})\,u_n/\varphi(u_n)$. Then
 \[
-s_n:=(c_{n+2}-c_{n+1})\,\frac{u_n}{\varphi(u_n)} .
-\]
-Then $\varphi(s_n)=c_{n+2}-c_{n+1}$ and
-\[
+\varphi(s_n)=c_{n+2}-c_{n+1}\qquad\text{and}\qquad
 \norm{s_n}=\abs{c_{n+2}-c_{n+1}}\,\frac{\norm{u_n}}{\abs{\varphi(u_n)}}\le r_{n+1}\cdot\frac{r_n}{r_{n+1}\norm\varphi}=\frac{r_n}{\norm\varphi} .
 \]
 Let $x_n:=\sum_{k<n}s_k$; then $\varphi(x_n)=c_{n+1}-c_1$
