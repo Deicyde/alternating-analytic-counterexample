@@ -92,7 +92,9 @@ spaces in positive characteristic, but not the general case.
 $n\in\N\cup\{\infty\}$~\cite{PR}.
 \end{itemize}
 This leaves open the case where $\abs\iota!$ is not invertible in $\kk$ and the spaces are infinite-dimensional: is
-$\Alt^\iota(-,F)$ analytic there? The following theorem provides a counterexample.
+$\Alt^\iota(-,F)$ analytic there? Bourbaki~\cite[n\textsuperscript{o}~7.8]{Bou} constructs the bundle of continuous
+alternating maps under the assumption that $\kk$ has characteristic $0$ or that the bundles have finite rank, and states that
+it is not known whether this can be done without any restriction. The following theorem provides a counterexample.
 
 \begin{theorem}\label{thm:false}
 Let $\kk$ be a complete non-Archimedean field of characteristic $2$ which is not spherically complete. There is a Banach
@@ -536,6 +538,8 @@ $E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 \texttt{Solution.lean} by the \texttt{leanprover/comparator} tool.
 
 \begin{thebibliography}{99}
+\bibitem{Bou} N.~Bourbaki, \emph{Vari\'et\'es diff\'erentielles et analytiques. Fascicule de r\'esultats}, Hermann, Paris,
+1967 (\S\S1--7) and 1971 (\S\S8--15); reprinted by Springer, 2007.
 \bibitem{G1} S.~Gou\"ezel, \emph{In characteristic $0$, precomposition by a linear map is analytic on the space of
 alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43338}}.
 \bibitem{G2} S.~Gou\"ezel, \emph{The bundle of continuous alternating maps is $C^n$}, draft pull request \#43234 to Mathlib,\\
