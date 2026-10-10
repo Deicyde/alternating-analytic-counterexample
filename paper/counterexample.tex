@@ -64,7 +64,9 @@ $\norm h<r$. It is \textbf{analytic}, or $C^\omega$, if it is analytic at every 
 Mathlib~\cite{docs}.
 
 Lang~\cite[Ch.~III, \S4]{La} calls a functor $T$ on Banach spaces
-\textbf{of class $\boldsymbol{C^p}$} if $f\mapsto T(f)$ is $C^p$. Similarly, we call a contravariant endofunctor $T$ on the category of normed spaces over $\kk$
+\textbf{of class $\boldsymbol{C^p}$} if $f\mapsto T(f)$ is $C^p$. Bourbaki's \emph{vector functors of class $C^r$} are defined in the
+same way~\cite[n\textsuperscript{o}~7.6.1]{Bou}, and such a functor turns vector bundles into vector
+bundles~\cite[n\textsuperscript{o}~7.6.2]{Bou}. Similarly, we call a contravariant endofunctor $T$ on the category of normed spaces over $\kk$
 \textbf{analytic} if for all $E,E'$ the map
 \[
 \cL(E,E')\to\cL\bigl(T(E'),T(E)\bigr),\qquad f\mapsto T(f),
@@ -73,6 +75,10 @@ is analytic. For a normed space $F$ and a finite $\iota$, the assignment $E\maps
 $f\mapsto(m\mapsto m\circ(f,\dots,f))$, is a contravariant functor. The assignment is also functorial in $F$: a continuous linear map $g\colon F\to F'$ acts by $m\mapsto g\circ m$. This
 action is linear in $g$, hence analytic, whereas the action of $f$ is not linear in $f$. So the bifunctor $\Alt^\iota$ is
 analytic if and only if the functor $\Alt^\iota(-,F)$ is analytic for every $F$.
+
+Bourbaki introduces this bifunctor in~\cite[n\textsuperscript{o}~7.8]{Bou}, as the functor $\alpha_d$ of continuous alternating
+$d$-linear maps with $\alpha_d(f_0,f_1)(u)=f_0\circ u\circ(f_1,\dots,f_1)$, under the assumption that $\kk$ has characteristic $0$ or
+that the bundles have finite rank, and states that it is not known whether this definition can be made without any restriction.
 
 \subsection*{Motivation: alternating bundles in Mathlib}
 In Mathlib, manifolds and vector bundles are modelled on normed spaces (of possibly infinite dimension) over an
@@ -92,17 +98,8 @@ spaces in positive characteristic, but not the general case.
 $n\in\N\cup\{\infty\}$~\cite{PR}.
 \end{itemize}
 This leaves open the case where $\abs\iota!$ is not invertible in $\kk$ and the spaces are infinite-dimensional: is
-$\Alt^\iota(-,F)$ analytic there?
-
-Bourbaki raises the same point. In~\cite[n\textsuperscript{o}~7.6.1]{Bou} a \emph{vector functor of class $C^r$} is a functor
-$\tau$ on Banach spaces such that the map $f\mapsto\tau(f)$ is of class $C^r$, and such a functor turns vector bundles into vector
-bundles~\cite[n\textsuperscript{o}~7.6.2]{Bou}. In~\cite[n\textsuperscript{o}~7.8]{Bou} the functor $\alpha_d$ of continuous
-alternating $d$-linear maps, $\alpha_d(f_0,f_1)(u)=f_0\circ u\circ(f_1,\dots,f_1)$, is introduced under the assumption that $\kk$ has
-characteristic $0$ or that the bundles have finite rank, and it is stated that it is not known whether this definition can be made
-without any restriction.
-
-The following theorem provides a counterexample to the analyticity of the precomposition map. It does not by itself give analytic
-vector bundles whose bundle of continuous alternating maps is not analytic.
+$\Alt^\iota(-,F)$ analytic there? The following theorem provides a counterexample to the analyticity of the precomposition map. It
+does not by itself give analytic vector bundles whose bundle of continuous alternating maps is not analytic.
 
 \begin{theorem}\label{thm:false}
 Let $\kk$ be a complete non-Archimedean field of characteristic $2$ which is not spherically complete. There is a Banach
