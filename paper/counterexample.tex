@@ -398,42 +398,42 @@ Define
 and $\mu_i:=\nu_{1,i}$. These are forms in $d-1$ variables, so the inductive hypothesis applies to them.
 
 \begin{stepclaim}{2}
-construct indices $i_1<i_2<\cdots$, integers $0=M_0<M_1<\cdots$ and vectors $z^{(s)}_2,\dots,z^{(s)}_d$ in the unit ball, supported in
+construct indices $j_1<j_2<\cdots$, integers $0=M_0<M_1<\cdots$ and vectors $z^{(s)}_2,\dots,z^{(s)}_d$ in the unit ball, supported in
 $[M_{s-1},M_s)$ such that
 \begin{equation}\label{eq:hump}
-\abs{\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)}=\abs{\lambda(e_{i_s},z^{(s)}_2,\dots,z^{(s)}_d)}>\varepsilon .
+\abs{\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)}=\abs{\lambda(e_{j_s},z^{(s)}_2,\dots,z^{(s)}_d)}>\varepsilon .
 \end{equation}
 \end{stepclaim}
 \begin{stepproof}
 Suppose that stages $1,\dots,s-1$ have been carried out. Let $K_s$ be a common threshold for the finitely many forms
-$\nu_{l,i}$ with $2\le l\le d$ and $i<M_{s-1}$; for $s=1$ we put $K_1:=0$ and $i_0:=-1$. By Step~1 with
-$N=\max(K_s,i_{s-1}+1)$ there are $i_s\ge K_s$, with $i_s>i_{s-1}$, and
-$w_2,\dots,w_d$ in the unit ball with $\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$. Let $M_s>M_{s-1}$ be a threshold for $\mu_{i_s}$, and put
+$\nu_{l,i}$ with $2\le l\le d$ and $i<M_{s-1}$; for $s=1$ we put $K_1:=0$ and $j_0:=-1$. By Step~1 with
+$N=\max(K_s,j_{s-1}+1)$ there are $j_s\ge K_s$, with $j_s>j_{s-1}$, and
+$w_2,\dots,w_d$ in the unit ball with $\abs{\mu_{j_s}(w_2,\dots,w_d)}>\varepsilon$. Let $M_s>M_{s-1}$ be a threshold for $\mu_{j_s}$, and put
 \[
 z^{(s)}_l:=\tail{M_{s-1}}{w_l}-\tail{M_s}{w_l},\qquad\text{so that}\qquad w_l=h_l+z^{(s)}_l+t_l ,
 \]
-where $t_l:=\tail{M_s}{w_l}$ and $h_l=\sum_{i<M_{s-1}}c_{l,i}e_i$ with $\abs{c_{l,i}}\le1$. Expand $\mu_{i_s}(w_2,\dots,w_d)$ multilinearly into $3^{d-1}$ terms. A term containing some $t_l$ has absolute value
-$\le\varepsilon$, because $M_s$ is a threshold for $\mu_{i_s}$. Consider a term containing no $t_l$ but
+where $t_l:=\tail{M_s}{w_l}$ and $h_l=\sum_{i<M_{s-1}}c_{l,i}e_i$ with $\abs{c_{l,i}}\le1$. Expand $\mu_{j_s}(w_2,\dots,w_d)$ multilinearly into $3^{d-1}$ terms. A term containing some $t_l$ has absolute value
+$\le\varepsilon$, because $M_s$ is a threshold for $\mu_{j_s}$. Consider a term containing no $t_l$ but
 some $h_l$, say in slot $l$. By linearity in slot $l$, the term equals
 \[
-\sum_{i<M_{s-1}}c_{l,i}\,\lambda(e_{i_s},\dots,\underbrace{e_i}_{\text{slot }l},\dots)
-=\sum_{i<M_{s-1}}c_{l,i}\,\nu_{l,i}(e_{i_s},\dots).
+\sum_{i<M_{s-1}}c_{l,i}\,\lambda(e_{j_s},\dots,\underbrace{e_i}_{\text{slot }l},\dots)
+=\sum_{i<M_{s-1}}c_{l,i}\,\nu_{l,i}(e_{j_s},\dots).
 \]
 The first entry is still
-$e_{i_s}=\tail{K_s}{e_{i_s}}$, because $i_s\ge K_s$, and $K_s$ is a threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. So every
+$e_{j_s}=\tail{K_s}{e_{j_s}}$, because $j_s\ge K_s$, and $K_s$ is a threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. So every
 summand has absolute value $\le\varepsilon$, and so does the term, by the ultrametric inequality. As
-$\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$ while all these terms have absolute value $\le\varepsilon$, the ultrametric inequality shows
-that the one remaining term satisfies~\eqref{eq:hump}.
+$\abs{\mu_{j_s}(w_2,\dots,w_d)}>\varepsilon$ while all these terms have absolute value $\le\varepsilon$, the ultrametric inequality shows
+that the remaining term $\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)$ satisfies~\eqref{eq:hump}.
 \end{stepproof}
 
 \noindent\underline{\smash{Step 3}}:\enspace now let $u_l:=\sum_sz^{(s)}_l$ coordinatewise; it lies in the unit ball because the supports are disjoint. Let
 $\chi:=\lambda(\cdot,u_2,\dots,u_d)$, a bounded functional. Fix $s$ and write $u_l=A_l+z^{(s)}_l+B_l$ with
 $A_l:=\sum_{r<s}z^{(r)}_l$, a combination of the $e_i$ with $i<M_{s-1}$ with coefficients of absolute value $\le1$, and
 $B_l:=\sum_{r>s}z^{(r)}_l=\tail{M_s}{B_l}$, which lies in the unit ball. Expand
-$\chi(e_{i_s})=\mu_{i_s}(u_2,\dots,u_d)$ multilinearly. Exactly as before, with $K_s$ and $M_s$ as in stage $s$, the terms
+$\chi(e_{j_s})=\mu_{j_s}(u_2,\dots,u_d)$ multilinearly. Exactly as before, with $K_s$ and $M_s$ as in stage $s$, the terms
 containing some $B_l$, and the terms containing no $B_l$ but some $A_l$, have absolute value $\le\varepsilon$, and the remaining term is
-$\mu_{i_s}(z^{(s)}_2,\dots,z^{(s)}_d)$. By~\eqref{eq:hump} and the ultrametric inequality, $\abs{\chi(e_{i_s})}>\varepsilon$ for every
-$s$. Since $i_s\to\infty$, this contradicts Lemma~\ref{lem:dual}.
+$\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)$. By~\eqref{eq:hump} and the ultrametric inequality, $\abs{\chi(e_{j_s})}>\varepsilon$ for every
+$s$. Since $j_s\to\infty$, this contradicts Lemma~\ref{lem:dual}.
 \end{proof}
 This is where (K2) is used. The statement fails on $c_0$, where $x\mapsto\sum_ix_i$ is a bounded functional taking the value
 $1$ at every $e_i$, and it fails on $\linf$ over a spherically complete field, where the Hahn--Banach theorem~\cite{In}
