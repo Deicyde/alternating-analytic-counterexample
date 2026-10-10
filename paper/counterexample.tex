@@ -412,13 +412,15 @@ $w_2,\dots,w_d$ in the unit ball with $\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilo
 \[
 z^{(s)}_l:=\tail{M_{s-1}}{w_l}-\tail{M_s}{w_l},\qquad\text{so that}\qquad w_l=h_l+z^{(s)}_l+t_l ,
 \]
-where $t_l:=\tail{M_s}{w_l}$ and $h_l$ is a combination of the $e_i$ with $i<M_{s-1}$, with coefficients of absolute value
-$\le1$. Expand $\mu_{i_s}(w_2,\dots,w_d)$ multilinearly into $3^{d-1}$ terms. A term containing some $t_l$ has absolute value
+where $t_l:=\tail{M_s}{w_l}$ and $h_l=\sum_{i<M_{s-1}}c_{l,i}e_i$ with $\abs{c_{l,i}}\le1$. Expand $\mu_{i_s}(w_2,\dots,w_d)$ multilinearly into $3^{d-1}$ terms. A term containing some $t_l$ has absolute value
 $\le\varepsilon$, because $M_s$ is a threshold for $\mu_{i_s}$. Consider a term containing no $t_l$ but
-some $h_l$. Expanding one such $h_l$, and leaving the other entries in place, writes the term as a combination, with
-coefficients of absolute value $\le1$, of values of the forms $\nu_{l,i}$, $i<M_{s-1}$, at vectors in the unit ball whose first
-entry is $e_{i_s}=\tail{K_s}{e_{i_s}}$. These values have absolute value $\le\varepsilon$ because $K_s$ is a threshold for
-$\nu_{l,i}$, and so does the term, by the ultrametric inequality. As
+some $h_l$, say in slot $l$. By linearity in slot $l$, the term equals
+\[
+\sum_{i<M_{s-1}}c_{l,i}\,\nu_{l,i}(e_{i_s},\dots),
+\]
+where the dots stand for the other entries of the term, which lie in the unit ball. The first entry is
+$e_{i_s}=\tail{K_s}{e_{i_s}}$, because $i_s\ge K_s$, and $K_s$ is a threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. So every
+summand has absolute value $\le\varepsilon$, and so does the term, by the ultrametric inequality. As
 $\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$ while all these terms have absolute value $\le\varepsilon$, the ultrametric inequality shows
 that the one remaining term satisfies~\eqref{eq:hump}.
 \end{stepproof}
