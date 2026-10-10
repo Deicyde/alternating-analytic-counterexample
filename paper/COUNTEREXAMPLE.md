@@ -1,7 +1,9 @@
 # The analytic case fails in characteristic 2: a counterexample
 
 Date: 2026-09-19. These are the original notes. The paper `counterexample.pdf` gives the final proof and writes `A` for the
-map called `Q` here. The Lean development is machine-checked; see the repository README. The
+map called `Q` here. The Lean development is machine-checked; see the repository README. The `scripts/` cited below have been removed from the
+repository; they are in its history at commit
+[`0a9254b`](https://github.com/Deicyde/alternating-analytic-counterexample/tree/0a9254b/scripts). The
 border form of the finite identity (Lemma A, §2) was verified as a polynomial identity with all free parameters formal
 (`scripts/full5.py`: 3160 parameters at n = 5; `scripts/full7.py`: 20013 at n = 7; `scripts/sym_lemmaA.py`: n = 9). The
 simplified identity of §2′ — the one the Lean proof uses — is checked numerically (`scripts/nobord.py`) and proved in Lean
