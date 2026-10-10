@@ -458,8 +458,11 @@ chosen inside $[N_t,\infty)$.
 
 Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere. Then
 $a=\1_A$ and $b=\1_B$ are indicator functions of two subsets of $\N$, so $m_a,m_b$ are coordinate projections. Let
-$\mathcal O:=\Phi(a,b;a,b)\in F$. Splitting $a=a^{\le t}+a^{>t}$, $b=b^{\le t}+b^{>t}$ and using multilinearity,
-$\norm{\mathcal O|_{I_t\times I_t}-G_t}\le\varepsilon_t$. All entries are bounded by $C$. Expanding the determinant multilinearly in
+$\mathcal O:=\Phi(a,b;a,b)\in F$. Fix $t$ and split $a=a^{\le t}+a^{>t}$ and $b=b^{\le t}+b^{>t}$, where
+$a^{\le t}=a'+a_t$ and $b^{\le t}=b'+b_t$ are the vectors of stage $t$, and $a^{>t},b^{>t}$ are supported in $[N_t,\infty)$. Expand
+$\mathcal O$ multilinearly into $16$ terms. The term containing neither $a^{>t}$ nor $b^{>t}$ restricts to $G_t$ on
+$I_t\times I_t$; each of the other $15$ terms has entries of absolute value $\le\varepsilon_t$ there, by the choice of $N_t$. So
+$\norm{\mathcal O|_{I_t\times I_t}-G_t}\le\varepsilon_t$ by the ultrametric inequality. All entries are bounded by $C$. Expanding the determinant multilinearly in
 columns, every term containing a column of the perturbation is at most $\varepsilon_tC^{2t-1}<1$, so the ultrametric inequality
 gives
 \[
