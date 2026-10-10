@@ -471,9 +471,13 @@ gives
 \abs{\det\mathcal O|_{I_t\times I_t}}=\abs{\det G_t}\ge1\qquad\text{for every }t .
 \]
 On the other hand, every element of $F$ is a uniform limit of matrices of finite rank, because each $W(x,y)$ has rank
-$\le2$. So $\mathcal O\in F$ is within $\eta:=(2C)^{-1}$ of a matrix $R$ of some finite rank $r$. Expanding
-$\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more than $r$ columns from $R$ vanish, so
-$\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
+$\le2$. So there is a matrix $R$ of some finite rank $r$ with $\norm{\mathcal O-R}\le\eta:=(2C)^{-1}$. Put $D:=\mathcal O-R$; its
+entries have absolute value $\le\eta$, and those of $R$ have absolute value $\le C$. Let $t>r$ and expand $\det(R+D)$ on
+$I_t\times I_t$ multilinearly in columns, as before. A term with more than $r$ columns from $R$ vanishes, because these
+columns are linearly dependent. Every other term has at least $2t-r$ columns from $D$, so its absolute value is at most
+$C^r\eta^{2t-r}$, since $\eta\le1\le C$. By the ultrametric inequality,
+$\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}=2^{r-2t}C^{2(r-t)}<1$, which contradicts the previous display. This
+proves Theorem~\ref{thm:main}. \qed
 
 \appendix
 \section{An explicit field}\label{sec:field}
