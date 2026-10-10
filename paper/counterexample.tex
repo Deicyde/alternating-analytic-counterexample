@@ -416,9 +416,10 @@ where $t_l:=\tail{M_s}{w_l}$ and $h_l=\sum_{i<M_{s-1}}c_{l,i}e_i$ with $\abs{c_{
 $\le\varepsilon$, because $M_s$ is a threshold for $\mu_{i_s}$. Consider a term containing no $t_l$ but
 some $h_l$, say in slot $l$. By linearity in slot $l$, the term equals
 \[
-\sum_{i<M_{s-1}}c_{l,i}\,\nu_{l,i}(e_{i_s},\dots),
+\sum_{i<M_{s-1}}c_{l,i}\,\lambda(e_{i_s},\dots,\underbrace{e_i}_{\text{slot }l},\dots)
+=\sum_{i<M_{s-1}}c_{l,i}\,\nu_{l,i}(e_{i_s},\dots).
 \]
-where the dots stand for the other entries of the term, which lie in the unit ball. The first entry is
+The first entry is still
 $e_{i_s}=\tail{K_s}{e_{i_s}}$, because $i_s\ge K_s$, and $K_s$ is a threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. So every
 summand has absolute value $\le\varepsilon$, and so does the term, by the ultrametric inequality. As
 $\abs{\mu_{i_s}(w_2,\dots,w_d)}>\varepsilon$ while all these terms have absolute value $\le\varepsilon$, the ultrametric inequality shows
