@@ -427,11 +427,11 @@ that the remaining term $\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)$ satisfies~\eqref{
 
 \noindent\underline{\smash{Step 3}}:\enspace because the supports $[M_{s-1},M_s)$ of the $z^{(s)}_l$ are pairwise disjoint, and each $z^{(s)}_l$ lies in the unit ball, the sum
 $u_l:=\sum_sz^{(s)}_l$ is well defined with $\norm{u_l}\le1$. Let
-$\chi:=\lambda(\cdot,u_2,\dots,u_d)$, a bounded functional. Fix $s$ and write $u_l=A_l+z^{(s)}_l+B_l$ with
-$A_l:=\sum_{r<s}z^{(r)}_l$ and $B_l:=\sum_{r>s}z^{(r)}_l=\tail{M_s}{B_l}$. Expand
+$\chi:=\lambda(\cdot,u_2,\dots,u_d)$, a bounded functional. Fix $s$ and write $u_l=u_l^{<s}+z^{(s)}_l+u_l^{>s}$, where
+$u_l^{<s}$ is supported in $[0,M_{s-1})$ and $u_l^{>s}$ in $[M_s,\infty)$. Expand
 $\chi(e_{j_s})=\mu_{j_s}(u_2,\dots,u_d)$ multilinearly. Exactly as before, with $K_s$ and $M_s$ as in stage $s$, the terms
-containing some $B_l$ have absolute value $\le\varepsilon$, because $M_s$ is a threshold for $\mu_{j_s}$; and the terms containing
-no $B_l$ but some $A_l$ have absolute value $\le\varepsilon$, because $A_l$ is supported in $[0,M_{s-1})$ and $K_s$ is a
+containing some $u_l^{>s}$ have absolute value $\le\varepsilon$, because $M_s$ is a threshold for $\mu_{j_s}$; and the terms containing
+no $u_l^{>s}$ but some $u_l^{<s}$ have absolute value $\le\varepsilon$, because $K_s$ is a
 threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. The remaining term is
 $\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)$. By~\eqref{eq:hump} and the ultrametric inequality, $\abs{\chi(e_{j_s})}>\varepsilon$ for every
 $s$. Since $j_s\to\infty$, this contradicts Lemma~\ref{lem:dual}.
@@ -450,16 +450,18 @@ Proposition~\ref{prop:tails} (Step~3).
 
 Choose inductively finite sets $I_1<I_2<\cdots$ in $\N$ (every element of $I_t$ is smaller than every element of
 $I_{t+1}$) with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
-Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
-$\abs{\det G_t}\ge1$, where $G_t=\Phi(a'+a_t,b'+b_t;a'+a_t,b'+b_t)|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
+We write $a^{\le t}\in\linf$ for the vector that agrees with $a_s$ on $I_s$ for every $s\le t$ and is zero elsewhere, and define
+$a^{<t}$, $b^{\le t}$ and $b^{<t}$ in the same way.
+Given the earlier stages, apply Corollary~\ref{cor:point} with $a'=a^{<t}$ and $b'=b^{<t}$ to get $a_t,b_t$ with
+$\abs{\det G_t}\ge1$, where $G_t=\Phi(a^{\le t},b^{\le t};a^{\le t},b^{\le t})|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
 Proposition~\ref{prop:tails} (with $d=4$) for the finitely many entry forms $\Phi(\cdot)_{pq}$, $p,q\in I_t$, to get $N_t$ such that
 these forms are at most $\varepsilon_t$ on unit arguments one of which is supported in $[N_t,\infty)$. All later sets $I_s$, $s>t$, are
 chosen inside $[N_t,\infty)$.
 
 Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere. Then
 $a=\1_A$ and $b=\1_B$ are indicator functions of two subsets of $\N$, so $m_a,m_b$ are coordinate projections. Let
-$\mathcal O:=\Phi(a,b;a,b)\in F$. Fix $t$ and split $a=a^{\le t}+a^{>t}$ and $b=b^{\le t}+b^{>t}$, where
-$a^{\le t}=a'+a_t$ and $b^{\le t}=b'+b_t$ are the vectors of stage $t$, and $a^{>t},b^{>t}$ are supported in $[N_t,\infty)$. Expand
+$\mathcal O:=\Phi(a,b;a,b)\in F$. Fix $t$ and split $a=a^{\le t}+a^{>t}$ and $b=b^{\le t}+b^{>t}$; the vectors
+$a^{>t}$ and $b^{>t}$ are supported in the later sets $I_s$, $s>t$, hence in $[N_t,\infty)$. Expand
 $\mathcal O$ multilinearly into $16$ terms. The term containing neither $a^{>t}$ nor $b^{>t}$ restricts to $G_t$ on
 $I_t\times I_t$; each of the other $15$ terms has entries of absolute value $\le\varepsilon_t$ there, by the choice of $N_t$. So
 $\norm{\mathcal O|_{I_t\times I_t}-G_t}\le\varepsilon_t$ by the ultrametric inequality. All entries are bounded by $C$. Expanding the determinant multilinearly in
