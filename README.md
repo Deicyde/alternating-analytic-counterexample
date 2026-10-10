@@ -4,7 +4,7 @@ A counterexample, with a complete Lean 4 / Mathlib formalization.
 
 [![build](https://github.com/Deicyde/alternating-analytic-counterexample/actions/workflows/build.yml/badge.svg)](https://github.com/Deicyde/alternating-analytic-counterexample/actions/workflows/build.yml)
 
-Paper: [paper/counterexample.pdf](paper/counterexample.pdf) (9 pages). To check the formalization: `lake exe cache get && lake build`.
+Paper: [paper/counterexample.pdf](paper/counterexample.pdf) (10 pages). To check the formalization: `lake exe cache get && lake build`.
 
 **Sequel.** The case left open here, characteristic `p ≥ 3`, is settled in *Alternating bundles and analytic descent* (October 2026): the functor is analytic on all hom spaces exactly when `k! ≠ 0` in the field, with Banach counterexamples over every field of characteristic `p` in degree `k ≥ p`. Paper and Lean formalization: https://github.com/Deicyde/alternating-analytic-characteristic-p
 
