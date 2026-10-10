@@ -1,4 +1,4 @@
-# EXHAUSTIVE formal verification of Lemma A for n=5: every Psi_{ij}[e,cd] and every
+# EXHAUSTIVE formal verification of Lemma A for n=7: every Psi_{ij}[e,cd] and every
 # contamination coefficient is a distinct formal indeterminate over F_2.  No sampling.
 import itertools
 n=7; m=(n-3)//2

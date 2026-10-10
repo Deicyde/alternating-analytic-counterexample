@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper."
+title: "Precomposition on continuous alternating maps is not analytic in characteristic 2: paper and Lean formalization"
+type: software
+authors:
+  - family-names: McCarthy
+    given-names: Jack
+repository-code: "https://github.com/Deicyde/alternating-analytic-counterexample"
+license: Apache-2.0
+date-released: "2026-10-10"
+preferred-citation:
+  type: unpublished
+  title: "Precomposition on continuous alternating maps is not analytic in characteristic 2"
+  authors:
+    - family-names: McCarthy
+      given-names: Jack
+  year: 2026
+  month: 9
+  url: "https://github.com/Deicyde/alternating-analytic-counterexample/blob/main/paper/counterexample.pdf"

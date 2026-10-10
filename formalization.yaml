@@ -16,10 +16,25 @@ project:
     analytic vector-bundle structure on bundles of continuous alternating maps in full generality.
   authors: ["Jack McCarthy"]
   responsible_maintainers: ["Jack McCarthy"]
-  license: "No license chosen yet (all rights reserved pending the maintainer's decision)"
+  license: "Apache-2.0"
 
 sources:
-  - title: "Precomposition on continuous alternating maps is not analytic in characteristic 2 (paper/COUNTEREXAMPLE.md in this repository)"
+  - title: "Precomposition on continuous alternating maps is not analytic in characteristic 2"
+    authors: ["Jack McCarthy"]
+    contributors:
+      - name: "Claude (Anthropic), working in Claude Code with Jack McCarthy"
+        role: "found the counterexample and wrote the proof"
+    id: "https://github.com/Deicyde/alternating-analytic-counterexample/blob/main/paper/counterexample.pdf"
+    type: "manuscript"
+    location: "Theorems 1 and 2; Sections 3-6; Appendix A"
+    relationship: "formalizes"
+    note: >
+      The paper in this repository (source paper/counterexample.tex). It writes A for the precomposition map that the
+      Lean code calls Q. Its proof is the one that is formalized: even blocks, the hypercube sum, and the completed
+      2-power Puiseux series as the explicit field.
+    license: "Apache-2.0"
+    author_endorsement: "participated"
+  - title: "The analytic case fails in characteristic 2: a counterexample (paper/COUNTEREXAMPLE.md, the original notes)"
     authors: []
     contributors:
       - name: "Claude (Anthropic), working in Claude Code with Jack McCarthy"
@@ -32,8 +47,9 @@ sources:
       The theorem is first presented by this formalization. The Lean proof follows the simplified finite identity of
       section 2' (even blocks, swap-invariance argument), not the border form of section 2, and obtains the unit point
       from the hypercube sum of the 2026-09-19 simplification section rather than from Corollary A', so the
-      infinite-residue-field hypothesis of section 0 is not used.
-    license: ""
+      infinite-residue-field hypothesis of section 0 is not used. Section numbers in the fidelity and alignment
+      entries below refer to these notes.
+    license: "Apache-2.0"
     author_endorsement: "participated"
   - title: "Espaces de Banach non archimédiens"
     authors: ["Marius van der Put"]
@@ -56,7 +72,14 @@ sources:
     license: "Apache-2.0"
     author_endorsement: "participated"
 
-related_formalizations: []
+related_formalizations:
+  - id: "https://github.com/Deicyde/alternating-analytic-characteristic-p"
+    relationship: "other"
+    note: >
+      Later work by the same author: the paper "Alternating bundles and analytic descent" (October 2026) and its
+      formalization. It settles the case left open here, characteristic p >= 3 (its Theorem 6.1: Banach counterexamples
+      over every field of characteristic p for forms of degree k >= p), and reuses the multilinear tail lemma of this
+      repository.
 
 classification:
   arxiv: ["math.FA", "math.DG"]
@@ -68,7 +91,8 @@ status:
     two comparator theorems with sorry, as that format requires), standard axioms only. The headline results derive False from the general
     C^omega statement (unconditionally: the required field is constructed in Lean). NOT formalized: non-analyticity at
     base points other than 0; index types with more than two elements; the bundle-level consequence. Characteristic
-    p >= 3 is open.
+    p >= 3 is not treated here; it is settled in https://github.com/Deicyde/alternating-analytic-characteristic-p
+    (Theorem 6.1 of "Alternating bundles and analytic descent").
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
@@ -120,14 +144,15 @@ automation:
   spend_usd: "subscription-based usage"
   notes: >
     Everything in this repository (mathematics, Lean code, documentation, this file) was produced by the AI system and
-    has not been edited by a human. The Lean development is machine-checked (CI builds it from scratch at the pinned
+    has not been edited by a human. The Lean development is machine-checked (CI builds it against the pinned
     Mathlib commit, enforces the axiom list with #guard_msgs, and runs leanprover/comparator on Challenge/Solution).
 
 fidelity:
   divergences: >
     (1) Challenge.lean states the result as "the general C^omega statement implies False"; the general statement is
-    quantified over types in universe 0. (2) The write-up names the field "the completion of an algebraic closure of
-    F_2((t))" and cites van der Put's theorem; the Lean development instead constructs the completion of the 2-power
+    quantified over types in universe 0. (2) The original notes (paper/COUNTEREXAMPLE.md, "the write-up"
+    below; the paper itself agrees with Lean on points 2, 4 and 5) name the field "the completion of an algebraic closure of
+    F_2((t))" and cite van der Put's theorem; the Lean development instead constructs the completion of the 2-power
     Puiseux series over F_2 (inside Mathlib's Hahn series) and proves the needed
     direction of van der Put's theorem directly. (3) Lean proves non-analyticity at 0 only (enough for the failure of
     ContDiff omega); the write-up's reduction to an arbitrary base point is not formalized. (4) The finite identity is

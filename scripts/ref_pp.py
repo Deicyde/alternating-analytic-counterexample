@@ -1,8 +1,8 @@
-"""Independent referee check of Corollary A' / Lemma A finite statement.
+"""Independent check of Corollary A' / Lemma A finite statement.
 
 n = 5 (m = 1). Field F_q, q = 2^k.
 Lift R = R_s + Psi. The Psi-part of phi_e is EXACTLY an arbitrary quadratic form in
-the Pluecker coordinates P_ij = a_i b_j + a_j b_i  (see referee note), so we
+the Pluecker coordinates P_ij = a_i b_j + a_j b_i so we
 parametrise it directly by 55 free coefficients S[e][r] per e.
 
     phi_e = a_p b_q P_e + sum_{r = (ij<=cd)} S[e][r] P_ij P_cd          e = {p<q}

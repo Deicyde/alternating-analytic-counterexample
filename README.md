@@ -2,6 +2,12 @@
 
 A counterexample, with a complete Lean 4 / Mathlib formalization.
 
+[![build](https://github.com/Deicyde/alternating-analytic-counterexample/actions/workflows/build.yml/badge.svg)](https://github.com/Deicyde/alternating-analytic-counterexample/actions/workflows/build.yml)
+
+Paper: [paper/counterexample.pdf](paper/counterexample.pdf) (9 pages). To check the formalization: `lake exe cache get && lake build`.
+
+**Sequel.** The case left open here, characteristic `p ≥ 3`, is settled in *Alternating bundles and analytic descent* (October 2026): the functor is analytic on all hom spaces exactly when `k! ≠ 0` in the field, with Banach counterexamples over every field of characteristic `p` in degree `k ≥ p`. Paper and Lean formalization: https://github.com/Deicyde/alternating-analytic-characteristic-p
+
 **Context.** For normed spaces `E, E', F` over a nontrivially normed field `𝕜`, the map
 `f ↦ (m ↦ m ∘ (f, …, f))` from `E →L[𝕜] E'` to `(E' [⋀^ι]→L[𝕜] F) →L[𝕜] (E [⋀^ι]→L[𝕜] F)`
 (`ContinuousAlternatingMap.compContinuousLinearMapCLM`) is `C^n` for every `n : ℕ∞`, in every characteristic
@@ -14,7 +20,7 @@ bundles of continuous alternating maps in full generality (the bundle-level cons
 
 ## The theorem
 
-**Unconditional form** (`AltCounter/Final.lean`, restated Mathlib-only in [`Challenge.lean`](Challenge.lean)): the general
+**Unconditional form** (`AltCounter.false_of_general_contDiff_omega` in `AltCounter/Final.lean`, restated Mathlib-only in [`Challenge.lean`](Challenge.lean)): the general
 analytic statement is inconsistent.
 
 ```lean
@@ -44,18 +50,16 @@ theorem not_contDiff_omega_Q_of_NSC (hnsc : NSC 𝕜) : ¬ ContDiff 𝕜 (⊤ : 
 
 * `Linf 𝕜 := ℕ →ᵇ 𝕜` is `ℓ^∞(ℕ, 𝕜)`.
 * `F 𝕜` is the closed linear span, in `ℓ^∞(ℕ × ℕ, 𝕜)`, of the matrices `x ⊗ y + y ⊗ x`.
-* `Q 𝕜 f := ContinuousAlternatingMap.compContinuousLinearMapCLM f`, acting on `(Linf 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`.
+* `Q 𝕜 f := ContinuousAlternatingMap.compContinuousLinearMapCLM f`, acting on `(Linf 𝕜) [⋀^Fin 2]→L[𝕜] F 𝕜`. The paper writes `A` for this map.
 * `NSC 𝕜`: a continuous linear functional on `ℓ^∞` that vanishes on every standard basis vector `eᵢ` is zero,
   i.e. `(ℓ^∞/c₀)' = 0`.
 
-There is **no hypothesis on the residue field**: an earlier version assumed one (`InfiniteResidue 𝕜`, "arbitrarily many
-unit-ball points pairwise at distance `1`"), and the hypercube argument of step 2 below removed it.
+There is **no hypothesis on the residue field**.
 
 **The field** (`AltCounter/Puiseux.lean`, `Model.lean`, `NestedBalls.lean`): `exists_field` constructs a complete ultrametric
 nontrivially normed field of characteristic 2 which is not spherically complete — the
 completion of the field of 2-power Puiseux series `⋃_j 𝔽₂((t^{1/2^j}))` (a directed union of subfields of Mathlib's Hahn
-series field `HahnSeries ℚ (ZMod 2)`, with `‖f‖ = 2^(-order f)`). The coefficient field is the prime field `𝔽₂`; it had
-to be an infinite field of characteristic 2 before the hypercube argument, to make the residue field infinite. The balls around the partial sums of `Σ_k t^(1-2^(-k))` are
+series field `HahnSeries ℚ (ZMod 2)`, with `‖f‖ = 2^(-order f)`). The coefficient field is the prime field `𝔽₂`. The balls around the partial sums of `Σ_k t^(1-2^(-k))` are
 nested with empty intersection, and `nsc_of_hasEmptyNestedBalls` shows that such a sequence of balls forces
 `(ℓ^∞/c₀)' = 0` (the direction of van der Put's theorem that is needed, proved here from scratch).
 
@@ -70,19 +74,18 @@ is a Mathlib constant), derive `False`. [`Solution.lean`](Solution.lean) proves 
 `AltCounter` library, and [`comparator.json`](comparator.json) configures
 [`leanprover/comparator`](https://github.com/leanprover/comparator) (permitted axioms `propext`, `Quot.sound`,
 `Classical.choice`). CI runs the real comparator (tag `v4.34.0-rc2`, with the `landrun` sandbox, on Linux) on every push
-and fails unless it reports `Your solution is okay!`. Status: **passes** (verified 2026-09-19 for the `False` theorems:
-statements match, only permitted axioms, accepted by the Lean default kernel).
+and fails unless it reports `Your solution is okay!`; the badge at the top shows the result for the current commit.
 
 Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initiative/formalization.yaml) format (v0.4):
 [`formalization.yaml`](formalization.yaml).
 
 ### What is *not* formalized
 
-* Non-analyticity at base points other than `0` (on paper: `Q(f₀+h) = Q(f₀) + B(f₀,h) + Q(h)` with `B` bounded bilinear).
+* Non-analyticity at base points other than `0` (in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md): `Q(f₀+h) = Q(f₀) + B(f₀,h) + Q(h)` with `B` bounded bilinear).
   This does not affect the `False` theorems, which only need failure of `ContDiff 𝕜 ω`.
-* The bundle-level consequence discussed in the write-up (no `ContMDiffVectorBundle ω` instance for bundles of
+* The bundle-level consequence discussed in `paper/COUNTEREXAMPLE.md` (no `ContMDiffVectorBundle ω` instance for bundles of
   continuous alternating maps in this generality), and index types with more than two elements.
-* Characteristic `p ≥ 3` (forms of degree `p`) is open.
+* Characteristic `p ≥ 3` is not treated here. It is settled in the sequel (see the top of this file).
 
 ## Idea of the proof
 
@@ -109,14 +112,14 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
    `a, b ∈ ℓ^∞`; the resulting element of `F` has minors of norm `≥ 1` of every size, contradicting the fact that every
    element of `F` is a uniform limit of finite-rank matrices.
 
-A short self-contained note is in [`paper/counterexample.pdf`](paper/counterexample.pdf) (LaTeX source
-[`paper/counterexample.tex`](paper/counterexample.tex)). The full mathematical write-up, including the original form of the
-parity identity and the search that led to it, is in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md); a record of the
-literature search on bilinear lifts (what is known, what was not found, every reference checked) is in
-[`paper/LITERATURE.md`](paper/LITERATURE.md); exploratory and verification
-scripts (pure Python) are in [`scripts/`](scripts/).
+The paper is [`paper/counterexample.pdf`](paper/counterexample.pdf) (LaTeX source
+[`paper/counterexample.tex`](paper/counterexample.tex)). The original notes, including the first form of the
+parity identity and the search that led to it, are in [`paper/COUNTEREXAMPLE.md`](paper/COUNTEREXAMPLE.md). Exploratory and
+verification scripts (Python 3; three of them need NumPy) are in [`scripts/`](scripts/).
 
 ## Building
+
+Install Lean with [elan](https://lean-lang.org/install/); `lake` then fetches the toolchain.
 
 ```bash
 lake exe cache get
@@ -124,7 +127,7 @@ lake build
 ```
 
 Lean `v4.34.0-rc2`, Mathlib pinned in `lakefile.toml` / `lake-manifest.json`. CI (GitHub Actions) builds the project
-from scratch at the pinned Mathlib commit on every push.
+against the pinned Mathlib commit on every push.
 (`build.sh` is a local convenience script that compiles a single file against an already-built Mathlib checkout whose
 `LEAN_PATH` is stored in an untracked `.leanpath` file; see `ARCHITECTURE.md`.)
 
@@ -150,6 +153,8 @@ from scratch at the pinned Mathlib commit on every push.
 ## Provenance
 
 The counterexample, its proof, and this formalization were produced by an AI system (Anthropic's Claude, working in
-Claude Code with Jack McCarthy), in September 2026. The informal proof was attacked by independent AI referee agents and
-the argument is fully machine-checked by Lean as stated above; the informal write-up has **not** yet been reviewed by a
-human expert in non-archimedean functional analysis.
+Claude Code with Jack McCarthy), in September 2026. The argument is machine-checked by Lean as stated above.
+
+## License
+
+This repository, including the paper, is released under the Apache License 2.0. See [LICENSE](LICENSE).

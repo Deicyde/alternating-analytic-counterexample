@@ -1,8 +1,7 @@
 # The analytic case fails in characteristic 2: a counterexample
 
-Date: 2026-09-19. Status: **AI-refereed only (no human expert review); the Lean development is machine-checked — see the
-repository README.** Seven independent adversarial AI referees (one per section, one "does it prove too much", one global)
-plus an adjudicator found no mathematical error; every gap they listed was editorial and is incorporated below. The
+Date: 2026-09-19. These are the original notes. The paper `counterexample.pdf` gives the final proof and writes `A` for the
+map called `Q` here. The Lean development is machine-checked; see the repository README. The
 border form of the finite identity (Lemma A, §2) was verified as a polynomial identity with all free parameters formal
 (`scripts/full5.py`: 3160 parameters at n = 5; `scripts/full7.py`: 20013 at n = 7; `scripts/sym_lemmaA.py`: n = 9). The
 simplified identity of §2′ — the one the Lean proof uses — is checked numerically (`scripts/nobord.py`) and proved in Lean
@@ -297,9 +296,12 @@ terms using more than `r` columns of `R[J]` vanish and the others are bounded by
 
 ## 7. Open
 
-* Characteristic `p ≥ 3` (degree-`p` forms): the mechanism should persist, but odd-degree forms have no Pfaffian-type
+* Characteristic `p ≥ 3` (degree-`p` forms): settled in October 2026, by a different method, in *Alternating bundles and
+  analytic descent* (https://github.com/Deicyde/alternating-analytic-characteristic-p, Theorem 6.1). The note at the time read: the mechanism should persist, but odd-degree forms have no Pfaffian-type
   top power (`ω∧ω = 0`), so a different invariant of the right (anticanonical) degree is needed.
-* Spherically complete densely valued `k` (e.g. Hahn series `F_2((t^ℚ))`): §3 fails; unknown.
+* Spherically complete densely valued `k` (e.g. Hahn series `F_2((t^ℚ))`): §3 fails, so this argument does not apply.
+  Unknown at the time; Theorem 6.1 of the same later paper gives Banach counterexamples over every field of
+  characteristic 2, with different spaces.
 * ~~Finite residue field with dense valuation~~ — **settled (2026-09-19)**: the hypercube sum replaces Corollary A′
   outright, so no hypothesis on the residue field is needed anywhere. The example now formalized has residue field `F_2`.
 

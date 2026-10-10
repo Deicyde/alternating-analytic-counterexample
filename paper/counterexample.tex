@@ -92,10 +92,6 @@ Let $\kk$ be a complete ultrametric field of characteristic $2$ which is not sph
 space $F$ over $\kk$ such that the functor $\Alt^2(-,F)$ is not analytic.
 \end{theorem}
 
-Thus the restriction $n\ne\omega$ in~\cite{PR} cannot be removed. In
-characteristic $\ell\ge3$ the case $\abs\iota\ge\ell$ remains open (Remark~\ref{rem:higher}). The result is machine-checked in
-Lean~4 with Mathlib (\S\ref{sec:lean}).
-
 \section{Statement}\label{sec:statement}
 \subsection*{Notation}
 For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
@@ -109,7 +105,7 @@ Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $
 $\abs{c_{n+1}-c_n}\le r_n$, $r_0>r_1>\cdots$ and $\bigcap_n B(c_n,r_n)=\emptyset$.
 \end{itemize}
 The balls in (K2) are balls in $\kk$, and they are nested by the ultrametric inequality. Such fields exist; an explicit one is given in
-\S\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
+Appendix~\ref{sec:field}. Let $E=\linf=\linf(\N,\kk)$ with the sup norm, a Banach
 algebra under pointwise multiplication; write $m_a\in\cL(E,E)$ for multiplication by $a\in E$, so that
 $\norm{m_a}=\norm a$, and $e_i$ for the unit vectors. For $x,y\in E$ let
 \[
@@ -117,35 +113,35 @@ W(x,y):=x\otimes y+y\otimes x\in\linf(\N\times\N,\kk),\qquad W(x,y)_{pq}=x_py_q+
 \]
 and let $F\subseteq\linf(\N\times\N,\kk)$ be the closed linear span of all $W(x,y)$, a Banach space. Let
 \[
-Q\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad Q(f)(m)=m\circ(f,f).
+A\colon \cL(E,E)\to\cL\bigl(\Alt^2(E,F),\Alt^2(E,F)\bigr),\qquad A(f)(m)=m\circ(f,f).
 \]
 
 \begin{theorem}\label{thm:main}
-$Q$ is not analytic at $0$. In particular $Q$ is not $C^\omega$.
+$A$ is not analytic at $0$. In particular $A$ is not $C^\omega$.
 \end{theorem}
 
-The map $Q$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem~\ref{thm:main} implies
+The map $A$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem~\ref{thm:main} implies
 Theorem~\ref{thm:false}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
-Recall that $Q\colon\cL(E,E)\to\cL(\Alt^2(E,F),\Alt^2(E,F))$ is given by $Q(f)(m)=m\circ(f,f)$, so that $Q(tf)=t^2Q(f)$.
+Recall that $A\colon\cL(E,E)\to\cL(\Alt^2(E,F),\Alt^2(E,F))$ is given by $A(f)(m)=m\circ(f,f)$, so that $A(tf)=t^2A(f)$.
 Steps~1 and~2 do not use \textup{(K2)}: until Step~3, $\kk$ may be any ultrametric field of characteristic~$2$.
 
 \begin{lemma}\label{lem:lift}
-Let $Q\colon X\to Z$ be a map between normed spaces with $Q(tf)=t^2Q(f)$. If $Q$ is analytic at $0$ then there is a bounded
-bilinear $P\colon X\times X\to Z$ with $P(f,f)=Q(f)$ for all $f$.
+Let $A\colon X\to Z$ be a map between normed spaces with $A(tf)=t^2A(f)$. If $A$ is analytic at $0$ then there is a bounded
+bilinear $P\colon X\times X\to Z$ with $P(f,f)=A(f)$ for all $f$.
 \end{lemma}
 \begin{proof}
-Let $\sum_np_n$ be a power series of $Q$ at $0$, and fix $f\in X$. For scalars $t\in\kk$ with $\abs t$ small,
+Let $\sum_np_n$ be a power series of $A$ at $0$, and fix $f\in X$. For scalars $t\in\kk$ with $\abs t$ small,
 \[
-t^2Q(f)=Q(tf)=\sum_nt^n\,p_n(f,\dots,f).
+t^2A(f)=A(tf)=\sum_nt^n\,p_n(f,\dots,f).
 \]
 Both sides are power series in the variable $t\in\kk$ with coefficients in $Z$. The coefficients of a convergent power
 series in one variable are unique over any nontrivially normed field, so comparing the coefficients of $t^2$ gives
-$p_2(f,f)=Q(f)$. Take $P=p_2$.
+$p_2(f,f)=A(f)$. Take $P=p_2$.
 \end{proof}
 
-So assume that a bounded bilinear $P$ with $P(f,f)=Q(f)$ exists. The map $W\colon E\times E\to F$ is bilinear, it is
+So assume that a bounded bilinear $P$ with $P(f,f)=A(f)$ exists. The map $W\colon E\times E\to F$ is bilinear, it is
 alternating because $W(x,x)=2\,x\otimes x=0$, and it is continuous because $\norm{W(x,y)}\le\norm x\norm y$ by the
 ultrametric inequality; so
 $W\in\Alt^2(E,F)$ with $\norm W\le1$. Put, for $a,b,x,y\in E$,
@@ -156,7 +152,7 @@ Then $\Phi$ is $4$-linear, and since $\norm{m_a}=\norm a$ and $\norm W\le1$ we h
 \[
 \norm{\Phi(a,b;x,y)}\le C\norm a\,\norm b\,\norm x\,\norm y,\qquad C:=\norm P.
 \]
-Here $C\ge1$, because $P(\mathrm{id},\mathrm{id})=Q(\mathrm{id})$ is the identity map of $\Alt^2(E,F)\ne0$.
+Here $C\ge1$, because $P(\mathrm{id},\mathrm{id})=A(\mathrm{id})$ is the identity map of $\Alt^2(E,F)\ne0$.
 Moreover
 \begin{equation}\label{eq:Phi}
 \Phi(a,b;x,x)=0,\qquad \Phi(a,a;x,y)=W(ax,ay).
@@ -370,10 +366,9 @@ $\varphi(u)$.
 Let $\lambda\colon(\linf)^d\to\kk$ be a continuous multilinear map and $\varepsilon>0$. There is $N$ such that
 $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_j}\le1$ for all $j$ and $u_j=\tail N{u_j}$ for some $j$.
 \end{proposition}
-We call such an $N$ a \textbf{threshold} for $\lambda$; every larger integer is then a threshold too. In the proof
-$\varepsilon$ is fixed once and for all.
+We call such an $N$ a \textbf{threshold} for $\lambda$; every larger integer is then a threshold too.
 \begin{proof}
-By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
+Fix $\varepsilon$. By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
 
 Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to show, for each $j$, that there
 is $N_j$ such that $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $u_1,\dots,u_d$ lie in the unit ball of $\linf$ and
@@ -386,12 +381,11 @@ $\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$, 
 \begin{itemize}
 \item[$(\ast)$] for every $N$ there are $i\ge N$ and $w_2,\dots,w_d$ in the unit ball with $\abs{\lambda(e_i,w_2,\dots,w_d)}>\varepsilon$.
 \end{itemize}
-The inductive hypothesis applies to the forms in $d-1$ variables obtained from $\lambda$ by putting $e_i$ in one slot:
-we write
+Define
 \[
-\mu_i(v_2,\dots,v_d):=\lambda(e_i,v_2,\dots,v_d)
+\nu_{l,i}(v_1,\dots,v_{d-1}):=\lambda(v_1,\dots,v_{l-1},e_i,v_l,\dots,v_{d-1})
 \]
-when it is the first slot, and $\nu_{l,i}$ when it is slot $l$, for $2\le l\le d$.
+and $\mu_i:=\nu_{1,i}$. These are forms in $d-1$ variables, so the inductive hypothesis applies to them.
 
 We construct indices $i_1<i_2<\cdots$, integers $0=M_0<M_1<\cdots$ and vectors $z^{(s)}_2,\dots,z^{(s)}_d$ in the unit ball, supported in
 $[M_{s-1},M_s)$ such that
@@ -457,8 +451,9 @@ $\le2$. So $\mathcal O\in F$ is within $\eta:=(2C)^{-1}$ of a matrix $R$ of some
 $\det(R+(\mathcal O-R))$ on $I_t\times I_t$ in the same way, terms with more than $r$ columns from $R$ vanish, so
 $\abs{\det\mathcal O|_{I_t\times I_t}}\le C^r\eta^{2t-r}<1$ once $t>r$. This contradiction proves Theorem~\ref{thm:main}. \qed
 
+\appendix
 \section{An explicit field}\label{sec:field}
-The purpose of this section is to construct a field satisfying (K1) and (K2). Towards that end, let $k_0=\mathbb F_2$
+The purpose of this appendix is to construct a field satisfying (K1) and (K2). Towards that end, let $k_0=\mathbb F_2$
 (or any field of characteristic $2$). For
 $j\ge0$ let $k_0((t^{1/2^j}))$ be the field of \emph{formal} Laurent series $\sum_{n\ge N}a_nt^{n/2^j}$ ($N\in\Z$, $a_n\in k_0$) in
 the single variable $t^{1/2^j}$. These fields form an
@@ -497,82 +492,6 @@ $2^{-\gamma_j}>2^{-\gamma_{n+1}}=r_n$. Furthermore, the term $t^{\gamma_j}$ occu
 which contradicts \eqref{eq:yball}.
 \end{proof}
 
-\section{Remarks}
-\begin{remark}[Why characteristic $2$, why $\linf$, why this $F$]\label{rem:why}
-In characteristic $\neq2$ the lift $\tfrac12\bigl(m\circ(f,g)+m\circ(g,f)\bigr)$ exists, and the parity argument breaks
-(pairs add instead of cancelling). If $E$ has an orthogonal base $(e_i)$, e.g.\ $E=c_0$, and $F$ is Banach, then
-\[
-P(f,g)(m)(x,y)=\sum_{i<j}(x_iy_j-x_jy_i)\,m(fe_i,ge_j)
-\]
-is a bounded lift in every characteristic, so $Q$ is analytic; a similar formula works for a base of $E'$, and
-$t$-orthogonal bases suffice. This covers finite-dimensional $E$ and all Banach spaces over a discretely valued
-$\kk$~\cite{vR}, so the counterexample needs a dense valuation; one can also show that $Q$ is analytic when $F$ is
-spherically complete. On $c_0$ the glued vectors $a,b$ of Step~4 do not exist and Proposition~\ref{prop:tails} fails. For
-$E=\linf$ and the larger target $\linf(\N\times\N,\kk)\supseteq F$ a bounded lift also exists (sort the indices entrywise),
-but it sends $W$ to matrices such as the ``staircase'' $\1_{\{(p,q)\,:\,p\text{ odd},\,q\text{ even},\,p<q\}}$, which are
-not limits of finite-rank matrices, so it leaves $F$. These positive statements are not proved here and are not part of
-the formalization.
-\end{remark}
-\begin{remark}[What is forced]\label{rem:forced}
-No single pair $(x,y)$ works for every lift: adding to $\Phi$ a bounded $4$-linear map with values in $F$ that is
-alternating in $(a,b)$ and in $(x,y)$ gives another admissible $\Phi$, and this can change a given off-diagonal entry
-of $G(x,y)$ by an arbitrary scalar. Sets $I$ of bounded size cannot give a contradiction either: for $u=\1_{\mathrm{odd}}$, $v=\1_{\mathrm{even}}$ the
-rank-two matrix $W(u,v)\in F$ has the entry $1$ at every position $(2s-1,2s)$. On a finite set $I$ the sorted lift
-of the previous remark has norm $1$ and satisfies all the identities of Step~2, so there is no finite-dimensional
-obstruction: the invariant is the rank of one element of $F$ against the size of the sets $I_t$, and Step~3 is what allows
-infinitely many of them to be glued into one element.
-\end{remark}
-\begin{remark}[Higher degree, other characteristics]\label{rem:higher}
-On paper, in characteristic $2$ every $\abs\iota\ge2$ is covered by wedging with a coordinate of $E\oplus\kk$; this is not
-formalized. In odd characteristic $\ell$, for forms of degree $\ell$, the question is open: odd-degree forms have no
-Pfaffian-type top power, so a different invariant is needed.
-\end{remark}
-
-\section{Related work}\label{sec:related}
-\subsection*{What is known}
-The lifts of Step~1 are classical in algebra: a quadratic form $Q$ on a finitely generated projective module is
-$x\mapsto\beta(x,x)$ for a bilinear form $\beta$, not necessarily symmetric and unique up to alternating
-forms~\cite[Lemma~1.12]{SP}. The proof there is the sorted lift of Remark~\ref{rem:why}. Over a field the statement is the exact sequence
-\[
-0\to\operatorname{Alt}(V)\to\operatorname{Bil}(V)\to\operatorname{Quad}(V)\to0,\qquad \beta\mapsto\bigl(x\mapsto\beta(x,x)\bigr),
-\]
-of alternating, bilinear and quadratic forms on a finite-dimensional vector space $V$~\cite[Ch.~II]{EKM}: surjectivity
-says that lifts exist, and exactness in the middle that they are unique up to alternating forms. In these terms the
-present note shows that the corresponding map from bounded bilinear maps to bounded quadratic maps on $\cL(E,E)$ is not
-surjective. The name ``bilinear lift'' is used in~\cite[\S3]{Sc} for symmetric $\beta$ over a field of
-characteristic $2$; there the forms being lifted have vanishing polar form, existence is taken as known, and the question
-is uniqueness. The notion of this note appears under the name ``expansion'' in~\cite[Def.~5.1]{IKR}, with the sorted lift
-as its existence proof. Equivalently, $Q$ is a linear map on the divided power $\Gamma^2$ (\cite{Ro}; see~\cite{CLF}), which for a
-free module is the module of symmetric tensors, and a lift is an extension of this map to the whole tensor square;
-polynomial laws and divided powers are being formalized in Lean~\cite{CLF}.
-
-Lifts can fail to exist for algebraic reasons. For abelian groups, every quadratic form with values in every group has a
-lift if and only if the group has no $2$-torsion~\cite[\S5]{Ga}. In characteristic $2$ a nonzero invariant quadratic form on
-a nontrivial irreducible representation of a split reductive group $G$ has no invariant lift, and the obstruction lies in
-$H^1(G,\Lambda^2V)$~\cite[\S11]{GN}. In the second case, as in this note, a lift exists once the extra structure is
-forgotten; in the first it fails outright.
-
-Over $\mathbb R$ and $\mathbb C$ polarisation makes the question vacuous. Gl\"ockner~\cite{Gl} constructed
-finite-dimensional smooth Lie groups over local fields of positive characteristic that admit no compatible analytic Lie
-group structure, by a different mechanism. The
-failure of the Hahn--Banach theorem over fields that are not spherically complete goes back to Ingleton~\cite{In} and van
-der Put~\cite{vdP}; Proposition~\ref{prop:nsc} and Lemma~\ref{lem:dual} are his~\cite[Th\'eor\`emes (3.2) and (4.1)]{vdP}. Lemma~\ref{lem:det} is the
-classical fact that the determinant of an alternating matrix is the square of its Pfaffian, and Lemma~\ref{lem:cube} is
-the computation in the standard proof of the Chevalley--Warning theorem.
-
-\subsection*{What is new}
-We did not find the following in the literature; the search and its limits are recorded in the file
-\texttt{paper/LITERATURE.md} of the repository of \S\ref{sec:lean}.
-\begin{itemize}
-\item The question of \emph{bounded} lifts between normed spaces, and an example in which none exists
-(Lemma~\ref{lem:lift} and Steps~2--4).
-\item The identity of Step~2 (Proposition~\ref{prop:matching} and Corollary~\ref{cor:point}), which holds for every
-$4$-linear $\Phi$ satisfying~\eqref{eq:Phi}.
-\item The multilinear form of the tail property (Proposition~\ref{prop:tails}); the case $d=1$ is Lemma~\ref{lem:dual}.
-\item The consequence that $\Alt^\iota(-,F)$ is not analytic: the general case in positive characteristic, which
-\cite{G1} does not cover, has a negative answer in characteristic~$2$.
-\end{itemize}
-
 \section{Formalization}\label{sec:lean}
 The Lean~4/Mathlib development is at
 \begin{center}\url{https://github.com/Deicyde/alternating-analytic-counterexample}\end{center}
@@ -583,43 +502,20 @@ is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index
 theorem does the same assuming this only for complete ultrametric fields of characteristic $2$, Banach spaces,
 $E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 \texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
-\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool. Steps~1--4 and \S\ref{sec:field} are formalized.
-Proposition~\ref{prop:tails} is \texttt{tail\_multilinear}, proved in Lean by the same induction on $d$ but organised
-differently: the series formula of Lemma~\ref{lem:dual} is not formalized, and the case $d=1$ (\texttt{tail\_functional}) is
-deduced from $\varphi(e_i)\to0$ (\texttt{tendsto\_apply\_basisVec}) by a gliding hump. Lemma~\ref{lem:cube} is
-\texttt{sum\_eval\_cubePt}, and the field of \S\ref{sec:field} is built with
-$k_0=\mathbb F_2$. The Lean constants in Step~4 are chosen with more slack than here, and the Lean form of
-Corollary~\ref{cor:point} records only that the witnesses lie in the unit ball, which is all that Step~4 uses. Not formalized: non-analyticity at base points other than $0$, index types with more than two
-elements, the positive statements in the remarks, and the bundle-level consequence (no $C^\omega$ vector-bundle structure on
-bundles of continuous alternating maps in this generality).
+\texttt{Solution.lean} by the \texttt{leanprover/comparator} tool.
 
 \begin{thebibliography}{99}
-\bibitem{CLF} A.~Chambert-Loir and M.~I.~de Frutos-Fern\'andez, \emph{Formalizing polynomial laws and the universal divided
-power algebra}, CPP~'26, arXiv:2512.05750.
-\bibitem{EKM} R.~Elman, N.~Karpenko and A.~Merkurjev, \emph{The Algebraic and Geometric Theory of Quadratic Forms}, Amer.\
-Math.\ Soc.\ Colloquium Publications 56, 2008.
-\bibitem{Ga} C.~Galindo, \emph{A note on the Eilenberg--Mac~Lane isomorphism for quadratic forms}, arXiv:2507.15726, 2025.
-\bibitem{GN} S.~Garibaldi and D.~K.~Nakano, \emph{Bilinear and quadratic forms on rational modules of split reductive groups},
-Canad.\ J.\ Math.\ \textbf{68} (2016), 395--421.
-\bibitem{Gl} H.~Gl\"ockner, \emph{Smooth Lie groups over local fields of positive characteristic need not be analytic},
-J.\ Algebra \textbf{285} (2005), 356--371.
 \bibitem{G1} S.~Gou\"ezel, \emph{In characteristic $0$, precomposition by a linear map is analytic on the space of
 alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43338}}.
 \bibitem{G2} S.~Gou\"ezel, \emph{The bundle of continuous alternating maps is $C^n$}, draft pull request \#43234 to Mathlib,\\
 {\small\url{https://github.com/leanprover-community/mathlib4/pull/43234}}.
 \bibitem{In} A.~W.~Ingleton, \emph{The Hahn--Banach theorem for non-Archimedean-valued fields}, Proc.\ Cambridge Philos.\
 Soc.\ \textbf{48} (1952), 41--45.
-\bibitem{IKR} Z.~Izhakian, M.~Knebusch and L.~Rowen, \emph{Quadratic and symmetric bilinear forms on modules with unique base
-over a semiring}, arXiv:1509.01039, 2015.
 \bibitem{La} S.~Lang, \emph{Fundamentals of Differential Geometry}, Graduate Texts in Mathematics 191, Springer, 1999.
 \bibitem{docs} The mathlib Community, \emph{Mathlib documentation}, \texttt{docs\#AnalyticAt},\\
 {\small\url{https://leanprover-community.github.io/mathlib4_docs/find/?pattern=AnalyticAt#doc}}.
 \bibitem{PR} J.~McCarthy, \emph{Smoothness reflects along a linear isometry with closed range}, draft pull request \#43548
 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43548}}.
-\bibitem{Ro} N.~Roby, \emph{Lois polyn\^omes et lois formelles en th\'eorie des modules}, Ann.\ Sci.\ \'Ecole Norm.\ Sup.\ (3)
-\textbf{80} (1963), 213--348.
-\bibitem{SP} R.~Schulze-Pillot, \emph{Lecture notes on quadratic forms and their arithmetic}, arXiv:2008.12847, 2021.
-\bibitem{Sc} S.~Scully, \emph{On the holes in $I^n$ for symmetric bilinear forms in characteristic $2$}, arXiv:2409.02061, 2024.
 \bibitem{vdP} M.~van der Put, \emph{Espaces de Banach non archim\'ediens}, Bull.\ Soc.\ Math.\ France \textbf{97} (1969), 309--320.
 \bibitem{vR} A.~C.~M.~van Rooij, \emph{Non-Archimedean Functional Analysis}, Marcel Dekker, 1978.
 \end{thebibliography}

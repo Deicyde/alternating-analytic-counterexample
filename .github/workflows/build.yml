@@ -3,6 +3,8 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   build:
     name: lake build (library, challenge, solution, axiom check)
@@ -28,6 +30,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: Zouuup/landrun
+          ref: 811cfff51ceaf3d9843708aa6d22e9b84ccac8b4
           path: landrun
       - uses: actions/setup-go@v5
         with:

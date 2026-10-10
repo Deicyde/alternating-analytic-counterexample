@@ -1,6 +1,6 @@
 /-
-Bridge between the project's hypotheses and their Mathlib-only formulations used in `Challenge.lean`:
-the literal form of `(ℓ^∞ / c₀)' = 0` (a continuous functional vanishing on all null sequences is zero) implies `NSC`.
+The literal form of `(ℓ^∞ / c₀)' = 0` (a continuous functional vanishing on all null sequences is zero) implies `NSC`.
+Not used by the main theorems.
 -/
 import AltCounter.MainNSC
 
