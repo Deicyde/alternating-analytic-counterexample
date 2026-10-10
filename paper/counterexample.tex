@@ -430,7 +430,9 @@ $u_l:=\sum_sz^{(s)}_l$ is well defined with $\norm{u_l}\le1$. Let
 $\chi:=\lambda(\cdot,u_2,\dots,u_d)$, a bounded functional. Fix $s$ and write $u_l=A_l+z^{(s)}_l+B_l$ with
 $A_l:=\sum_{r<s}z^{(r)}_l$ and $B_l:=\sum_{r>s}z^{(r)}_l=\tail{M_s}{B_l}$. Expand
 $\chi(e_{j_s})=\mu_{j_s}(u_2,\dots,u_d)$ multilinearly. Exactly as before, with $K_s$ and $M_s$ as in stage $s$, the terms
-containing some $B_l$, and the terms containing no $B_l$ but some $A_l$, have absolute value $\le\varepsilon$, and the remaining term is
+containing some $B_l$ have absolute value $\le\varepsilon$, because $M_s$ is a threshold for $\mu_{j_s}$; and the terms containing
+no $B_l$ but some $A_l$ have absolute value $\le\varepsilon$, because $A_l$, like $h_l$, is supported in $[0,M_{s-1})$ and $K_s$ is a
+threshold for every $\nu_{l,i}$ with $i<M_{s-1}$. The remaining term is
 $\mu_{j_s}(z^{(s)}_2,\dots,z^{(s)}_d)$. By~\eqref{eq:hump} and the ultrametric inequality, $\abs{\chi(e_{j_s})}>\varepsilon$ for every
 $s$. Since $j_s\to\infty$, this contradicts Lemma~\ref{lem:dual}.
 \end{proof}
@@ -444,7 +446,7 @@ Recall from Step~1 that $\Phi$ is $4$-linear with values in $F$ and that
 \norm{\Phi(a,b;x,y)}\le C\norm a\,\norm b\,\norm x\,\norm y\qquad\text{with }C\ge1 .
 \]
 We now combine Corollary~\ref{cor:point} (Step~2) with
-Proposition~\ref{prop:tails} (Step~3); apart from these, only the ultrametric inequality is used.
+Proposition~\ref{prop:tails} (Step~3).
 
 Choose inductively finite sets $I_1<I_2<\cdots$ in $\N$ (every element of $I_t$ is smaller than every element of
 $I_{t+1}$) with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
