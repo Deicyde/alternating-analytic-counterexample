@@ -452,8 +452,9 @@ Choose inductively finite sets $I_1<I_2<\cdots$ in $\N$ (every element of $I_t$ 
 $I_{t+1}$) with $\abs{I_t}=2t$ and vectors $a_t,b_t\in\{0,1\}^{I_t}$ as follows.
 Given the earlier stages let $a'=\sum_{s<t}a_s$, $b'=\sum_{s<t}b_s$, and apply Corollary~\ref{cor:point} to get $a_t,b_t$ with
 $\abs{\det G_t}\ge1$, where $G_t=\Phi(a'+a_t,b'+b_t;a'+a_t,b'+b_t)|_{I_t\times I_t}$. Put $\varepsilon_t:=\tfrac12C^{-2t}$ and use
-Proposition~\ref{prop:tails} (with $d=4$) for the finitely many entry forms $\Phi(\cdot)_{pq}$, $p,q\in I_t$, to place all later
-sets $I_s$, $s>t$, so far out that these forms are at most $\varepsilon_t$ on unit arguments one of which is supported there.
+Proposition~\ref{prop:tails} (with $d=4$) for the finitely many entry forms $\Phi(\cdot)_{pq}$, $p,q\in I_t$, to get $N_t$ such that
+these forms are at most $\varepsilon_t$ on unit arguments one of which is supported in $[N_t,\infty)$. All later sets $I_s$, $s>t$, are
+chosen inside $[N_t,\infty)$.
 
 Let $a,b\in\linf$ be defined by $a|_{I_t}=a_t$, $b|_{I_t}=b_t$ and zero elsewhere. These are not norm-convergent sums;
 $a=\1_A$ and $b=\1_B$ are indicator functions of two subsets of $\N$, so $m_a,m_b$ are coordinate projections. Let
