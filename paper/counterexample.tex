@@ -42,7 +42,7 @@
 \begin{abstract}
 For normed spaces $E,E',F$ over a nontrivially normed field $\kk$ and a finite $\iota$, precomposition
 $f\mapsto(m\mapsto m\circ(f,\dots,f))$ sends continuous linear maps $E\to E'$ to continuous linear maps between spaces of
-continuous alternating maps. We show that it is \emph{not} analytic in general. If $\kk$ is a complete ultrametric field of
+continuous alternating maps. We show that it is \emph{not} analytic in general. If $\kk$ is a complete non-Archimedean field of
 characteristic~$2$ that is not spherically complete, then for $E=E'=\linf$ and $\abs{\iota}=2$ there is a Banach space $F$
 over $\kk$ for which this map is not analytic at $0$. The proof is a finite parity identity for determinants in
 characteristic~$2$, glued along $\linf$. The result is formalized in Lean~4/Mathlib.
@@ -93,7 +93,7 @@ This leaves open the case where $\abs\iota!$ is not invertible in $\kk$ and the 
 $\Alt^\iota(-,F)$ analytic there? The following theorem provides a counterexample.
 
 \begin{theorem}\label{thm:false}
-Let $\kk$ be a complete ultrametric field of characteristic $2$ which is not spherically complete. There is a Banach
+Let $\kk$ be a complete non-Archimedean field of characteristic $2$ which is not spherically complete. There is a Banach
 space $F$ over $\kk$ such that the functor $\Alt^2(-,F)$ is not analytic.
 \end{theorem}
 
@@ -103,7 +103,7 @@ For a polynomial $f$ and a monomial $\mu$, $\coeff_\mu f$ is the coefficient of
 $\mu$ in $f$. We write $c_0\subset\linf$ for the null sequences, $\1_S$ for the indicator of a set $S$, and $\1=\1_\N$.
 
 Throughout, $\kk$ is a field which is complete for a nontrivial absolute value $\abs{\,\cdot\,}$ satisfying the
-\textbf{ultrametric inequality} $\abs{x+y}\le\max(\abs x,\abs y)$; we call such a field \textbf{ultrametric}. The sup norms used below inherit the inequality. We assume that
+\textbf{ultrametric inequality} $\abs{x+y}\le\max(\abs x,\abs y)$; we call such a field \textbf{non-Archimedean}. The sup norms used below inherit the inequality. We assume that
 \begin{itemize}
 \item[(K1)] $\operatorname{char}\kk=2$;
 \item[(K2)] $\kk$ is not spherically complete: there is a sequence of closed balls $B(c_n,r_n)$ such that
@@ -130,7 +130,7 @@ Theorem~\ref{thm:false}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem
 
 \section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
 Recall that $A\colon\cL(E,E)\to\cL(\Alt^2(E,F),\Alt^2(E,F))$ is given by $A(f)(m)=m\circ(f,f)$, so that $A(tf)=t^2A(f)$.
-Steps~1 and~2 do not use \textup{(K2)}: until Step~3, $\kk$ may be any ultrametric field of characteristic~$2$.
+Steps~1 and~2 do not use \textup{(K2)}: until Step~3, $\kk$ may be any non-Archimedean field of characteristic~$2$.
 
 \begin{lemma}\label{lem:lift}
 Let $A\colon X\to Z$ be a map between normed spaces with $A(tf)=t^2A(f)$. If $A$ is analytic at $0$ then there is a bounded
@@ -477,7 +477,7 @@ increasing chain, and we let
 \cP:=\bigcup_{j\ge0}k_0((t^{1/2^j})),\qquad \abs f:=2^{-\operatorname{ord}f},
 \]
 be the field of \textbf{2-power Puiseux series}. Here $\operatorname{ord}f$ is the minimum $q$ for which $\coeff_{t^q}f\ne0$. We set $\abs0=0$ by definition.
-Let $\kk$ be the completion of $\cP$ for this (ultrametric) absolute value. This is characteristic $2$ since
+Let $\kk$ be the completion of $\cP$ for this (non-Archimedean) absolute value. This is characteristic $2$ since
 $k_0\hookrightarrow\cP\hookrightarrow\kk$.
 
 \begin{proposition}\label{prop:field}
@@ -514,7 +514,7 @@ The library \texttt{AltCounter/} contains no \texttt{sorry}, and the only axioms
 (\texttt{propext}, \texttt{Quot.sound} and \texttt{Classical.choice}). Its headline theorem assumes that Mathlib's
 \begin{center}\texttt{ContinuousAlternatingMap.compContinuousLinearMapCLM}\end{center}
 is $C^\omega$ for all nontrivially normed fields, normed spaces and finite index types, and derives \texttt{False}; a second
-theorem does the same assuming this only for complete ultrametric fields of characteristic $2$, Banach spaces,
+theorem does the same assuming this only for complete non-Archimedean fields of characteristic $2$, Banach spaces,
 $E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 \texttt{Challenge.lean} (with \texttt{sorry} in place of the proofs, as that format requires) and checked against
 \texttt{Solution.lean} by the \texttt{leanprover/comparator} tool.
