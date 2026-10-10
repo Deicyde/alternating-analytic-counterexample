@@ -378,13 +378,14 @@ Fix $\varepsilon$. By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(
 Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to show, for each $j$, that there
 is $N_j$ such that $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $u_1,\dots,u_d$ lie in the unit ball of $\linf$ and
 $u_j=\tail{N_j}{u_j}$; then $\max_jN_j$ is a threshold. Without loss of generality, assume $j=1$.
+Suppose, for the sake of contradiction, that for every $N$ there are $u_1,\dots,u_d$ in the unit ball with
+$u_1=\tail N{u_1}$ and $\abs{\lambda(u_1,\dots,u_d)}>\varepsilon$.
 
 \begin{stepclaim}{1}
 for every $N$ there are $i\ge N$ and $w_2,\dots,w_d$ in the unit ball with $\abs{\lambda(e_i,w_2,\dots,w_d)}>\varepsilon$.
 \end{stepclaim}
 \begin{stepproof}
-Suppose, for the sake of contradiction, that for every $N$ there are $u_1,\dots,u_d$ in the unit ball with
-$u_1=\tail N{u_1}$ and $\abs{\lambda(u_1,\dots,u_d)}>\varepsilon$. For such a tuple, Lemma~\ref{lem:dual} applied to the bounded
+For such a tuple $u_1,\dots,u_d$, Lemma~\ref{lem:dual} applied to the bounded
 functional $\lambda(\cdot,u_2,\dots,u_d)$ gives
 $\abs{\lambda(u_1,\dots,u_d)}\le\sup_{i\ge N}\abs{\lambda(e_i,u_2,\dots,u_d)}$, so one of the terms on the right is $>\varepsilon$.
 \end{stepproof}
