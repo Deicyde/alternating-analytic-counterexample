@@ -371,15 +371,15 @@ $\varphi(u)$.
 
 \begin{proposition}[multilinear Phillips property]\label{prop:tails}
 Let $\lambda\colon(\linf)^d\to\kk$ be a continuous multilinear map and $\varepsilon>0$. There is $N$ such that
-$\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_j}\le1$ for all $j$ and $u_j=\tail N{u_j}$ for some $j$.
+$\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $\norm{u_l}\le1$ for all $l$ and $u_l=\tail N{u_l}$ for some $l$.
 \end{proposition}
 We call such an $N$ a \textbf{threshold} for $\lambda$; every larger integer is then a threshold too.
 \begin{proof}
 Fix $\varepsilon$. By induction on $d$. For $d=1$ choose $N$ with $\abs{\lambda(e_i)}\le\varepsilon$ for $i\ge N$ and apply Lemma~\ref{lem:dual}.
 
-Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to show, for each $j$, that there
-is $N_j$ such that $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $u_1,\dots,u_d$ lie in the unit ball of $\linf$ and
-$u_j=\tail{N_j}{u_j}$; then $\max_jN_j$ is a threshold. Without loss of generality, assume $j=1$.
+Let $d\ge2$ and assume the statement for forms in fewer than $d$ variables. It suffices to show, for each $l$, that there
+is $N_l$ such that $\abs{\lambda(u_1,\dots,u_d)}\le\varepsilon$ whenever $u_1,\dots,u_d$ lie in the unit ball of $\linf$ and
+$u_l=\tail{N_l}{u_l}$; then $\max_lN_l$ is a threshold. Without loss of generality, assume $l=1$.
 Suppose, for the sake of contradiction, that for every $N$ there are $u_1,\dots,u_d$ in the unit ball with
 $u_1=\tail N{u_1}$ and $\abs{\lambda(u_1,\dots,u_d)}>\varepsilon$.
 

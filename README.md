@@ -109,7 +109,7 @@ Project metadata in the [`formalization.yaml`](https://github.com/mathlib-initia
    ⟹ `(ℓ^∞/c₀)' = 0`. *(PhillipsOne, Phillips)* From `(ℓ^∞/c₀)' = 0`, bounded multilinear forms on `ℓ^∞` are uniformly small as soon as one
    argument is supported far out.
 4. *(Gluing, DetBounds)* Hence finitely-supported bad blocks of growing size can be glued into a single pair
-   `a, b ∈ ℓ^∞`; the resulting element of `F` has minors of norm `≥ 1` of every size, contradicting the fact that every
+   `a, b ∈ ℓ^∞`; the resulting element of `F` has minors of norm `≥ 1` of every even size, contradicting the fact that every
    element of `F` is a uniform limit of finite-rank matrices.
 
 The paper is [`paper/counterexample.pdf`](paper/counterexample.pdf) (LaTeX source
