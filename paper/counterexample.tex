@@ -138,7 +138,13 @@ $A$ is not analytic at $0$. In particular $A$ is not $C^\omega$.
 \end{theorem}
 
 The map $A$ is the action on $\cL(E,E)$ of the functor $\Alt^2(-,F)$, so Theorem~\ref{thm:main} implies
-Theorem~\ref{thm:false}. Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
+Theorem~\ref{thm:false}. In the terms of~\cite{Bou}, $A$ is the map $f_1\mapsto\alpha_2(\mathrm{id}_F,f_1)$. There class $C^r$ means
+analytic when $\kk\ne\mathbb R$, in a sense that agrees with ours for maps between Banach spaces, and norms over a non-Archimedean
+field are required to satisfy the ultrametric inequality, as those of $E$ and $F$ do. So Theorem~\ref{thm:main} shows that over such a
+field $\alpha_2$ is not a vector functor of class $C^r$: the definition in~\cite[n\textsuperscript{o}~7.8.1]{Bou} cannot be made
+without any restriction.
+
+Sections~\ref{sec:step1}--\ref{sec:step4} prove Theorem~\ref{thm:main} in four steps.
 
 \section{Step 1: analyticity forces a bilinear lift}\label{sec:step1}
 Recall that $A\colon\cL(E,E)\to\cL(\Alt^2(E,F),\Alt^2(E,F))$ is given by $A(f)(m)=m\circ(f,f)$, so that $A(tf)=t^2A(f)$.
@@ -547,7 +553,7 @@ $E'=E$ and $\abs\iota=2$. Both are restated in a Mathlib-only file
 
 \begin{thebibliography}{99}
 \bibitem{Bou} N.~Bourbaki, \emph{Vari\'et\'es diff\'erentielles et analytiques. Fascicule de r\'esultats}, Hermann, Paris,
-1967 (\S\S1--7) and 1971 (\S\S8--15); reprinted by Springer, 2007.
+1967 (\S\S1--7) and 1971 (\S\S8--15); reprinted by Springer, 2007. We cite the reprint.
 \bibitem{G1} S.~Gou\"ezel, \emph{In characteristic $0$, precomposition by a linear map is analytic on the space of
 alternating maps}, pull request \#43338 to Mathlib,\\ {\small\url{https://github.com/leanprover-community/mathlib4/pull/43338}}.
 \bibitem{G2} S.~Gou\"ezel, \emph{The bundle of continuous alternating maps is $C^n$}, draft pull request \#43234 to Mathlib,\\
