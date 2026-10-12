@@ -42,12 +42,10 @@ Lean formalization were developed with Claude, ChatGPT and the AutoformBot plugi
 
 \begin{document}
 \begin{abstract}
-For normed spaces $E,E',F$ over a nontrivially normed field $\kk$ and a finite $\iota$, precomposition
-$f\mapsto(m\mapsto m\circ(f,\dots,f))$ sends continuous linear maps $E\to E'$ to continuous linear maps between spaces of
-continuous alternating maps. We show that it is \emph{not} analytic in general. If $\kk$ is a complete non-Archimedean field of
-characteristic~$2$ that is not spherically complete, then for $E=E'=\linf$ and $\abs{\iota}=2$ there is a Banach space $F$
-over $\kk$ for which this map is not analytic at $0$. The proof is a finite parity identity for determinants in
-characteristic~$2$, glued along $\linf$. The result is formalized in Lean~4/Mathlib.
+We study regularity of the map $\cL(E,E')\to\cL(\Alt(E',F),\Alt(E,F))$ given by precomposition, where $\Alt(E,F)$ denotes the space of
+continuous alternating multilinear maps between Banach spaces $E,F$. We construct a counterexample showing that this map is not
+always analytic when the field $\kk$ is complete non-Archimedean of characteristic~$2$ and not spherically complete. The result is
+formalized in Lean~4/Mathlib.
 \end{abstract}
 \maketitle
 
